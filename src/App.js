@@ -4,7 +4,7 @@ import ShoppingMallMain from './page/ShoppingMallMain';
 import SignUpConsent from './component/SignUpConsent';
 import SignUpDetail from './component/SignUpDetail';
 import LogIn from './component/LogIn';
-import Products from './component/products';
+import Products from './component/Products';
 
 function App() {
   return (

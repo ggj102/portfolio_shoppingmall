@@ -270,18 +270,34 @@ dd {
     display: table;
 }
 
-.prd_detail_basic .info .area_cost .info_cost {
-    float: right;
-    font-size: 18px;    
-    color: #2eb1d3;
+.info_cost{
+    font-size: 18px; 
 }
 
-.prd_detail_basic .info .area_cost .info_cost .thm {
+.dc{
+    float: left;
+    color: #f79a49;
+}
+
+.ori{
+    float: right;
+    color: #a6a6a6;
+    text-decoration: line-through;
+}
+
+.ori span{
+    font-size: 14px;
+}
+
+.price{
+    float: right;
+    margin-left: 10px;
+    color: #2eb1d3;
     font-size: 24px;
 }
 
-.thm {
-    font-family: Tahoma, 'sans-serif' !important;
+.price span{
+    font-size: 18px;
 }
 
 .installment{
@@ -333,9 +349,13 @@ dd {
 
 .delivery_way select{
     position: absolute;
-    margin-left: 20px;
-    width: 50px;
+    margin-left: 18px;
+    padding-bottom: 3px;
     top: -2px;
+}
+
+.text_delivery{
+    margin-left: 18px;
 }
 
 .delivery_cost_text{
@@ -347,11 +367,18 @@ dd {
     float: left;
 }
 
-.cost_interval{
+.cost::after{
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.delivery_price{
     margin-bottom: 5px;
 }
 
-.cost span{
+.interval{
+    margin-bottom: 10px;
     color: #8f8f8f;
 }
 
@@ -383,6 +410,7 @@ dd {
 
 .option select{
     position: absolute;
+    padding-bottom: 3px;
     top: -2px;
 }
 
@@ -398,6 +426,7 @@ dd {
 }
 
 .select_area select{
+    padding-bottom: 3px;
     display: block;
     margin-bottom: 5px;
 }

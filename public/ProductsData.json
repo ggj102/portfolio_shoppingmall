@@ -1,0 +1,77 @@
+{
+	"category_list": [{
+        "id": 1,
+        "name": "디지털/가전"
+	}, {
+		"id": 2,
+		"name": "게임기/타이틀"
+	}, {
+		"id": 3,
+		"name": "가정용게임기",
+		"num": 19
+	}],
+	"product_image": [{
+		"url": "https://shop-phinf.pstatic.net/20200603_258/1591152815897D2xJ0_JPEG/28514358520326530_1354259278.jpg?type=m450",
+		"description": "대표이미지"
+	}, {
+		"url": "https://shop-phinf.pstatic.net/20171127_280/mania0170_1511768029744DyI00_JPEG/35075209387256733_756667041.jpg?type=m450",
+		"description": "대표이미지"
+	}, {
+		"url": "https://shop-phinf.pstatic.net/20171127_163/mania0170_1511768033183liuWo_JPEG/35075212826120918_1248942035.jpg?type=m450",
+		"description": "대표이미지"
+	}],
+	"product_code": "4454421065",
+	"product_name": "소니 플레이스테이션4 Slim 1TB (CUH-2218B) 새제품 오늘출발",
+	"product_price": 362000,
+	"sale_info": {
+		"original_price": 400000,
+		"discount_percent": "10%"
+	},
+	"delivery_method": [{
+		"id": 1,
+		"name": "택배",
+		"price": 0, 
+		"additional_description": "제주 및 도서산건지역의 경우 추가 배송비가 부가됩니다."
+	}, {
+		"id": 2,
+		"name": "찾아가서 받기(방문수령)"
+	}],
+	"option": [{
+		"id": 1,
+		"name": "색상선택",
+		"option_list": [{
+			"id": 1,
+			"name": "1TB 화이트"
+		}, {
+			"id": 2,
+			"name": "1TB 제트블랙",
+			"soldout": true
+		}, {
+			"id": 3,
+			"name": "2TB 제트블랙",
+			"add_price": 200000
+		}]
+	}],
+	"add_product": [{
+		"id": 1,
+		"name": "소니정품 악세사리",
+		"product_list": [{
+			"id": 1,
+			"name": "듀얼쇼크4(블랙)",
+			"price": 69800
+		}, {
+			"id": 2,
+			"name": "듀얼쇼크4(화이트)",
+			"price": 69800
+		}, {
+			"id": 3,
+			"name": "듀얼쇼크4 충전거치대",
+			"price": 29800
+		}, {
+			"id": 4,
+			"name": "PS4 수직받침대",
+			"price": 27800,
+			"soldout": true
+		}]
+	}]
+}

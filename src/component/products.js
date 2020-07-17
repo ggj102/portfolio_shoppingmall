@@ -1,24 +1,67 @@
-import React from 'react';
-import '../css/products.css'
+import React, { useEffect, useState } from 'react';
+import '../css/Products.css'
 import { NavLink } from 'react-router-dom';
+import Axios from 'axios';
 
 function Products(){
+
+    const [prdData,setPrdData] = useState([]);
+    const [categoryList,setCategoryList] = useState([])
+    const [deliveryMethod,setDeliveryMethod] = useState([]);
+    const [prdImg,setPrdImg] = useState([])
+    const [saleInfo,setSaleInfo] = useState([]);
+    const [prdOption,setPrdOption] = useState([])
+    const [addPrd,setAddPrd] = useState([])
+    const [deliverySelValue,setDeliverySelValue] = useState("1")
+    const [optionSelValue,setOptionSelValue] = useState()
+    
+    const {category_list,product_code,product_name,product_price} = prdData;
+
+    
+
+    useEffect(()=>{
+        Axios.get(process.env.PUBLIC_URL+'/ProductsData.json').then((response)=>{
+            console.log(response.data);
+            setPrdData(response.data);
+            setCategoryList(response.data.category_list);
+            setPrdImg(response.data.product_image);
+            setSaleInfo(response.data.sale_info);
+            setDeliveryMethod(response.data.delivery_method);
+            setPrdOption(response.data.option);
+            setAddPrd(response.data.add_product);
+            console.log('테스트');
+        })
+    },[])
+
+    const onDeliverySel=(e)=>{
+        console.log(e);
+        setDeliverySelValue(e.target.options[e.target.selectedIndex].value);
+    }
+
+    const deliverySel = deliveryMethod.map((arr)=>{
+        return <option value={arr.id}>{arr.name}</option>
+    })
+    
     return(
         <div id="container">
             <div className=" _category_area h_area h_area_v2">
                 <div className="loc">
-                    <a href='#'>홈</a>
+                    <NavLink to="/">홈</NavLink>
                         <span className="bar">{'>'}</span>
-                    <a href='#' className="path">디지털/가전</a>
-                    {/* 더보기 */}
-                    <span className="bar">{'>'}</span>
-                    <a href='#' className="path">게임기/타이틀</a>
-                    {/* 더보기 */}
-                    <span className="bar">{'>'}</span>
-                    <span className="last_depth">
-                        <a href='#' className="path">가정용게임기(총19개)</a>
-                        {/* 더보기 */}
-                    </span>
+                    {
+                        categoryList.map((list,num)=>{
+                            if(categoryList.length === num+1)
+                            {
+                              return <NavLink to={"/category/"+list.id}>{list.name}(총{list.num}개)</NavLink>
+                            }
+                            else{
+                                return (
+                                    <>
+                                    <NavLink to={"/category/"+list.id}>{list.name}</NavLink>
+                                    <span className="bar">{'>'}</span>
+                                    </>)}
+                            })
+                    }
                 </div>
             </div>
             <div id="content">
@@ -45,19 +88,24 @@ function Products(){
                                 <div className="_copyable">
                                     <p className="_easy_purchase_hide_area prd_num">
                                         "상품번호 : "
-                                        <span className="thm">4701618585</span>
+                                        <span className="thm">{product_code}</span>
                                     </p>
                                     <dl className="_easy_purchase_hide_area">
                                         <dt className="prd_name">
-                                            <strong>소니 PS4 PRO 플레이스테이션4 +추가 듀얼쇼크4 2인셋트 블랙 화이트 정품.</strong>
+                                            <strong>{product_name}</strong>
                                             <em className="sub">플레이스테이션4 프로</em>
                                         </dt>
                                         <dd>
                                             <div className="area_cost">
-                                                
                                                 <strong className="info_cost">
-                                                    <span className="thm">580,000</span>
-                                                    원
+                                                    {console.log(saleInfo)}
+                                                    <span className="price">{product_price}<span>원</span></span>
+                                                    {saleInfo.length !== 0 ?
+                                                        <> 
+                                                        <span className="dc">{saleInfo.discount_percent}</span>
+                                                        <span className="ori">{saleInfo.original_price}<span>원</span></span>
+                                                        </> : ''
+                                                    }
                                                 </strong>
                                             </div>
                                             <div className="installment">
@@ -69,39 +117,60 @@ function Products(){
                                     <div className="delivery">
                                         <div className="delivery_way">
                                             <span>배송방법</span>
-                                            <select>
-                                                <option>택배</option>
-                                            </select>
+                                            {
+                                                deliveryMethod.length === 1 ? 
+                                                <span className="text_delivery">택배</span>
+                                                : <select onChange={onDeliverySel}>
+                                                    {deliverySel};
+                                                  </select>}
                                         </div>
+                                        {deliverySelValue === "1" ?                            
                                         <div className="delivery_cost">
                                             <span className="delivery_cost_text">배송비</span>
                                             <div className="cost">
-                                                <div className="cost_interval">무료<span>(제주 추가 4,000원, 제주 외 도서지역 추가 4,500원)</span></div>
+                                                <div className="delivery_price">{ (deliveryMethod.length && deliveryMethod[0].price) === 0 ? '무료' : deliveryMethod.length && deliveryMethod[0].price+'원'}</div>
+                                                <div className="interval">{deliveryMethod.length && deliveryMethod[0].additional_description}</div>
                                                 <div><a href="#" className="saving">배송비 절약상품보기</a></div>
                                             </div>
-                                        </div>
+                                        </div> : ''}
                                     </div>
 
                                     <div className="prd_option">
                                         <div className="option">
                                             <span>옵션</span>
-                                            <select>
-                                                <option>본체 색상선택</option>
-                                            </select>
+                                            {
+                                                prdOption.map((option_item) => {
+                                                    return (
+                                                        <select>
+                                                            <option value={option_item.id}>{option_item.name}</option>
+                                                            {
+                                                                option_item.option_list.map((list)=>{
+                                                                    return <option value={list.id}>{list.name}</option>
+                                                                })
+                                                            }
+                                                        </select>
+                                                    )
+                                                })
+                                            }
                                         </div>
 
                                         <div className="add">
                                             <span>추가상품</span>
                                             <div className="select_area">
-                                                <select>
-                                                    <option>소니 정품 악세서리</option>
-                                                </select>
-                                                <select>
-                                                    <option>스틱/악세서리</option>
-                                                </select>
-                                                <select>
-                                                    <option>게임 타이틀</option>
-                                                </select>
+                                                {
+                                                    addPrd.map((addItem) => {
+                                                        return (
+                                                            <select>
+                                                                <option value={addItem.id}>{addItem.name}</option>
+                                                                {
+                                                                    addItem.product_list.map((list)=>{
+                                                                        return <option value={list.id}>{list.name} {list.price}원+</option>
+                                                                    })
+                                                                }
+                                                            </select>
+                                                        )
+                                                    })
+                                                }
                                             </div>
                                         </div>
                                     </div>
