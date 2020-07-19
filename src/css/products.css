@@ -431,6 +431,47 @@ dd {
     margin-bottom: 5px;
 }
 
+.purchase_list{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.purchase_list li{
+    padding: 12px 0;
+    border-bottom: 1px solid #ebebeb;
+    font-size: 12px;
+}
+
+.purchase_list li::after{
+    display: block;
+    content: '';
+    clear: both;
+}
+
+.list_prd{
+
+}
+
+.list_count{
+    float: right;
+    width: 40%;
+}
+
+.list_input{
+    text-align: right;
+    float: left;
+    width: 44px;
+}
+
+.list_price{
+    float: right;
+}
+
+.delBtn{
+    float: right;
+}
+
 .total{
     margin-top: 20px;
     font-size: 16px;
