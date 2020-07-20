@@ -309,6 +309,117 @@ dd {
     word-break: break-all;
 }
 
+.popup_card{
+    display: block;
+    z-index: 10000;
+    left: 128px;
+    top: 160px;
+    position: absolute;
+    min-width: 320px;
+}
+
+.inner_text{
+    padding: 25px;
+    text-align: left;
+    position: relative;
+    border: 1px solid #d7d7d7;
+    background: #fff;
+}
+
+.popup_title{
+    position: relative;
+    margin: 0;
+    letter-spacing: 0;
+    color: #000;
+    display: inline-block;
+    font-size: 18px;
+    line-height: 1.44em;
+}
+
+.exit_btn{
+    float: right;
+    border: 0px;
+}
+
+.card_notice{
+    margin-top: 12px;
+    padding: 11px 23px 13px 13px;
+    border: 1px solid #f4f4f4;
+    background-color: #fafafa;
+    box-sizing: border-box;
+}
+
+.card_notice div{
+    margin-top: 2px;
+    font-size: 12px;
+    color: #888;
+    line-height: 18px;
+    letter-spacing: -0.3px;
+    padding-left: 7px;
+}
+
+.inner_text ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.item_card{
+    position: relative;
+    margin-top: 20px;
+    padding-left: 73px;
+    margin-top: 20px;
+    padding: 0;
+}
+
+.item_card span{
+    font-size: 12px;
+}
+
+.item_card::after{
+    display: block;
+    clear: both;
+    content:'';
+}
+
+.bland_img{
+    float: left;
+    height: 100%;   
+}
+
+.card_text_area{
+   float: right;
+   width: 83%;
+}
+
+.card_text::after{
+    display: block;
+    clear: both;
+    content:'';
+}
+
+.card_month{
+    float: left;
+}
+
+.card_price{
+    color: #888;
+    float: right;
+}
+
+.line{
+    margin: 20px 0;
+    display: block;
+    border-bottom: 1px solid #e2e5e9;
+}
+
+.pop_info{
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+    margin: 0 auto;
+}
+
 .h{
     line-height: 15px;
     font-size: 11px;
@@ -455,12 +566,15 @@ dd {
 
 .list_count{
     float: right;
-    width: 40%;
+    width: 45%;
 }
 
 .list_input{
-    text-align: right;
     float: left;
+}
+
+.list_input input{
+    text-align: right;
     width: 44px;
 }
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../css/Products.css'
 import { NavLink } from 'react-router-dom';
 import Axios from 'axios';
+import Installment from './Installment';
 
 function Products(){
 
@@ -17,6 +18,7 @@ function Products(){
     const [addPrdListArr,setAddPrdListArr] = useState([]);
     const [totalCount,setTotalCount] = useState(0);
     const [totalPrice,setTotalPrice] = useState(0);
+    const [installmentState,setInstallmentState] = useState(false);
     
     const {product_code,product_name,product_price} = prdData;
 
@@ -33,13 +35,38 @@ function Products(){
         })
     },[])
 
+    const Calculator = () =>{
+        const optionCountReduce = optionListArr.reduce((acc,arr)=>{
+            return acc+arr.count;
+        },0)
+
+        const optionPriceReduce = optionListArr.reduce((acc,arr)=>{
+            if(arr.add_price)
+            {
+                return acc+(arr.count*(product_price+arr.add_price));
+            }
+            else return acc+(arr.count*product_price);
+        },0)
+
+        const addPrdCountReduce = addPrdListArr.reduce((acc,arr)=>{
+            return acc+arr.count;
+        },0)
+
+        const addPrdPriceReduce = addPrdListArr.reduce((acc,arr)=>{
+            return acc+(arr.count*arr.price);
+        },0)
+
+        setTotalCount(optionCountReduce+addPrdCountReduce);
+        setTotalPrice(optionPriceReduce+addPrdPriceReduce);
+    }
+
     const onOptionValue = (data,e) =>{
         const ReselectionFilter = optionListArr.filter((arr)=>{
-            return arr[0].data_id === data;
+            return arr.data_id === data;
         })
         
         const ReselectionFilter2 = ReselectionFilter.filter((arr)=>{
-            return arr[0].id === parseInt(e.target.value);
+            return arr.id === parseInt(e.target.value);
         })
 
         if(ReselectionFilter2.length)
@@ -53,30 +80,40 @@ function Products(){
             const prdFilter = copy.filter((arr)=>{
                 return  arr.id === data
             })
+            console.log(prdFilter);
          
             const list = prdFilter[0].option_list;
-    
+            console.log(list);
+
             const prdFilter2 = list.filter((arr)=>{
                 return arr.id === parseInt(e.target.value);
             })
+            
 
-            if(prdFilter2[0].soldout)
+            const filter_list = prdFilter2[0];
+            console.log(filter_list);
+
+            if(filter_list.soldout)
             {
                 e.target.value = '0';
                 return alert('품절인 옵션은 구매하실 수 없습니다.');
             }
             else{
-                if(prdFilter2[0].add_price)
+                if(filter_list.add_price)
                 {
-                    setTotalPrice(totalPrice+product_price+prdFilter2[0].add_price);
+                    setTotalPrice(totalPrice+product_price+filter_list.add_price);
                 }
-                else setTotalPrice(totalPrice+product_price);
-                const listMap = prdFilter2.map((arr)=>{
+                else
+                {
+                    setTotalPrice(totalPrice+product_price);
+                }
+                    const listMap = prdFilter2.map((arr)=>{
                     return {data_id:data,count:1,...arr};
                 })
                 
-                console.log(optionListArr);
-                setOptionListArr([...optionListArr,listMap])
+                const prdOp = listMap[0];
+                setTotalCount(totalCount+1);
+                setOptionListArr([...optionListArr,prdOp])
             }
         }
     }
@@ -84,11 +121,11 @@ function Products(){
     
     const onAddPrdValue = (data,e) =>{
         const ReselectionFilter = addPrdListArr.filter((arr)=>{
-            return arr[0].data_id === data;
+            return arr.data_id === data;
         })
         
         const ReselectionFilter2 = ReselectionFilter.filter((arr)=>{
-            return arr[0].id === parseInt(e.target.value);
+            return arr.id === parseInt(e.target.value);
         })
 
         if(ReselectionFilter2.length)
@@ -104,22 +141,29 @@ function Products(){
             })
          
             const list = prdFilter[0].product_list;
+
             const prdFilter2 = list.filter((arr)=>{
                 return arr.id === parseInt(e.target.value);
             })
 
-            if(prdFilter2[0].soldout)
+            const filter_list = prdFilter2[0];
+
+            if(filter_list.soldout)
             {
                 e.target.value = '0';
                 return alert('품절인 옵션은 구매하실 수 없습니다.');
             }
             else{
-                setTotalPrice(totalPrice+prdFilter2[0].price);
+                // setTotalPrice(totalPrice+prdFilter2[0].price);
+                
                 const listMap = prdFilter2.map((arr)=>{
                     return {data_id:data,count:1,...arr};
                 })
-
-                setAddPrdListArr([...addPrdListArr,listMap])
+                
+                const prdAdd = listMap[0];
+                setTotalCount(totalCount+1);
+                setTotalPrice(totalPrice+prdAdd.price);
+                setAddPrdListArr([...addPrdListArr,prdAdd])
             }
         }
     }
@@ -128,82 +172,149 @@ function Products(){
         return(
             <li>
                 {console.log()}
-                <span className="list_prd">{arr[0].name}</span>
+                <span className="list_prd">{arr.name}</span>
                 <div className="list_count">
                     <button className="delBtn" onClick={()=>onOptionRemove(num)}>X</button>
-                    <span className="list_price">{arr[0].add_price ? arr[0].count*(arr[0].add_price + product_price) : arr[0].count*(product_price)}</span>
-                    <input className="list_input" value={arr[0].count} onChange={(e)=>onOptionCount(e,num)}/>
+                    <span className="list_price">{arr.add_price ? arr.count*(arr.add_price + product_price) : arr.count*(product_price)}</span>
+                    <div className="list_input" >
+                        <button onClick={()=>{onOptionCountMinus(num)}}>-</button>
+                        <input value={arr.count} onChange={(e)=>onOptionCount(e,num)}/>
+                        <button onClick={()=>{onOptionCountPlus(num)}}>+</button>
+                    </div>
+                </div>
+            </li>
+        )
+    })
+
+    const onOptionCountPlus = (num) =>{
+        const plusMap = optionListArr.map((arr,arrIndex)=>{
+            if(arrIndex === num)
+            {
+                arr.count+=1
+            }
+            return arr;
+         })
+         setOptionListArr(plusMap);
+         Calculator();
+    }
+
+    const onOptionCountMinus = (num) =>{
+        const minusMap = optionListArr.map((arr,arrIndex)=>{
+            if(arrIndex === num)
+            {
+                arr.count-=1
+            }
+            return arr;
+         })
+         setOptionListArr(minusMap);
+         Calculator();
+    }
+
+    const onAddPrdCountPlus = (num) =>{
+        const plusMap = addPrdListArr.map((arr,arrIndex)=>{
+            if(arrIndex === num)
+            {
+                arr.count+=1
+            }
+            return arr;
+         })
+         setAddPrdListArr(plusMap);
+         Calculator();
+    }
+
+    const onAddPrdCountMinus = (num) =>{
+        const minusMap = addPrdListArr.map((arr,arrIndex)=>{
+            if(arrIndex === num)
+            {
+                arr.count-=1
+            }
+            return arr;
+         })
+         setAddPrdListArr(minusMap);
+         Calculator();
+    }
+
+
+    const addPrdList = addPrdListArr.map((arr,num)=>{
+        return(
+            <li>
+                {console.log()}
+                <span className="list_prd">{arr.name}</span>
+                <div className="list_count">
+                    <button className="delBtn" onClick={()=>onAddPrdRemove(num)}>X</button>
+                    <span className="list_price">{arr.count*(arr.price)}</span>
+                    <div className="list_input" >
+                        <button onClick={()=>{onAddPrdCountMinus(num)}}>-</button>
+                        <input value={arr.count} onChange={(e)=>onAddPrdCount(e,num)}/>
+                        <button onClick={()=>{onAddPrdCountPlus(num)}}>+</button>
+                    </div>
+                    
                 </div>
             </li>
         )
     })
 
     const onOptionCount = (e,num) =>{
-         const countMap = optionListArr.map((arr,arrIndex)=>{
-            if(arrIndex === num)
-            {
-                arr[0].count = parseInt(e.target.value);
-            }
-            return arr;
-         })
-
-         setOptionListArr(countMap);
-    }
-
-    const addPrdList = addPrdListArr.map((arr,num)=>{
-        return(
-            <li>
-                {console.log()}
-                <span className="list_prd">{arr[0].name}</span>
-                <div className="list_count">
-                    <button className="delBtn" onClick={()=>onAddPrdRemove(num)}>X</button>
-                    <span className="list_price">{arr[0].price}</span>
-                    <input className="list_input" value={arr[0].count} onChange={(e)=>onAddPrdCount(e,num)}/>
-                </div>
-            </li>
-        )
-    })
-
-    const onAddPrdCount = (e,num) =>{
-        const countMap = addPrdListArr.map((arr,arrIndex)=>{
+        const countMap = optionListArr.map((arr,arrIndex)=>{
            if(arrIndex === num)
            {
-               arr[0].count = parseInt(e.target.value);
+               arr.count = parseInt(e.target.value);
            }
            return arr;
         })
 
-        setAddPrdListArr(countMap);
+        setOptionListArr(countMap);
+        Calculator();
    }
 
+    const onAddPrdCount = (e,num) =>{
+        
+        const countMap = addPrdListArr.map((arr,arrIndex)=>{
+           if(arrIndex === num)
+           {
+               arr.count = parseInt(e.target.value);
+           }
+           return arr;
+        })
+        
+        setAddPrdListArr(countMap);
+        Calculator();
+   }
+
+
     const onOptionRemove = (num) =>{
-        const priceFilter = optionListArr.filter((arr,fil_num)=>{
+        const totalFilter = optionListArr.filter((arr,fil_num)=>{
             return fil_num === num;
         })
-        if(priceFilter[0][0].add_price)
+        if(totalFilter[0].add_price)
         {
-            setTotalPrice(totalPrice-product_price-priceFilter[0][0].add_price)
+            const plus = totalFilter[0].add_price+product_price;
+            setTotalPrice(totalPrice-(totalFilter[0].count*plus));
         }
-        else setTotalPrice(totalPrice-product_price);
+        else setTotalPrice(totalPrice-(totalFilter[0].count*product_price));
 
         const removeFilter = optionListArr.filter((arr,fil_num)=>{
             return fil_num !== num;
         })
-     
+        setTotalCount(totalCount-totalFilter[0].count);
+        
         setOptionListArr(removeFilter);
      }
 
+
      const onAddPrdRemove = (num) =>{
-        const priceFilter = addPrdListArr.filter((arr,fil_num)=>{
+        const totalFilter = addPrdListArr.filter((arr,fil_num)=>{
             return fil_num === num;
         })
 
-        setTotalPrice(totalPrice-priceFilter[0][0].price);
         const removeFilter = addPrdListArr.filter((arr,fil_num)=>{
             return fil_num !== num;
         })
+        setTotalCount(totalCount-totalFilter[0].count);
+        setTotalPrice(totalPrice-(totalFilter[0].count*totalFilter[0].price));
         setAddPrdListArr(removeFilter);
      }
+
 
     const onDeliverySel=(e)=>{
         setDeliverySelValue(e.target.options[e.target.selectedIndex].value);
@@ -212,6 +323,14 @@ function Products(){
     const deliverySel = deliveryMethod.map((arr)=>{
         return <option value={arr.id}>{arr.name}</option>
     })
+
+    const oninstallment = () =>{
+        setInstallmentState(true);
+    }
+
+    const offinstallment = () =>{
+        setInstallmentState(false);
+    }
     
     return(
         <div id="container">
@@ -280,10 +399,13 @@ function Products(){
                                             </div>
                                             <div className="installment">
                                                 <div className="h">무이자할부</div>
-                                                <a href="#" className="detailBtn">자세히보기</a>
+                                                <a href="#" className="detailBtn" onClick={oninstallment}>자세히보기</a>
                                             </div>
                                         </dd>
                                     </dl>
+
+                                    {installmentState ?<Installment btn={offinstallment}/> : ''}
+
                                     <div className="delivery">
                                         <div className="delivery_way">
                                             <span>배송방법</span>
