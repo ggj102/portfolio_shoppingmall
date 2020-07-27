@@ -10,6 +10,7 @@ function Products(){
     const [categoryList,setCategoryList] = useState([])
     const [deliveryMethod,setDeliveryMethod] = useState([]);
     const [prdImg,setPrdImg] = useState([])
+    const [imgState,setImgState] = useState('');
     const [saleInfo,setSaleInfo] = useState([]);
     const [prdOption,setPrdOption] = useState([])
     const [addPrd,setAddPrd] = useState([])
@@ -19,6 +20,7 @@ function Products(){
     const [totalCount,setTotalCount] = useState(0);
     const [totalPrice,setTotalPrice] = useState(0);
     const [installmentState,setInstallmentState] = useState(false);
+
     
     const {product_code,product_name,product_price} = prdData;
 
@@ -28,12 +30,30 @@ function Products(){
             setPrdData(response.data);
             setCategoryList(response.data.category_list);
             setPrdImg(response.data.product_image);
+            setImgState(response.data.product_image[0].url);
             setSaleInfo(response.data.sale_info);
             setDeliveryMethod(response.data.delivery_method);
             setPrdOption(response.data.option);
             setAddPrd(response.data.add_product);
         })
     },[])
+
+    const imgPaging = prdImg.map((arr)=>{
+        if(prdImg.length > 1)
+        {
+            return(
+                <>
+                {console.log(arr.url)}
+                <span className="_image_box" onMouseOver={()=>onPaging(arr.url)}><img src={arr.url} alt="img"/></span>
+                </>
+            )
+        }
+    })
+        
+    const onPaging = (url) =>{
+        setImgState(url);
+    }
+    
 
     const Calculator = () =>{
         const optionCountReduce = optionListArr.reduce((acc,arr)=>{
@@ -154,8 +174,6 @@ function Products(){
                 return alert('품절인 옵션은 구매하실 수 없습니다.');
             }
             else{
-                // setTotalPrice(totalPrice+prdFilter2[0].price);
-                
                 const listMap = prdFilter2.map((arr)=>{
                     return {data_id:data,count:1,...arr};
                 })
@@ -178,7 +196,7 @@ function Products(){
                     <span className="list_price">{arr.add_price ? arr.count*(arr.add_price + product_price) : arr.count*(product_price)}</span>
                     <div className="list_input" >
                         <button onClick={()=>{onOptionCountMinus(num)}}>-</button>
-                        <input value={arr.count} onChange={(e)=>onOptionCount(e,num)}/>
+                        <input  onBlur={(e)=>onOptionCount(e,num)} />
                         <button onClick={()=>{onOptionCountPlus(num)}}>+</button>
                     </div>
                 </div>
@@ -186,14 +204,73 @@ function Products(){
         )
     })
 
+    const addPrdList = addPrdListArr.map((arr,num)=>{
+        return(
+            <li>
+                {console.log()}
+                <span className="list_prd">{arr.name}</span>
+                <div className="list_count">
+                    <button className="delBtn" onClick={()=>onAddPrdRemove(num)}>X</button>
+                    <span className="list_price">{arr.count*(arr.price)}</span>
+                    <div className="list_input" >
+                        <button onClick={()=>{onAddPrdCountMinus(num)}}>-</button>
+                        <input value={arr.count} onBlur={(e)=>onAddPrdCount(e,num)}/>
+                        <button onClick={()=>{onAddPrdCountPlus(num)}}>+</button>
+                    </div>
+                    
+                </div>
+            </li>
+        )
+    })
+    
+
+    const onOptionCount = (e,num) =>{
+        if(e.target.value === '0')
+        {
+            e.target.value= '1';
+            alert("1개 이상부터 구매하실 수 있습니다.");
+        }
+
+        const countMap = optionListArr.map((arr,arrIndex)=>{
+            if(arrIndex === num)
+            {
+                arr.count = parseInt(e.target.value);
+            }
+            return arr;
+         })
+ 
+        setOptionListArr(countMap);
+        Calculator();
+   }
+
+    const onAddPrdCount = (e,num) =>{
+        // if(e.target.value === '0')
+        // {
+        //     e.target.value= '1';
+        //     alert("1개 이상부터 구매하실 수 있습니다.");
+        // }
+
+        const countMap = addPrdListArr.map((arr,arrIndex)=>{
+           if(arrIndex === num)
+           {
+               arr.count = parseInt(e.target.value);
+           }
+           return arr;
+        })
+        
+        setAddPrdListArr(countMap);
+        Calculator();
+   }
+
     const onOptionCountPlus = (num) =>{
         const plusMap = optionListArr.map((arr,arrIndex)=>{
             if(arrIndex === num)
             {
-                arr.count+=1
+                arr.count+=1;
             }
             return arr;
          })
+         
          setOptionListArr(plusMap);
          Calculator();
     }
@@ -206,6 +283,7 @@ function Products(){
             }
             return arr;
          })
+        
          setOptionListArr(minusMap);
          Calculator();
     }
@@ -233,54 +311,6 @@ function Products(){
          setAddPrdListArr(minusMap);
          Calculator();
     }
-
-
-    const addPrdList = addPrdListArr.map((arr,num)=>{
-        return(
-            <li>
-                {console.log()}
-                <span className="list_prd">{arr.name}</span>
-                <div className="list_count">
-                    <button className="delBtn" onClick={()=>onAddPrdRemove(num)}>X</button>
-                    <span className="list_price">{arr.count*(arr.price)}</span>
-                    <div className="list_input" >
-                        <button onClick={()=>{onAddPrdCountMinus(num)}}>-</button>
-                        <input value={arr.count} onChange={(e)=>onAddPrdCount(e,num)}/>
-                        <button onClick={()=>{onAddPrdCountPlus(num)}}>+</button>
-                    </div>
-                    
-                </div>
-            </li>
-        )
-    })
-
-    const onOptionCount = (e,num) =>{
-        const countMap = optionListArr.map((arr,arrIndex)=>{
-           if(arrIndex === num)
-           {
-               arr.count = parseInt(e.target.value);
-           }
-           return arr;
-        })
-
-        setOptionListArr(countMap);
-        Calculator();
-   }
-
-    const onAddPrdCount = (e,num) =>{
-        
-        const countMap = addPrdListArr.map((arr,arrIndex)=>{
-           if(arrIndex === num)
-           {
-               arr.count = parseInt(e.target.value);
-           }
-           return arr;
-        })
-        
-        setAddPrdListArr(countMap);
-        Calculator();
-   }
-
 
     const onOptionRemove = (num) =>{
         const totalFilter = optionListArr.filter((arr,fil_num)=>{
@@ -333,6 +363,7 @@ function Products(){
     }
     
     return(
+    <div>
         <div id="container">
             <div className=" _category_area h_area h_area_v2">
                 <div className="loc">
@@ -360,16 +391,13 @@ function Products(){
                         <div className="_image view">
                             <div className="bimg">
                                 <div className="img_va">
-                                    {/* img태그를 씀
-                                    mouseover 것에 이미지로 바뀜 */}
+                                    <img src={imgState}  alt="img"/>
                                 </div>
                                 <div className="ico_goods"></div>
                             </div>
 
                             <div className="thumbnail_area thmb_lst more">
-                                <span className="_image_box"></span>
-                                <span className="_image_box"></span>
-                                <span className="_image_box"></span>
+                                {imgPaging}
                             </div>
                         </div>
 
@@ -500,6 +528,321 @@ function Products(){
                 </div>
             </div>
         </div>
+        
+        {/* 하단 */}
+
+        <div className="detail_info">
+            <div className="tab_area">
+                <div className="info_tab">
+                    <a href="#">상세정보</a>
+                </div>
+                <div className="info_tab">
+                    <a href="#">Q{'&'}A</a>
+                </div>
+                <div className="info_tab last_tab">
+                    <a href="#">반품/교환정보</a>
+                </div>
+            </div>
+
+            <div className="prd_info">
+                <div className="info_area">
+                    <div className="info_title">상품정보</div>
+                    <div>
+                        <table cellPadding="0" className="info_table">
+                        <tr>
+                                <th scope="row">
+                                    <span>상품상태</span>
+                                </th>
+                                <td><span>새상품</span></td>
+
+                                <th scope="row">
+                                    <span>상품번호</span>
+                                </th>
+                                <td><span>00000000</span></td>
+                        </tr>
+
+                        <tr>
+                                <th scope="row">
+                                    <span>제조사</span>
+                                </th>
+                                <td><span>소니</span></td>
+
+                                <th scope="row"><span>브랜드</span></th>
+                                <td><span>소니</span></td>
+                        </tr>
+
+                        <tr>
+                                <th scope="row">
+                                    <span>모델명</span>
+                                </th>
+                                <td><span>플레이스테이션4</span></td>
+
+                                <th scope="row"><span>원산지</span></th>
+                                <td><span>일본산</span></td>
+                        </tr>
+                        </table>
+                        <div className="report_info">
+                            ※ 상품정보 관련 문의사항은 <a href="#">Q{'&'}A</a>에 남겨주세요.
+                        </div>
+                    </div>
+                </div>
+
+                <div className="info_area">
+                    <table className="info_table">
+                    <tr>
+                        <th scope="row">
+                                    <span>기종</span>
+                                </th>
+                                <td><span>PS4</span></td>
+
+                                <th scope="row">
+                                    <span>품목</span>
+                                </th>
+                                <td><span>게임기</span></td>
+                        </tr>
+
+                        <tr>
+                                <th scope="row">
+                                    <span>네트워크</span>
+                                </th>
+                                <td><span>유선랜,무선랜n,블루투스4.0</span></td>
+
+                                <th scope="row"><span>해상도</span></th>
+                                <td><span>1080p</span></td>
+                        </tr>
+
+                        <tr>
+                                <th scope="row">
+                                    <span>CPU</span>
+                                </th>
+                                <td><span>옥타코어</span></td>
+
+                                <th scope="row"><span>램</span></th>
+                                <td><span>8기가</span></td>
+                        </tr>
+
+                        <tr>
+                                <th scope="row">
+                                    <span>그래픽</span>
+                                </th>
+                                <td><span>라데온</span></td>
+
+                                <th scope="row"><span>HDD</span></th>
+                                <td><span>1테라</span></td>
+                        </tr>
+
+                        <tr>
+                                <th scope="row">
+                                    <span>재생</span>
+                                </th>
+                                <td><span>DVD, 블루레이</span></td>
+
+                                <th scope="row"><span>부가기능</span></th>
+                                <td><span>너무 많음</span></td>
+                        </tr>
+
+                        <tr>
+                                <th scope="row">
+                                    <span>소비전력</span>
+                                </th>
+                                <td colSpan="3"><span>최대300W</span></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div className="info_area">
+                    <table className="info_table">
+                            <tr>
+                                <th scope="row">
+                                    <span>영수증발급</span>
+                                </th>
+                                <td colSpan="3"><span>신용카드전표,현금영수증 발급</span></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    <span>A/S안내</span>
+                                </th>
+                                <td colSpan="3"><span>너무 길어</span></td>
+                            </tr>    
+                    </table>
+                </div>
+
+                {/* 상품상세정보 */}
+
+                <div className="test_interval"> </div>
+
+                <div className="goods_tag">
+                    <h3>Tag</h3>
+                    <ul>
+                        <li><a href="#">#PS4</a></li>
+                        <li><a href="#">#플스게임</a></li>
+                        <li><a href="#">#플스타이틀</a></li>
+                        <li><a href="#">#플레이스테이션4</a></li>
+                        <li><a href="#">#플스악세사리</a></li>
+                        <li><a href="#">#ps4신형</a></li>
+                    </ul>
+                </div>
+
+                <div className="info_area">
+                    <div className="info_title">상품정보 제공고시</div>
+                    <table className="info_table">
+                            <tr>
+                                <th scope="row">
+                                    <span>품명 / 모델명</span>
+                                </th>
+                                <td colSpan="3"><span>상품상세 참조 / 상품상세 참조</span></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    <span>KC 인증 필 유무</span>
+                                </th>
+                                <td colSpan="3"><span>상품상세 참조</span></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    <span>정격전압</span>
+                                </th>
+                                <td colSpan="3"><span>상품상세 참조</span></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    <span>소비전력</span>
+                                </th>
+                                <td colSpan="3"><span>상품상세 참조</span></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    <span>동일모델의 출시 연월</span>
+                                </th>
+                                <td colSpan="3"><span>상품상세 참조</span></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    <span>제조자</span>
+                                </th>
+                                <td colSpan="3"><span>상품상세 참조</span></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    <span>제조국</span>
+                                </th>
+                                <td colSpan="3"><span>일본산</span></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    <span>크기</span>
+                                </th>
+                                <td colSpan="3"><span>상품상세 참조</span></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    <span>무게</span>
+                                </th>
+                                <td colSpan="3"><span>상품상세 참조</span></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    <span>주요 사양</span>
+                                </th>
+                                <td colSpan="3"><span>상품상세 참조</span></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    <span>품질보증기준</span>
+                                </th>
+                                <td colSpan="3"><span>상품상세 참조</span></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    <span>A/S 책임자와 전화번호</span>
+                                </th>
+                                <td colSpan="3"><span>상품상세 참조(00-0000-0000)</span></td>
+                            </tr>
+                    </table>
+                </div>
+
+                <div className="info_area">
+                    <div className="info_title">거래조건에 관한 정보</div>
+                    <table className="info_table">
+                            <tr>
+                                <th scope="row">
+                                    <span>재화등의 배송방법에 관한 정보</span>
+                                </th>
+                                <td><span>상품상세 참조 / 상품상세 참조</span></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    <span>주문 이후 예상되는 배송기간</span>
+                                </th>
+                                <td><span>상품상세 참조</span></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    <span>제품하자·오배송 등에 따른 청약철회 등의 경우 청약철회 등을 할 수 있는 기간 및 통신판매업자가 부담하는 반품비용 등에 관한 정보</span>
+                                </th>
+                                <td><span>상품상세 참조</span></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    <span>제품하자가 아닌 소비자의 단순변심, 착오구매에 따른 청약철회가 불가능한 경우 그 구체적 사유와 근거</span>
+                                </th>
+                                <td><span>상품상세 참조</span></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    <span>재화등의 교환·반품·보증 조건 및 품질보증기준</span>
+                                </th>
+                                <td><span>상품상세 참조</span></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    <span>재화등의 A/S 관련 전화번호</span>
+                                </th>
+                                <td><span>상품상세 참조</span></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    <span>대금을 환불받기 위한 방법과 환불이 지연될 경우 지연에 따른 배상금을 지급받을 수 있다는 사실 및 배상금 지급의 구체적 조건 및 절차</span>
+                                </th>
+                                <td><span>일본산</span></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    <span>소비자피해보상의 처리, 재화등에 대한 불만 처리 및 소비자와 사업자 사이의 분쟁처리에 관한 사항</span>
+                                </th>
+                                <td><span>상품상세 참조</span></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    <span>거래에 관한 약관의 내용 또는 확인할 수 있는 방법</span>
+                                </th>
+                                <td><span>상품상세 참조</span></td>
+                            </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
     )
 }
 
