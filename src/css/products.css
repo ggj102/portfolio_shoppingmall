@@ -801,3 +801,326 @@ dd {
     background-color: #f4f4f4;
     font-size: 13px;
 }
+
+/* Q&A */
+
+.qna{
+    position: relative;
+    margin: 60px 0 30px;
+    font-size: 12px;
+}
+
+.qna_title_text h3{
+    position: relative;
+    margin-bottom: 16px;
+    font-size: 22px;
+    line-height: 25px;
+    color: #000;
+}
+
+.qna_title_text p{
+    margin-bottom: 15px;
+    font-size: 12px;
+    line-height: 20px;
+    color: #5f5f5f;
+}
+
+.qna_title_text a{
+    color: #000;
+    text-decoration: underline;
+}
+
+.qna_header{
+    min-height: 32px;
+    margin-top: 20px;
+}
+
+.qna_btn_area{
+    float: left;
+    font-size: 12px;
+}
+
+.qna_btn{
+    float: left;
+    padding: 0 15px;
+    height: 34px;
+    line-height: 34px;
+    margin-right: 6px;
+    background-color: #999;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: #fff;
+    vertical-align: top;
+}
+
+.qna_write{
+    background-color: #333;
+}
+
+.qna_arrow{
+    padding-right: 12px;
+}
+
+.qna_arrow::after{
+    clear: both;
+    display: block;
+    content: '';
+}
+
+.qna_sort_area{
+    float: right;
+    padding: 5px 0;
+    box-sizing: border-box;
+    width: 30%;
+}
+
+.area_switch{
+    float: left;
+}
+
+.qna_checkbox{
+}
+
+.qna_label{
+}
+
+.qna_label span{
+    color: #313131;
+    cursor: pointer;
+    padding-right: 11px;
+    font-size: 14px;
+}
+
+.select_sort{
+    float: right;
+}
+
+.select_sort select{
+    padding-bottom: 4px;
+}
+
+.qna_list{
+    margin-top: 14px;
+    border-top: 2px solid #000;
+}
+
+.qna_table{
+    display: table;
+    width: 100%;
+}
+
+.qna_state{
+    width: 92px;
+    padding-right: 23px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    box-sizing: border-box;
+}
+
+.list_header_text{
+    letter-spacing: -1.2px;
+    font-weight: 600;
+    line-height: 1.5em;
+    color: #5f5f5f;
+}
+
+.qna_title{
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    box-sizing: border-box;
+}
+
+.qna_author{
+    width: 88px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    box-sizing: border-box;
+}
+
+.qna_date{
+    width: 99px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    box-sizing: border-box;
+}
+
+.qna_list_area ul{
+    border: solid #dadada;
+    border-width: 1px 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5em;
+    color: #5f5f5f;
+    font-weight: 400;
+}
+
+.qna_list_area li{
+    text-align: left;
+    border-top: 0;
+}
+
+.qna_list_area .qna_table .qna_title{
+    text-align: left;
+}
+
+.list_item_text{
+    color: #5f5f5f;
+    font-weight: 400;
+}
+
+.list_paging{
+    height: 35px;
+    margin-top: 20px;
+    padding-bottom: 1px;
+    text-align: center;
+}
+
+.list_paging strong{
+    color: #2eb1d3;
+    border-color: #999ba4;
+    background: #fff;
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    height: 35px;
+    margin: -1px -6px -1px -1px;
+    padding: 0 13px;
+    border: 1px solid transparent;
+    line-height: 32px;
+    vertical-align: top;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: verdana, sans-serif;
+    z-index: 10;
+}
+
+
+
+.exchange_title{
+    position: relative;
+    margin: 80px 0 30px;
+    border-bottom: 2px solid #000;
+}
+
+.exchange_title h3{
+    position: relative;
+    margin-bottom: 16px;
+    font-size: 22px;
+    line-height: 25px;
+    color: #000;
+}
+
+.exchange_guide{
+    font-size: 12px;
+}
+
+.guide_title{
+    margin: 0 0 8px;
+    letter-spacing: -1px;
+    line-height: 14px;
+    font-weight: bold;
+}
+
+.guide_title p{
+    margin: 4px 0 0;
+    padding: 0;
+    color: #8f8f8f;
+    line-height: 15px;
+    font-weight: normal;
+    font-size: 11px;
+}
+
+.guide_text{
+    padding: 0 0 13px;
+}
+
+.guide_text ol{
+    list-style: none;
+    margin: 0;
+    padding: 0 0 6px;
+}
+
+.guide_text li{
+    position: relative;
+    height: 100%;
+    padding-left: 14px;
+    line-height: 21px;
+}
+
+.guide_text_num{
+    position: absolute;
+    top: 0;
+    left: 0;
+    line-height: 19px;
+    font-weight: bold;
+    font-family: tahoma;
+    color: #313131;
+}
+
+.guide_text em{
+    color: #8f8f8f;
+    letter-spacing: -1px;
+    line-height: normal;
+    font-size: 11px;
+    font-style: normal;
+}
+
+.seller_info{
+    position: relative;
+    margin-bottom: 24px;
+    padding: 24px 0 0;
+    font-size: 12px;
+}
+
+.seller{
+    position: relative;
+    padding: 22px 0 23px;
+    text-indent: -1px;
+}
+
+.seller_name{
+    line-height: 15px;
+    color: #5f5f5f;
+}
+
+.seller_name_blank{
+    margin-bottom: 20px;
+    display: block;
+    border: 2px solid #000;
+    width: 20px;
+}
+
+.seller_name strong{
+    color: #313131;
+}
+
+.seller_name_bar{
+    color: #f2f2f2;
+    margin: 0 10px;
+    line-height: 15px;
+}
+
+.seller_name em{
+    color: #8f8f8f;
+    letter-spacing: -1px;
+    line-height: normal;
+    font-size: 11px;
+    font-style: normal;
+}
+
+.seller_detail_info{
+    margin: 13px 0 0;
+    line-height: 21px;
+}
