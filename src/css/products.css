@@ -665,21 +665,45 @@ dd {
 }
 
 .tab_area{
+    position: sticky;
+    top: 0;
     display: flex;
     margin: 0 auto;
     background-color: #f3f5f7;
     color: #333;
     font-size: 13px;
-    padding: 13px 0;
     margin: 30px 0 30px 0;
+    box-sizing: border-box;
+    border-bottom: 1px solid #3d3d4f;
 }
 
+.info_tab_base{
+    
+}
 
 .info_tab{
+    display: block;
+    height: 43px;
     width: 33%;
     text-align: center;
-    border-right: 1px solid #ebebeb;
+    line-height: 43px;
 }
+
+.info_tab_focus{
+    display: block;
+    height: 43px;
+    background-color: #3d3d4f;
+    color: #fff;
+    width: 33%;
+    text-align: center;
+    line-height: 43px;
+}
+
+/* .tab_area a{
+    width: 100%;
+    line-height: 43px;
+    border-right: 1px solid #ebebeb;
+} */
 
 .last_tab{
     border: 0;

@@ -1,73 +1,181 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import Axios from 'axios';
 
 function ProductsInfo({data})
 {
-    const prdInfoData = {...data.product_information};
-    const prdInfobasic = data.product_information;
+    const [tabNum,setTabNum] = useState(1);
 
-    // const prdInfoMap = prdInfobasic.map((arr)=>{
-    //     return(
-    //         <tr>
-    //             <th scope="row">
-    //                 <span>{arr.title}</span>
-    //             </th>
-    //             <td><span>{arr.description}</span></td>
-    //         </tr>
-    //     )
-    // })
+    const onTabChange = (num) =>{
+        setTabNum(num)
+    }
+
+    function dataReduce(data){
+        const basicReduce = data.reduce((acc, cur, i)=>{
+            const arr = [];
+            if(i%2 === 0 || i === 0) //홀수 체크
+            {
+              arr.push(cur);
+              acc.push(arr);
+              return acc;
+            }
+            else{
+                acc[i - acc.length].push(cur);
+                return acc
+            }
+        },[])
+
+        return basicReduce;
+    }
+    
+
+    const basicMap = dataReduce(data.product_information.basic).map((arr)=>{
+        return(
+            <tr>
+                {
+                    arr.map((arr2)=>{
+                        if(arr.length === 1)
+                        {
+                            return(
+                                <>
+                                <th scope="row">
+                                <span>{arr2.title}</span>
+                                </th>
+                                <td colSpan="3"><span>{arr2.description}</span></td>
+                                </>
+                            )
+                        }
+                        else{
+                            return(
+                                <>
+                                <th scope="row">
+                                <span>{arr2.title}</span>
+                                </th>
+                                <td><span>{arr2.description}</span></td>
+                                </>
+                            )
+                        }
+                    })
+                }
+            </tr>
+        )
+    })
+
+    const additionalMap = dataReduce(data.product_information.additional).map((arr)=>{
+        return(
+            <tr>
+                {
+                    arr.map((arr2)=>{
+                        if(arr.length === 1)
+                        {
+                            return(
+                                <>
+                                <th scope="row">
+                                <span>{arr2.title}</span>
+                                </th>
+                                <td colSpan="3"><span>{arr2.description}</span></td>
+                                </>
+                            )
+                        }
+                        else{
+                            return(
+                                <>
+                                <th scope="row">
+                                <span>{arr2.title}</span>
+                                </th>
+                                <td><span>{arr2.description}</span></td>
+                                </>
+                            )
+                        }
+                    })
+                }
+            </tr>
+        )
+    })
+
+    const etcMap = data.product_information.etc.map((arr)=>{
+            return(
+                <tr>
+                    <th scope="row">
+                        <span>{arr.title}</span>
+                    </th>
+                    <td colSpan="3"><span>{arr.description}</span></td>
+                </tr>
+            )
+    })
+
+    const tagMap = data.tag.map((arr)=>{
+        return(
+            <li><a href="#">#{arr}</a></li>
+        )
+    })
+
+    const prdInfoPublicMap = data.product_information_public.map((arr)=>{
+        return(
+            <tr>
+                <th scope="row">
+                    <span>{arr.title}</span>
+                </th>
+                <td colSpan="3"><span>{arr.description}</span></td>
+            </tr>
+
+        )
+    })
+
+    const tradMap = data.trading_conditions.map((arr)=>{
+        return(
+            <tr>
+            <th scope="row">
+                <span>{arr.title}</span>
+            </th>
+            <td><span>{arr.description}</span></td>
+        </tr>
+        )
+    })
+    
+    const qnaListMap = data.qna.map((arr)=>{
+        return(
+            <li>
+                <div className="qna_table">
+                    <div className="qna_state">
+                        <span className="list_item_text">미답변</span>
+                    </div>
+
+                    <div className="qna_title">
+                        {arr.secret ? 
+                        <span className="list_item_text">비밀글입니다.</span> 
+                        : <span className="list_item_text">{arr.title}</span>}
+                    </div>
+            
+                    <div className="qna_author">
+                        <span className="list_item_text">{arr.writer}</span>
+                    </div>
+            
+                    <div className="qna_date">
+                        <span className="list_item_text">{arr.date}</span>
+                    </div>
+                </div>
+            </li>
+        )
+    })
 
     return(
         <div className="detail_info">
-            {console.log(prdInfobasic)}
             <div className="tab_area">
-                <div className="info_tab">
-                    <a href="#">상세정보</a>
-                </div>
-                <div className="info_tab">
-                    <a href="#">Q{'&'}A</a>
-                </div>
-                <div className="info_tab last_tab">
-                    <a href="#">반품/교환정보</a>
-                </div>
+          
+                    <a href="#id_prd_info" className={tabNum === 1 ? "info_tab_focus" : 'info_tab'} onClick={()=>onTabChange(1)}>상세정보</a>
+            
+                    <a href="#id_qna" className={tabNum === 2 ? "info_tab_focus" : 'info_tab'} onClick={()=>onTabChange(2)}>Q{'&'}A</a>
+              
+                    <a href="#id_return_exchange" className={tabNum === 3 ? "info_tab_focus" : 'info_tab'} onClick={()=>onTabChange(3)}>반품/교환정보</a>
+               
             </div>
 
-            <div className="prd_info">
+            <div className="prd_info" id="id_prd_info">
                 <div className="info_area">
                     <div className="info_title">상품정보</div>
                     <div>
                         <table cellPadding="0" className="info_table">
-                        {/* <tr>
-                                <th scope="row">
-                                    <span>상품상태</span>
-                                </th>
-                                <td><span>새상품</span></td>
-
-                                <th scope="row">
-                                    <span>상품번호</span>
-                                </th>
-                                <td><span>00000000</span></td>
-                        </tr>
-
-                        <tr>
-                                <th scope="row">
-                                    <span>제조사</span>
-                                </th>
-                                <td><span>소니</span></td>
-
-                                <th scope="row"><span>브랜드</span></th>
-                                <td><span>소니</span></td>
-                        </tr>
-
-                        <tr>
-                                <th scope="row">
-                                    <span>모델명</span>
-                                </th>
-                                <td><span>플레이스테이션4</span></td>
-
-                                <th scope="row"><span>원산지</span></th>
-                                <td><span>일본산</span></td>
-                        </tr> */}
-                        {/* {prdInfoMap.lenght ? prdInfoMap : ''} */}
+                            {basicMap}
                         </table>
                         <div className="report_info">
                             ※ 상품정보 관련 문의사항은 <a href="#">Q{'&'}A</a>에 남겨주세요.
@@ -77,262 +185,45 @@ function ProductsInfo({data})
 
                 <div className="info_area">
                     <table className="info_table">
-                    <tr>
-                        <th scope="row">
-                                    <span>기종</span>
-                                </th>
-                                <td><span>PS4</span></td>
-
-                                <th scope="row">
-                                    <span>품목</span>
-                                </th>
-                                <td><span>게임기</span></td>
-                        </tr>
-
-                        <tr>
-                                <th scope="row">
-                                    <span>네트워크</span>
-                                </th>
-                                <td><span>유선랜,무선랜n,블루투스4.0</span></td>
-
-                                <th scope="row"><span>해상도</span></th>
-                                <td><span>1080p</span></td>
-                        </tr>
-
-                        <tr>
-                                <th scope="row">
-                                    <span>CPU</span>
-                                </th>
-                                <td><span>옥타코어</span></td>
-
-                                <th scope="row"><span>램</span></th>
-                                <td><span>8기가</span></td>
-                        </tr>
-
-                        <tr>
-                                <th scope="row">
-                                    <span>그래픽</span>
-                                </th>
-                                <td><span>라데온</span></td>
-
-                                <th scope="row"><span>HDD</span></th>
-                                <td><span>1테라</span></td>
-                        </tr>
-
-                        <tr>
-                                <th scope="row">
-                                    <span>재생</span>
-                                </th>
-                                <td><span>DVD, 블루레이</span></td>
-
-                                <th scope="row"><span>부가기능</span></th>
-                                <td><span>너무 많음</span></td>
-                        </tr>
-
-                        <tr>
-                                <th scope="row">
-                                    <span>소비전력</span>
-                                </th>
-                                <td colSpan="3"><span>최대300W</span></td>
-                        </tr>
+                        {additionalMap}
                     </table>
                 </div>
 
                 <div className="info_area">
                     <table className="info_table">
-                            <tr>
-                                <th scope="row">
-                                    <span>영수증발급</span>
-                                </th>
-                                <td colSpan="3"><span>신용카드전표,현금영수증 발급</span></td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">
-                                    <span>A/S안내</span>
-                                </th>
-                                <td colSpan="3"><span>너무 길어</span></td>
-                            </tr>    
+                        {etcMap}
                     </table>
                 </div>
 
-                {/* 상품상세정보 */}
+                {data.product_more_information}
 
                 <div className="test_interval"> </div>
 
                 <div className="goods_tag">
                     <h3>Tag</h3>
                     <ul>
-                        <li><a href="#">#PS4</a></li>
-                        <li><a href="#">#플스게임</a></li>
-                        <li><a href="#">#플스타이틀</a></li>
-                        <li><a href="#">#플레이스테이션4</a></li>
-                        <li><a href="#">#플스악세사리</a></li>
-                        <li><a href="#">#ps4신형</a></li>
+                        {tagMap}
                     </ul>
                 </div>
 
                 <div className="info_area">
                     <div className="info_title">상품정보 제공고시</div>
                     <table className="info_table">
-                            <tr>
-                                <th scope="row">
-                                    <span>품명 / 모델명</span>
-                                </th>
-                                <td colSpan="3"><span>상품상세 참조 / 상품상세 참조</span></td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">
-                                    <span>KC 인증 필 유무</span>
-                                </th>
-                                <td colSpan="3"><span>상품상세 참조</span></td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">
-                                    <span>정격전압</span>
-                                </th>
-                                <td colSpan="3"><span>상품상세 참조</span></td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">
-                                    <span>소비전력</span>
-                                </th>
-                                <td colSpan="3"><span>상품상세 참조</span></td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">
-                                    <span>동일모델의 출시 연월</span>
-                                </th>
-                                <td colSpan="3"><span>상품상세 참조</span></td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">
-                                    <span>제조자</span>
-                                </th>
-                                <td colSpan="3"><span>상품상세 참조</span></td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">
-                                    <span>제조국</span>
-                                </th>
-                                <td colSpan="3"><span>일본산</span></td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">
-                                    <span>크기</span>
-                                </th>
-                                <td colSpan="3"><span>상품상세 참조</span></td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">
-                                    <span>무게</span>
-                                </th>
-                                <td colSpan="3"><span>상품상세 참조</span></td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">
-                                    <span>주요 사양</span>
-                                </th>
-                                <td colSpan="3"><span>상품상세 참조</span></td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">
-                                    <span>품질보증기준</span>
-                                </th>
-                                <td colSpan="3"><span>상품상세 참조</span></td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">
-                                    <span>A/S 책임자와 전화번호</span>
-                                </th>
-                                <td colSpan="3"><span>상품상세 참조(00-0000-0000)</span></td>
-                            </tr>
+                        {prdInfoPublicMap}
                     </table>
                 </div>
 
                 <div className="info_area">
                     <div className="info_title">거래조건에 관한 정보</div>
                     <table className="info_table">
-                            <tr>
-                                <th scope="row">
-                                    <span>재화등의 배송방법에 관한 정보</span>
-                                </th>
-                                <td><span>상품상세 참조 / 상품상세 참조</span></td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">
-                                    <span>주문 이후 예상되는 배송기간</span>
-                                </th>
-                                <td><span>상품상세 참조</span></td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">
-                                    <span>제품하자·오배송 등에 따른 청약철회 등의 경우 청약철회 등을 할 수 있는 기간 및 통신판매업자가 부담하는 반품비용 등에 관한 정보</span>
-                                </th>
-                                <td><span>상품상세 참조</span></td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">
-                                    <span>제품하자가 아닌 소비자의 단순변심, 착오구매에 따른 청약철회가 불가능한 경우 그 구체적 사유와 근거</span>
-                                </th>
-                                <td><span>상품상세 참조</span></td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">
-                                    <span>재화등의 교환·반품·보증 조건 및 품질보증기준</span>
-                                </th>
-                                <td><span>상품상세 참조</span></td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">
-                                    <span>재화등의 A/S 관련 전화번호</span>
-                                </th>
-                                <td><span>상품상세 참조</span></td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">
-                                    <span>대금을 환불받기 위한 방법과 환불이 지연될 경우 지연에 따른 배상금을 지급받을 수 있다는 사실 및 배상금 지급의 구체적 조건 및 절차</span>
-                                </th>
-                                <td><span>일본산</span></td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">
-                                    <span>소비자피해보상의 처리, 재화등에 대한 불만 처리 및 소비자와 사업자 사이의 분쟁처리에 관한 사항</span>
-                                </th>
-                                <td><span>상품상세 참조</span></td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">
-                                    <span>거래에 관한 약관의 내용 또는 확인할 수 있는 방법</span>
-                                </th>
-                                <td><span>상품상세 참조</span></td>
-                            </tr>
+                            {tradMap}
                     </table>
                 </div>
             </div>
 
             {/* Q&A */}
 
-            <div className="qna">
+            <div className="qna" id ="id_qna">
                 <div className="qna_title_text">
                     <h3>Q{'&'}A</h3>
                     <p>구매하시려는 상품에 대해 궁금하신 점이 있으신 경우 문의해주세요. 상품문의 이외에 배송/반품/교환 관련 문의는 
@@ -386,25 +277,7 @@ function ProductsInfo({data})
 
                         <div className="qna_list_area">
                             <ul>
-                                <li>
-                                    <div className="qna_table">
-                                        <div className="qna_state">
-                                            <span className="list_item_text">미답변</span>
-                                        </div>
-
-                                        <div className="qna_title">
-                                            <span className="list_item_text">비밀글입니다.</span>
-                                        </div>
-
-                                        <div className="qna_author">
-                                            <span className="list_item_text">naver****</span>
-                                        </div>
-
-                                        <div className="qna_date">
-                                            <span className="list_item_text">2020.07.28</span>
-                                        </div>
-                                    </div>
-                                </li>
+                                {qnaListMap}
                             </ul>
                         </div>
 
@@ -417,7 +290,7 @@ function ProductsInfo({data})
 
             {/* 반품/교환정보 */}
 
-            <div className="return_exchange">
+            <div className="return_exchange" id ="id_return_exchange">
                 <div className="exchange_title">
                     <h3>반품/교환정보</h3>
                 </div>
@@ -431,26 +304,26 @@ function ProductsInfo({data})
                             <th scope="row">
                                 <span>판매자 지정택배사</span>
                             </th>
-                            <td colSpan="3"><span>CJ대한통운</span></td>
+                            <td colSpan="3"><span>{data.return_exchange.delivery}</span></td>
                         </tr>
 
                         <tr>
                             <th scope="row">
                                 <span>반품배송비</span>
                             </th>
-                            <td><span>편도 5,000원 (최초 배송비 무료인 경우 10,000원 부과)</span></td>
+                            <td><span>{data.return_exchange.return_price}</span></td>
 
                             <th scope="row">
                                 <span>교환배송비</span>
                             </th>
-                            <td><span>5,000원</span></td>
+                            <td><span>{data.return_exchange.exchange_price}</span></td>
                         </tr>
 
                         <tr>
                             <th scope="row">
                                 <span>보내실 곳</span>
                             </th>
-                            <td colSpan="3"><span>(우 : 03998) 서울특별시 마포구 성미산로 48-1 (대명빌딩) 4층 매니아</span></td>
+                            <td colSpan="3"><span>{data.return_exchange.address}</span></td>
                         </tr>
                     </table>
 
@@ -534,24 +407,24 @@ function ProductsInfo({data})
                         <span className="seller_name_blank"></span>
                         <strong>판매자정보</strong>
                         <span className="seller_name_bar">|</span>
-                        Mania
+                        {data.seller_info.title}
                         <span className="seller_name_bar">|</span>
-                        상호명 : 매니아
-                        <em> (사업자/개인사업자)</em>
+                        상호명 : {data.seller_info.name}
+                        <em> {data.seller_info.subname}</em>
                         <span className="seller_name_bar">|</span>
-                        대표자 : 이태웅
+                        대표자 : {data.seller_info.ceo}
                     </div>
 
                     <div className="seller_detail_info">
-                        사업자등록번호 : 00000000
+                        사업자등록번호 : {data.seller_info.business_number}
                         <br/>
-                        통신판매업번호 : 2015-서울영등포-0748
+                        통신판매업번호 : {data.seller_info.mail_order_number}
                         <br/>
-                        사업장소재지 : (우 : 00000) 서울특별시 용산구 원효로 128 e-테크벨리오피스텔 907호
+                        사업장소재지 : {data.seller_info.address}
                         <br/>
-                        고객센터 : 00-0000-0000
+                        고객센터 : {data.seller_info.phone_number}
                         <br/>
-                        메일 : ggj102@naver.com
+                        메일 : {data.seller_info.email}
                     </div>
 
                 </div>

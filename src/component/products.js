@@ -7,7 +7,7 @@ import Installment from './Installment';
 
 function Products(){
 
-    const [prdData,setPrdData] = useState([]);
+    const [prdData,setPrdData] = useState({});
     const [categoryList,setCategoryList] = useState([])
     const [deliveryMethod,setDeliveryMethod] = useState([]);
     const [prdImg,setPrdImg] = useState([])
@@ -21,6 +21,7 @@ function Products(){
     const [totalCount,setTotalCount] = useState(0);
     const [totalPrice,setTotalPrice] = useState(0);
     const [installmentState,setInstallmentState] = useState(false);
+    // const [testbasic,settestbasic] = useState([]);
 
     
     const {product_code,product_name,product_price} = prdData;
@@ -36,6 +37,7 @@ function Products(){
             setDeliveryMethod(response.data.delivery_method);
             setPrdOption(response.data.option);
             setAddPrd(response.data.add_product);
+            // settestbasic(response.data.product_information.basic)
         })
     },[])
 
@@ -531,7 +533,7 @@ function Products(){
         </div>
         
         {/* 하단 */}
-         <ProductsInfo data={prdData}/>
+        {Object.keys(prdData).length > 0 ? <ProductsInfo data={prdData}/> : ''}
 
     </div>
     )
