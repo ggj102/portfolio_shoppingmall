@@ -98,7 +98,7 @@ function ProductsInfo({data})
                     <th scope="row">
                         <span>{arr.title}</span>
                     </th>
-                    <td colSpan="3"><span>{arr.description}</span></td>
+                    <td colSpan="3"><span dangerouslySetInnerHTML={{__html: arr.description}}/></td>
                 </tr>
             )
     })
@@ -137,7 +137,7 @@ function ProductsInfo({data})
             <li>
                 <div className="qna_table">
                     <div className="qna_state">
-                        <span className="list_item_text">미답변</span>
+                        <span className="list_item_text">{arr.status === 1 ? "답변대기" : "답변완료"}</span>
                     </div>
 
                     <div className="qna_title">
@@ -170,7 +170,9 @@ function ProductsInfo({data})
                
             </div>
 
-            <div className="prd_info" id="id_prd_info">
+            <div id="id_prd_info"></div>
+
+            <div className="prd_info" >
                 <div className="info_area">
                     <div className="info_title">상품정보</div>
                     <div>
@@ -195,7 +197,7 @@ function ProductsInfo({data})
                     </table>
                 </div>
 
-                {data.product_more_information}
+                <div dangerouslySetInnerHTML={{__html: data.product_more_information}} />
 
                 <div className="test_interval"> </div>
 
@@ -222,7 +224,7 @@ function ProductsInfo({data})
             </div>
 
             {/* Q&A */}
-
+            <div id ="id_qna"></div>
             <div className="qna" id ="id_qna">
                 <div className="qna_title_text">
                     <h3>Q{'&'}A</h3>
@@ -289,8 +291,8 @@ function ProductsInfo({data})
             </div>
 
             {/* 반품/교환정보 */}
-
-            <div className="return_exchange" id ="id_return_exchange">
+            <div id ="id_return_exchange"></div>
+            <div className="return_exchange">
                 <div className="exchange_title">
                     <h3>반품/교환정보</h3>
                 </div>

@@ -37,9 +37,10 @@ function Products(){
             setDeliveryMethod(response.data.delivery_method);
             setPrdOption(response.data.option);
             setAddPrd(response.data.add_product);
+            Calculator();
             // settestbasic(response.data.product_information.basic)
         })
-    },[])
+    },[addPrdListArr,optionListArr])
 
     const imgPaging = prdImg.map((arr)=>{
         if(prdImg.length > 1)
@@ -83,8 +84,8 @@ function Products(){
         setTotalPrice(optionPriceReduce+addPrdPriceReduce);
     }
 
-    const onOptionValue = (data,e) =>{
-        const ReselectionFilter = optionListArr.filter((arr)=>{
+    const onSelectValue = (dataType,arrList,type,data,e) =>{
+        const ReselectionFilter = arrList.filter((arr)=>{
             return arr.data_id === data;
         })
         
@@ -97,21 +98,29 @@ function Products(){
             return alert('이미 선택한 옵션입니다.');
         }
 
+        
+
         if(e.target.value !== '0')
         {
-            const copy = [...prdOption]
+            const copy = [...dataType];
             const prdFilter = copy.filter((arr)=>{
                 return  arr.id === data
             })
-            console.log(prdFilter);
-         
-            const list = prdFilter[0].option_list;
-            console.log(list);
+
+            let list;
+
+            if(type === 'option')
+            {
+                list = prdFilter[0].option_list;
+            }
+            else if(type === 'addPrd')
+            {
+                list = prdFilter[0].product_list;
+            }
 
             const prdFilter2 = list.filter((arr)=>{
                 return arr.id === parseInt(e.target.value);
             })
-            
 
             const filter_list = prdFilter2[0];
             console.log(filter_list);
@@ -122,69 +131,20 @@ function Products(){
                 return alert('품절인 옵션은 구매하실 수 없습니다.');
             }
             else{
-                if(filter_list.add_price)
-                {
-                    setTotalPrice(totalPrice+product_price+filter_list.add_price);
-                }
-                else
-                {
-                    setTotalPrice(totalPrice+product_price);
-                }
-                    const listMap = prdFilter2.map((arr)=>{
-                    return {data_id:data,count:1,...arr};
+                const listMap = prdFilter2.map((arr)=>{
+                return {data_id:data,count:1,...arr};
                 })
                 
                 const prdOp = listMap[0];
-                setTotalCount(totalCount+1);
-                setOptionListArr([...optionListArr,prdOp])
-            }
-        }
-    }
-
-    
-    const onAddPrdValue = (data,e) =>{
-        const ReselectionFilter = addPrdListArr.filter((arr)=>{
-            return arr.data_id === data;
-        })
-        
-        const ReselectionFilter2 = ReselectionFilter.filter((arr)=>{
-            return arr.id === parseInt(e.target.value);
-        })
-
-        if(ReselectionFilter2.length)
-        {
-            return alert('이미 선택한 옵션입니다.');
-        }
-
-        if(e.target.value !== '0')
-        {
-            const copy = [...addPrd]
-            const prdFilter = copy.filter((arr)=>{
-                return arr.id === data
-            })
-         
-            const list = prdFilter[0].product_list;
-
-            const prdFilter2 = list.filter((arr)=>{
-                return arr.id === parseInt(e.target.value);
-            })
-
-            const filter_list = prdFilter2[0];
-
-            if(filter_list.soldout)
-            {
-                e.target.value = '0';
-                return alert('품절인 옵션은 구매하실 수 없습니다.');
-            }
-            else{
-                const listMap = prdFilter2.map((arr)=>{
-                    return {data_id:data,count:1,...arr};
-                })
+                if(type === 'option')
+                {
+                    setOptionListArr([...arrList,prdOp])
+                }
+                else if(type === 'addPrd')
+                {
+                    setAddPrdListArr([...arrList,prdOp])
+                }
                 
-                const prdAdd = listMap[0];
-                setTotalCount(totalCount+1);
-                setTotalPrice(totalPrice+prdAdd.price);
-                setAddPrdListArr([...addPrdListArr,prdAdd])
             }
         }
     }
@@ -195,12 +155,12 @@ function Products(){
                 {console.log()}
                 <span className="list_prd">{arr.name}</span>
                 <div className="list_count">
-                    <button className="delBtn" onClick={()=>onOptionRemove(num)}>X</button>
+                    <button className="delBtn" onClick={()=>onRemove(num,optionListArr,'option')}>X</button>
                     <span className="list_price">{arr.add_price ? arr.count*(arr.add_price + product_price) : arr.count*(product_price)}</span>
                     <div className="list_input" >
-                        <button onClick={()=>{onOptionCountMinus(num)}}>-</button>
-                        <input  onBlur={(e)=>onOptionCount(e,num)} />
-                        <button onClick={()=>{onOptionCountPlus(num)}}>+</button>
+                        <button onClick={()=>{onCountBtn(optionListArr,num,'option','minus')}}>-</button>
+                        <input value={arr.count} onChange={(e) => onChangeCount(optionListArr,e,num,'option')}/>
+                        <button onClick={()=>{onCountBtn(optionListArr,num,'option','plus')}}>+</button>
                     </div>
                 </div>
             </li>
@@ -213,141 +173,89 @@ function Products(){
                 {console.log()}
                 <span className="list_prd">{arr.name}</span>
                 <div className="list_count">
-                    <button className="delBtn" onClick={()=>onAddPrdRemove(num)}>X</button>
+                    <button className="delBtn" onClick={()=>onRemove(num,addPrdListArr,'addPrd')}>X</button>
                     <span className="list_price">{arr.count*(arr.price)}</span>
                     <div className="list_input" >
-                        <button onClick={()=>{onAddPrdCountMinus(num)}}>-</button>
-                        <input value={arr.count} onBlur={(e)=>onAddPrdCount(e,num)}/>
-                        <button onClick={()=>{onAddPrdCountPlus(num)}}>+</button>
+                        <button onClick={()=>{onCountBtn(addPrdListArr,num,'addPrd','minus')}}>-</button>
+                        <input value={arr.count} onChange={(e) => onChangeCount(addPrdListArr,e,num,'addPrd')}/>
+                        <button onClick={()=>{onCountBtn(addPrdListArr,num,'addPrd','plus')}}>+</button>
                     </div>
-                    
                 </div>
             </li>
         )
     })
-    
 
-    const onOptionCount = (e,num) =>{
-        if(e.target.value === '0')
+    const onBlurCount = (e) =>{
+        if(e.target.value === '0' || e.target.value === '')
         {
             e.target.value= '1';
             alert("1개 이상부터 구매하실 수 있습니다.");
         }
-
-        const countMap = optionListArr.map((arr,arrIndex)=>{
-            if(arrIndex === num)
-            {
-                arr.count = parseInt(e.target.value);
-            }
-            return arr;
-         })
- 
-        setOptionListArr(countMap);
-        Calculator();
-   }
-
-    const onAddPrdCount = (e,num) =>{
-        // if(e.target.value === '0')
-        // {
-        //     e.target.value= '1';
-        //     alert("1개 이상부터 구매하실 수 있습니다.");
-        // }
-
-        const countMap = addPrdListArr.map((arr,arrIndex)=>{
-           if(arrIndex === num)
-           {
-               arr.count = parseInt(e.target.value);
-           }
-           return arr;
-        })
-        
-        setAddPrdListArr(countMap);
-        Calculator();
-   }
-
-    const onOptionCountPlus = (num) =>{
-        const plusMap = optionListArr.map((arr,arrIndex)=>{
-            if(arrIndex === num)
-            {
-                arr.count+=1;
-            }
-            return arr;
-         })
-         
-         setOptionListArr(plusMap);
-         Calculator();
     }
+    
 
-    const onOptionCountMinus = (num) =>{
-        const minusMap = optionListArr.map((arr,arrIndex)=>{
-            if(arrIndex === num)
-            {
-                arr.count-=1
-            }
-            return arr;
-         })
-        
-         setOptionListArr(minusMap);
-         Calculator();
-    }
+    const onChangeCount = (arrList,e,num,type) =>{
+        const inputNumber = e.target.value === "" ? 0 : parseInt(e.target.value);
+        const countMap = [...arrList];
+        countMap[num].count = inputNumber;
 
-    const onAddPrdCountPlus = (num) =>{
-        const plusMap = addPrdListArr.map((arr,arrIndex)=>{
-            if(arrIndex === num)
-            {
-                arr.count+=1
-            }
-            return arr;
-         })
-         setAddPrdListArr(plusMap);
-         Calculator();
-    }
-
-    const onAddPrdCountMinus = (num) =>{
-        const minusMap = addPrdListArr.map((arr,arrIndex)=>{
-            if(arrIndex === num)
-            {
-                arr.count-=1
-            }
-            return arr;
-         })
-         setAddPrdListArr(minusMap);
-         Calculator();
-    }
-
-    const onOptionRemove = (num) =>{
-        const totalFilter = optionListArr.filter((arr,fil_num)=>{
-            return fil_num === num;
-        })
-        if(totalFilter[0].add_price)
+        if(type === 'option')
         {
-            const plus = totalFilter[0].add_price+product_price;
-            setTotalPrice(totalPrice-(totalFilter[0].count*plus));
+            setOptionListArr(countMap);
         }
-        else setTotalPrice(totalPrice-(totalFilter[0].count*product_price));
+        else if(type === 'addPrd')
+        {
+            setAddPrdListArr(countMap);
+        }
+ 
+   }
 
-        const removeFilter = optionListArr.filter((arr,fil_num)=>{
+    const arrTypeCheck = (arr,type) =>{
+        if(type === 'option')
+        {
+            setOptionListArr(arr);
+        }
+        else if(type === 'addPrd')
+        {
+            setAddPrdListArr(arr);
+        }
+    } 
+
+    const onCountBtn = (arrList,num,arrType,type) =>{
+
+        const listCopy = [...arrList];
+
+        if(type === 'plus')
+        {
+            listCopy[num].count +=1;
+            arrTypeCheck(listCopy,arrType)
+        }
+        else if(type === 'minus')
+        {
+            if(listCopy[num].count - 1 !== 0)
+            {
+                listCopy[num].count -=1;
+            }
+            arrTypeCheck(listCopy,arrType)
+        }
+    }
+
+    const onRemove = (num,listArr,type) =>{
+        const removeFilter = listArr.filter((arr,fil_num)=>{
             return fil_num !== num;
         })
-        setTotalCount(totalCount-totalFilter[0].count);
         
-        setOptionListArr(removeFilter);
+        if(type === 'option')
+        {
+            console.log("옵션");
+            setOptionListArr(removeFilter);
+        }
+        else if(type === 'addPrd')
+        {
+            console.log("추가상품");
+            setAddPrdListArr(removeFilter);
+        }
      }
-
-
-     const onAddPrdRemove = (num) =>{
-        const totalFilter = addPrdListArr.filter((arr,fil_num)=>{
-            return fil_num === num;
-        })
-
-        const removeFilter = addPrdListArr.filter((arr,fil_num)=>{
-            return fil_num !== num;
-        })
-        setTotalCount(totalCount-totalFilter[0].count);
-        setTotalPrice(totalPrice-(totalFilter[0].count*totalFilter[0].price));
-        setAddPrdListArr(removeFilter);
-     }
-
 
     const onDeliverySel=(e)=>{
         setDeliverySelValue(e.target.options[e.target.selectedIndex].value);
@@ -464,7 +372,7 @@ function Products(){
                                             {
                                                 prdOption.map((option_item) => {
                                                     return (
-                                                        <select onChange={(e) => onOptionValue(option_item.id, e)}>
+                                                        <select onChange={(e) => onSelectValue(prdOption,optionListArr,'option',option_item.id,e)}>
                                                             <option value='0'>{option_item.name}</option>
                                                             {
                                                                 option_item.option_list.map((list)=>{
@@ -483,7 +391,7 @@ function Products(){
                                                 {
                                                     addPrd.map((addItem) => {
                                                         return (
-                                                            <select onChange={(e) => onAddPrdValue(addItem.id, e)}>
+                                                            <select onChange={(e) => onSelectValue(addPrd,addPrdListArr,'addPrd',addItem.id,e)}>
                                                                 <option value='0'>{addItem.name}</option>
                                                                 {
                                                                     addItem.product_list.map((list)=>{

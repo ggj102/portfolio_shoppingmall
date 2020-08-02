@@ -675,6 +675,7 @@ dd {
     margin: 30px 0 30px 0;
     box-sizing: border-box;
     border-bottom: 1px solid #3d3d4f;
+    z-index: 2;
 }
 
 .info_tab_base{
@@ -710,8 +711,12 @@ dd {
     padding: 0;
 }
 
+#id_prd_info{
+    padding-bottom: 60px;
+}
+
 .info_area{
-    margin-top: 30px;
+    
 }
 
 .info_title{
@@ -827,10 +832,12 @@ dd {
 }
 
 /* Q&A */
+#id_qna{
+    padding-bottom: 60px;
+}
 
 .qna{
     position: relative;
-    margin: 60px 0 30px;
     font-size: 12px;
 }
 
@@ -1027,14 +1034,15 @@ dd {
     text-decoration: none;
     font-weight: bold;
     font-family: verdana, sans-serif;
-    z-index: 10;
 }
 
-
+#id_return_exchange{
+    padding-top: 60px;
+}
 
 .exchange_title{
     position: relative;
-    margin: 80px 0 30px;
+    margin-bottom: 30px;
     border-bottom: 2px solid #000;
 }
 
