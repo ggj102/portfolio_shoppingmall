@@ -5,10 +5,12 @@ function ProductsInfo({data})
 {
     const [tabNum,setTabNum] = useState(1);
 
+    // tabnumber set
     const onTabChange = (num) =>{
         setTabNum(num)
     }
 
+    // data값을 table형태로 ui에 출력하기 위해 data를 reduce로 가공함
     function dataReduce(data){
         const basicReduce = data.reduce((acc, cur, i)=>{
             const arr = [];
@@ -27,7 +29,7 @@ function ProductsInfo({data})
         return basicReduce;
     }
     
-
+    // 상품정보 ui 출력
     const basicMap = dataReduce(data.product_information.basic).map((arr)=>{
         return(
             <tr>
@@ -60,6 +62,7 @@ function ProductsInfo({data})
         )
     })
 
+    // 상품정보 ui 출력
     const additionalMap = dataReduce(data.product_information.additional).map((arr)=>{
         return(
             <tr>
@@ -92,6 +95,7 @@ function ProductsInfo({data})
         )
     })
 
+    // 상품정보 ui 출력
     const etcMap = data.product_information.etc.map((arr)=>{
             return(
                 <tr>
@@ -103,12 +107,14 @@ function ProductsInfo({data})
             )
     })
 
+    //tag ui 출력
     const tagMap = data.tag.map((arr)=>{
         return(
             <li><a href="#">#{arr}</a></li>
         )
     })
 
+    //상품정보 제공고시 ui 출력
     const prdInfoPublicMap = data.product_information_public.map((arr)=>{
         return(
             <tr>
@@ -121,6 +127,7 @@ function ProductsInfo({data})
         )
     })
 
+    //거래조건에 관한 정보 ui 출력
     const tradMap = data.trading_conditions.map((arr)=>{
         return(
             <tr>
@@ -132,6 +139,7 @@ function ProductsInfo({data})
         )
     })
     
+    // qna ui 출력
     const qnaListMap = data.qna.map((arr)=>{
         return(
             <li>

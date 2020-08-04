@@ -21,11 +21,10 @@ function Products(){
     const [totalCount,setTotalCount] = useState(0);
     const [totalPrice,setTotalPrice] = useState(0);
     const [installmentState,setInstallmentState] = useState(false);
-    // const [testbasic,settestbasic] = useState([]);
 
-    
     const {product_code,product_name,product_price} = prdData;
 
+    //데이터를 가져옴
     useEffect(()=>{
         Axios.get(process.env.PUBLIC_URL+'/ProductsData.json').then((response)=>{
             console.log(response.data);
@@ -38,10 +37,10 @@ function Products(){
             setPrdOption(response.data.option);
             setAddPrd(response.data.add_product);
             Calculator();
-            // settestbasic(response.data.product_information.basic)
         })
     },[addPrdListArr,optionListArr])
 
+    // 이미지의 값이 2개 이상일 경우 메인 이미지 하단에 paiging형태로 출력됨
     const imgPaging = prdImg.map((arr)=>{
         if(prdImg.length > 1)
         {
@@ -54,11 +53,12 @@ function Products(){
         }
     })
         
+    //paging으로 출력된 이미지를 mouseover 할 경우 url값을 set함
     const onPaging = (url) =>{
         setImgState(url);
     }
     
-
+    // 옵션과 추가상품의 총 수량과 총 가격을 계산해줌
     const Calculator = () =>{
         const optionCountReduce = optionListArr.reduce((acc,arr)=>{
             return acc+arr.count;
@@ -84,6 +84,7 @@ function Products(){
         setTotalPrice(optionPriceReduce+addPrdPriceReduce);
     }
 
+    // 옵션과 추가상품의 selectbox의 상품을 선택할 경우 list의 추가 시켜줌
     const onSelectValue = (dataType,arrList,type,data,e) =>{
         const ReselectionFilter = arrList.filter((arr)=>{
             return arr.data_id === data;
@@ -149,6 +150,16 @@ function Products(){
         }
     }
 
+    // 옵션과 추가상품의 수량을 입력하는 input에서 값이 0 또는 ''일 경우 값을 1로 바꾸고 경고창을 띄움
+    const onBlurCount = (e) =>{
+        if(e.target.value === '0' || e.target.value === '')
+        {
+            e.target.value= '1';
+            alert("1개 이상부터 구매하실 수 있습니다.");
+        }
+    }
+
+    // optionListArr의 값을 map으로 뿌려주며 추가된 상품의 ui가 생성됨 
     const optionList = optionListArr.map((arr,num)=>{
         return(
             <li>
@@ -159,7 +170,7 @@ function Products(){
                     <span className="list_price">{arr.add_price ? arr.count*(arr.add_price + product_price) : arr.count*(product_price)}</span>
                     <div className="list_input" >
                         <button onClick={()=>{onCountBtn(optionListArr,num,'option','minus')}}>-</button>
-                        <input value={arr.count} onChange={(e) => onChangeCount(optionListArr,e,num,'option')}/>
+                        <input value={arr.count} onChange={(e) => onChangeCount(optionListArr,e,num,'option')} onBlur={onBlurCount}/>
                         <button onClick={()=>{onCountBtn(optionListArr,num,'option','plus')}}>+</button>
                     </div>
                 </div>
@@ -167,6 +178,7 @@ function Products(){
         )
     })
 
+    // addPrdListArr의 값을 map으로 뿌려주며 추가된 상품의 ui가 생성됨
     const addPrdList = addPrdListArr.map((arr,num)=>{
         return(
             <li>
@@ -185,15 +197,7 @@ function Products(){
         )
     })
 
-    const onBlurCount = (e) =>{
-        if(e.target.value === '0' || e.target.value === '')
-        {
-            e.target.value= '1';
-            alert("1개 이상부터 구매하실 수 있습니다.");
-        }
-    }
-    
-
+    // 옵션과 추가상품의 수량을 입력하는 input에서 값을 바꾸면 해당하는 객체의 count값을 바꾸며 list를 set함
     const onChangeCount = (arrList,e,num,type) =>{
         const inputNumber = e.target.value === "" ? 0 : parseInt(e.target.value);
         const countMap = [...arrList];
@@ -207,9 +211,9 @@ function Products(){
         {
             setAddPrdListArr(countMap);
         }
- 
    }
 
+   // arrTypeCheck
     const arrTypeCheck = (arr,type) =>{
         if(type === 'option')
         {
@@ -221,6 +225,7 @@ function Products(){
         }
     } 
 
+    // type을 검사하여 수량 버튼을 동작 시킴
     const onCountBtn = (arrList,num,arrType,type) =>{
 
         const listCopy = [...arrList];
@@ -240,6 +245,7 @@ function Products(){
         }
     }
 
+    // 옵션과 추가상품을 삭제하는 기능
     const onRemove = (num,listArr,type) =>{
         const removeFilter = listArr.filter((arr,fil_num)=>{
             return fil_num !== num;
@@ -257,18 +263,22 @@ function Products(){
         }
      }
 
+     // 배송방법 select의 value값을 가져옴
     const onDeliverySel=(e)=>{
         setDeliverySelValue(e.target.options[e.target.selectedIndex].value);
     }
 
+    // deliveryMethod의 들어있는 data값으로 selectbox에 들어갈 option을 생성함
     const deliverySel = deliveryMethod.map((arr)=>{
         return <option value={arr.id}>{arr.name}</option>
     })
 
+    // 무이자 상품 자세히보기 활성화 
     const oninstallment = () =>{
         setInstallmentState(true);
     }
 
+    // 무이자 상품 자세히보기 비활성화 
     const offinstallment = () =>{
         setInstallmentState(false);
     }

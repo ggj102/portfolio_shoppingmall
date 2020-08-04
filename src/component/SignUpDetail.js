@@ -19,12 +19,14 @@ function SignUpDetail()
     let month = today.getMonth()+1;
     let date = today.getDate();
 
+    // 필수정보 경고문
     const necessaryInfo=()=>{
         return(
             <span className="Warning">필수 정보입니다.</span>
         )
     }
 
+    // id 경고문
     const idWarning=()=>{
         if(!idCheck.blank)
         {
@@ -38,6 +40,7 @@ function SignUpDetail()
         }
     }
 
+    // passward 경고문
     const pwWarning=()=>{
         if(!pwCheck.blank)
         {
@@ -51,6 +54,7 @@ function SignUpDetail()
         }
     }
 
+    // passward 확인 경고문
     const reconfirmWarning=()=>{
         if(!reconfirmCheck.form)
         {
@@ -64,6 +68,7 @@ function SignUpDetail()
         }
     }
 
+    // 이름 경고문
     const nameWarning=()=>{
         if(!nameCheck.form)
         {
@@ -77,6 +82,7 @@ function SignUpDetail()
         }
     }
 
+    // 생년월일 경고문
     const birWarning=()=>{
         if(!birCheck.vy)
         {
@@ -92,6 +98,7 @@ function SignUpDetail()
         }
     }
 
+    // 성별 경고문
     const genderWarning=()=>{
         if(!genderCheck.form)
         {
@@ -99,6 +106,7 @@ function SignUpDetail()
         }
     }
 
+    // email 경고문
     const emailWarning=()=>{
         if(!emailCheck.form)
         {
@@ -106,6 +114,7 @@ function SignUpDetail()
         }
     }
 
+    // 휴대폰 번호 경고문
     const phoneWarning=()=>{
         if(!phoneCheck.blank)
         {
@@ -117,26 +126,32 @@ function SignUpDetail()
         }
     }
 
-    const idKeyUp=(e)=>{
+    // id값 check
+    const idChange=(e)=>{
         setIdCheck({...idCheck,value:e.target.value})
     }
 
-    const pwKeyUp=(e)=>{
+    // passward값 check
+    const pwChange=(e)=>{
         setPwCheck({...pwCheck,value:e.target.value})
     }
 
-    const reconfirmKeyUp=(e)=>{
+    // passward 확인값 check
+    const reconfirmChange=(e)=>{
         setReconfirmCheck({...reconfirmCheck,value:e.target.value})
     }
 
-    const nameKeyUp=(e)=>{
+    // 이름값 check
+    const nameChange=(e)=>{
         setNameCheck({...nameCheck,value:e.target.value})
     }
 
-    const birVyKeyUp=(e)=>{
+    // 년도값 check
+    const birVyChange=(e)=>{
         setBirCheck({...birCheck,vyValue:e.target.value})
     }
 
+    // 월 select값 check
     const birMmBlur=(e)=>{
 
         const targetValue = e.target.options[e.target.selectedIndex].value;
@@ -152,7 +167,6 @@ function SignUpDetail()
             {
                 if(parseInt(targetValue) > month)
                 {
-                    console.log('테슽으');
                     console.log(month);
                     stateCopy.mm = false;
                 }
@@ -183,10 +197,12 @@ function SignUpDetail()
         setBirCheck(stateCopy);
     }
 
-    const birDdKeyUp=(e)=>{
+    // 일 값 check
+    const birDdChange=(e)=>{
         setBirCheck({...birCheck,ddValue:e.target.value})
     }
 
+    // 성별 select 값 check
     const genderBlur=(e)=>{
         const stateCopy = {...genderCheck,onClick:true};
         const targetValue = e.target.options[e.target.selectedIndex].value;
@@ -203,14 +219,18 @@ function SignUpDetail()
         setGenderCheck(stateCopy);
     }
     
-    const emailKeyUp=(e)=>{
+    // email 값 check
+    const emailChange=(e)=>{
         setEmailCheck({...emailCheck,value:e.target.value})
     }
 
-    const phoneKeyUp=(e)=>{
+    // 휴대폰 번호 값 check
+    const phoneChange=(e)=>{
         setPhoneCheck({...phoneCheck,value:e.target.value})
     }
 
+    // id를 입력 후 onblur로 이벤트 작동
+    // scText,noText값이 해당 또는 값이 blank 및 조건의 맞는 길이가 아닐 경우 경고문이 활성화
     const onIdCheck=()=>{
         
         const scText = /[~!@#$%^&*()\-_=+|[\]'";,./<>?:{} ]/
@@ -246,6 +266,8 @@ function SignUpDetail()
         setIdCheck(stateCopy);
     }
 
+    // passward를 입력 후 onblur로 이벤트 작동
+    // scText,noNum,noAZ,noaz 값이 없거나 또는 값이 blank 및 조건의 맞는 길이가 아닐 경우 경고문이 활성화
     const onPwCheck=()=>{
 
         const scText = /[~!@#$%^&*()\-_=+|[\]'";,./<>?:{} ]/
@@ -281,6 +303,8 @@ function SignUpDetail()
         setPwCheck(stateCopy);
     }
 
+    // passward 확인을 입력 후 onblur로 이벤트 작동
+    // passward에 입력했던 값이 passward확인 값과 일치 하지 않거나 blank일 경우 경고문 활성화
     const onReconfirmCheck=()=>{
         const stateCopy = {...reconfirmCheck,onClick:true};
 
@@ -302,6 +326,8 @@ function SignUpDetail()
         setReconfirmCheck(stateCopy);
     }
 
+    // 이름을 입력 후 onblur로 이벤트 작동
+    // scText,noText값이 해당 또는 값이 blank 및 조건의 맞는 길이가 아닐 경우 경고문이 활성화
     const onNameCheck=()=>{
 
         // 특수기호, 공백 사용 불가
@@ -325,6 +351,8 @@ function SignUpDetail()
         setNameCheck(stateCopy);
     }
 
+    // 년도,일을 입력 후 onblur로 이벤트 작동
+    // noText값이 해당 또는 값이 blank 및 조건의 맞는 길이가 아니며 생년월일 3개 중 1개라도 조건에 안 맞을 경우 경고문이 활성화
     const onBirCheck=()=>{
         const noText = /[A-Z|a-z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣|~!@#$%^&*()\-_=+|[\]'";,./<>?:{} ]/
         const zero = '0';
@@ -392,6 +420,8 @@ function SignUpDetail()
         setBirCheck(stateCopy);
     }
 
+    // email을 입력 후 onblur로 이벤트 작동
+    // emailTextCheck값으로 check하며 email 양식에 적합하지 않을 경우 경고문 활성화
     const onEmailCheck=()=>{
         const emailTextCheck=/^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
         const stateCopy = {...emailCheck};
@@ -412,6 +442,8 @@ function SignUpDetail()
         setEmailCheck(stateCopy);
     }
 
+    // 휴대폰번호 입력 후 onblur로 이벤트 작동
+    // phoneTextCheck값으로 check하며 휴대폰번호 양식에 적합하지 않거나 blank일 경우 경고문 활성화
     const onPhoneCheck=()=>{
 
         const phoneTextCheck = /^01(?:0|1|[6-9])(?:\d{7}|\d{8})$/;
@@ -437,6 +469,7 @@ function SignUpDetail()
         setPhoneCheck(stateCopy);
     }
 
+    // 가입하기 버튼을 클릭 시 동작하며 모든 항목을 검사하고 조건에 충족되지 않는 항목에 경고문을 활성화하며 모든 항목이 충족 될 경우 다음페이지로 넘어감
     const onJoinBtn=()=>{
         setIdCheck({...idCheck,onClick:true});
         setPwCheck({...pwCheck,onClick:true});
@@ -466,7 +499,7 @@ function SignUpDetail()
                         <div className="idPw">
                             <div className="contentTitleText">아이디</div>
                             <div className="idBox boxType">
-                                <input className="contentInput" onChange={idKeyUp} onBlur={onIdCheck}/>
+                                <input className="contentInput" onChange={idChange} onBlur={onIdCheck}/>
                                 {/* <span className="emailUrl">@naver.com</span> */}
                             </div>
 
@@ -474,7 +507,7 @@ function SignUpDetail()
 
                             <div className="contentTitleText">비밀번호</div>
                             <div className="pwBox boxType">
-                                <input className="contentInput" onChange={pwKeyUp} onBlur={onPwCheck}/>
+                                <input className="contentInput" onChange={pwChange} onBlur={onPwCheck}/>
                                 {/* <span>자물쇠</span> */}
                             </div>
                             
@@ -482,7 +515,7 @@ function SignUpDetail()
 
                             <div className="contentTitleText">비밀번호 재확인</div>
                             <div className="pwBox boxType">
-                                <input className="contentInput" onChange={reconfirmKeyUp} onBlur={onReconfirmCheck}/>
+                                <input className="contentInput" onChange={reconfirmChange} onBlur={onReconfirmCheck}/>
                                 {/* <span>자물쇠확인</span> */}
                             </div>
                         </div>
@@ -492,7 +525,7 @@ function SignUpDetail()
                         <div className="privacy">
                             <div className="contentTitleText">이름</div>
                             <div className="nameBox boxType">
-                                <input className="contentInput" onChange={nameKeyUp} onBlur={onNameCheck}/>
+                                <input className="contentInput" onChange={nameChange} onBlur={onNameCheck}/>
                             </div>
 
                             {nameCheck.onClick ? nameWarning() : ''}
@@ -501,7 +534,7 @@ function SignUpDetail()
                             <div className="bir">
                                 <div className="birVy birCommon">
                                     <span className="boxType">
-                                        <input className="contentInput" placeholder="년(4자)" onKeyUp={birVyKeyUp} onBlur={onBirCheck}/>
+                                        <input className="contentInput" placeholder="년(4자)" onKeyUp={birVyChange} onBlur={onBirCheck}/>
                                     </span>
                                 </div>
 
@@ -527,7 +560,7 @@ function SignUpDetail()
 
                                 <div className="birDd birCommon">
                                     <span className="boxType">
-                                        <input className="contentInput" placeholder="일" onChange={birDdKeyUp} onBlur={onBirCheck}/>
+                                        <input className="contentInput" placeholder="일" onChange={birDdChange} onBlur={onBirCheck}/>
                                     </span>
                                 </div>
                             </div>
@@ -553,7 +586,7 @@ function SignUpDetail()
                                 <span className="choiceText">(선택)</span>
                             </div>
                             <div className="emailBox boxType">
-                                <input className="contentInput" placeholder="선택입력" onChange={emailKeyUp} onBlur={onEmailCheck}/>
+                                <input className="contentInput" placeholder="선택입력" onChange={emailChange} onBlur={onEmailCheck}/>
                             </div>
                         </div>
 
@@ -562,7 +595,7 @@ function SignUpDetail()
                         <div className="mobile">
                             <div className="contentTitleText">휴대전화</div>
                             <div className="boxType">
-                                <input className="contentInput" placeholder="- 없이 입력해주세요" onChange={phoneKeyUp} onBlur={onPhoneCheck}/>
+                                <input className="contentInput" placeholder="- 없이 입력해주세요" onChange={phoneChange} onBlur={onPhoneCheck}/>
                             </div>
                         </div> 
         
