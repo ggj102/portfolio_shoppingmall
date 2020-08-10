@@ -1,0 +1,19 @@
+{
+	"title": "PS4",
+	"total_count": 100,
+	"breadcrumb": [{
+        }],
+        "item_list": [{
+            "id": 1,
+            "thumb_image": "https://shop-phinf.pstatic.net/20200715_181/1594748287256RKCQ6_JPEG/32110620844319397_1850027011.jpeg?type=f232_232",
+            "name": "소니ps4 신형 듀얼쇼크4 100% 정품",
+            "price": 48800,
+            "original_price": 69800,
+            "review_count": 2,
+            "review_score": 5.0,
+            "sold_out": false,
+            "is_best": true,
+            "is_new": false
+        }]
+}
+
