@@ -1,14 +1,77 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../css/ProductsList.css'
+import Axios from 'axios';
 
 function ProductsList()
 {
+    const [listData,setListData] = useState({});
+    const [listItemData,setListItemData] = useState([]);
+
+    useEffect(()=>{        
+        Axios.get(process.env.PUBLIC_URL+'/ProductsListData.json').then((response)=>{
+        setListData(response.data);
+        setListItemData(response.data.item_list);
+    })
+    },[])
+
+    const saleCal = (price1,price2) =>{
+        const cal = price2 - price1;
+        const cal2 = cal/(price2/100);
+        return parseInt(cal2);
+    }
+
+    const itemList = listItemData.map((arr)=>{
+        return(
+            <li>
+                <a href="#">
+                    <div className="item_img"><img  src={arr.thumb_image ? arr.thumb_image:''} alt="img"/></div>
+                    <strong className="item_title">{arr.name}</strong>
+                    <div className="area_price">
+                        
+                        <strong className="itme_price">{arr.price}</strong>
+                       
+                        {arr.original_price ?
+                        <>    
+                        <strong className="itme_original_price">{arr.original_price}</strong>
+                        <strong className="itme_sale">{saleCal(arr.price,arr.original_price)}%</strong>
+                        </>:''}
+                    </div>
+                    <p className="item_text">친구들 다 같이 모여봐요 동물의 숲이에요^^ 즐거운 시간을 보내세요</p>
+                </a>
+
+                <div className="area_flag">
+                    {arr.is_best ? <div className="flag_best">BEST</div> : ''}
+                    {arr.is_new ? <div className="flag_new">NEW</div> : ''}
+                </div>
+
+                {arr.review_count > 0 ?                 
+                <div className="area_estimaion">
+                    <span className="label">리뷰</span>
+                    <span className="count">{arr.review_count}</span>
+                    <span className="label">평점</span>
+                    <span className="count">
+                        {arr.review_score}
+                        <span className="slash">/</span>
+                        5
+                    </span>
+                </div>: ''}
+
+                {arr.sold_out ?           
+                 <div className="soldout">
+                    <div className="soldout_box">
+                        SOLDOUT
+                    </div>
+                </div> : ''}
+            </li>
+        )
+    })
+
     return(
         <div className="content_productsList">
             <div className="category_list">
                 <div className="list_title">
                     <h3>
-                        <span>Nintendo Switch</span>
+                        <span>{listData.title}</span>
                     </h3>
                     <div className="category_route">
                         <ul>
@@ -79,34 +142,25 @@ function ProductsList()
 
                 <div className="item_list">
                     <ul>
-                        <li>
-                            <a href="#">
-                                <div className="test_img"></div>
-                                <strong className="item_title">NS 닌텐도 스위치 모여봐요 동물의 숲 한글</strong>
-                                <div className="area_price">
-                                    <strong className="itme_price">56,500원</strong>
-                                    <strong className="itme_sale_price">64,800원</strong>
-                                    <strong className="itme_sale">12%</strong>
-                                </div>
-                                <p className="item_text">친구들 다 같이 모여봐요 동물의 숲이에요^^ 즐거운 시간을 보내세요</p>
-                            </a>
+                        {itemList}
+                        {itemList}
+                        {itemList}
+                        {itemList}
+                        {itemList}
+                        {itemList}
+                        {itemList}
+                        {itemList}
+                        {itemList}
+                        {itemList}
+                        {itemList}
+                        {itemList}
+                        {itemList}
+                        {itemList}
+                        {itemList}
+                        {itemList}
+                        {itemList}
+                        {itemList}
 
-                            <div className="area_flag">
-                                <div className="flag_best">BEST</div>
-                                <div className="flag_new">NEW</div>
-                            </div>
-
-                            <div className="area_estimaion">
-                                <span className="label">리뷰</span>
-                                <span className="count">2</span>
-                                <span className="label">평점</span>
-                                <span className="count">
-                                    5.0
-                                    <span className="slash">/</span>
-                                    5
-                                </span>
-                            </div>
-                        </li>
                     </ul>
                 </div>
             </div>

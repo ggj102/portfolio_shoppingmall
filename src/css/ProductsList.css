@@ -205,6 +205,10 @@ li{
     height: 232px;
 }
 
+.item_img{
+    
+}
+
 .item_title{
     overflow: hidden;
     width: 100%;
@@ -233,7 +237,7 @@ li{
     line-height: 17px;
 }
 
-.itme_sale_price{
+.itme_original_price{
     padding-right: 5px;
     text-decoration: line-through;
     color: #888;
@@ -296,7 +300,7 @@ li{
 
 .area_estimaion{
     height: 14px;
-    margin: 20px 0;
+    margin-top: 20px;
     font-size: 0;
     line-height: 0;
 }
@@ -324,5 +328,20 @@ li{
     line-height: 13px;
     font-size: 12px;
     vertical-align: top;
+}
+
+.soldout{
+    margin-top: 15px;
+    white-space: nowrap;
+}
+
+.soldout_box{
+    width: 64px;
+    padding: 2px 7px;
+    color: #fff;
+    background-color: #535967;
+    height: 20px;
+    box-sizing: border-box;
+    font-size: 11px;
 }
 
