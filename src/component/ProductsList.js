@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import '../css/ProductsList.css'
 import Axios from 'axios';
+import ListViewTypeA from '../productslistviewoption/ListViewTypeA';
+import ListViewTypeB from '../productslistviewoption/ListViewTypeB';
+import ListViewTypeC from '../productslistviewoption/ListViewTypeC';
+import ListViewTypeD from '../productslistviewoption/ListViewTypeD';
 
 function ProductsList()
 {
     const [listData,setListData] = useState({});
     const [listItemData,setListItemData] = useState([]);
+    const [listViewOption,setListViewOption] = useState(1);
+    const [test,setTest] = useState([1,2,3,4]);
+    const [pageFocus,setPageFocus] = useState(1);
 
     useEffect(()=>{        
         Axios.get(process.env.PUBLIC_URL+'/ProductsListData.json').then((response)=>{
@@ -20,49 +27,36 @@ function ProductsList()
         return parseInt(cal2);
     }
 
+    const onlistViewOption = (num) =>{
+        setListViewOption(num);
+    }
+
     const itemList = listItemData.map((arr)=>{
+        if(listViewOption === 1)
+        {
+          return  <ListViewTypeA arr={arr}/>
+        }
+        else if(listViewOption === 2)
+        {
+          return  <ListViewTypeB arr={arr}/>
+        }
+        else if(listViewOption === 3)
+        {
+          return  <ListViewTypeC arr={arr}/>
+        }
+        else if(listViewOption === 4)
+        {
+          return  <ListViewTypeD arr={arr}/>
+        }
+    })
+
+    const onPageFocus = (num) =>{
+        setPageFocus(num);
+    }
+
+    const paginationMap = test.map((arr,index)=>{
         return(
-            <li>
-                <a href="#">
-                    <div className="item_img"><img  src={arr.thumb_image ? arr.thumb_image:''} alt="img"/></div>
-                    <strong className="item_title">{arr.name}</strong>
-                    <div className="area_price">
-                        
-                        <strong className="itme_price">{arr.price}</strong>
-                       
-                        {arr.original_price ?
-                        <>    
-                        <strong className="itme_original_price">{arr.original_price}</strong>
-                        <strong className="itme_sale">{saleCal(arr.price,arr.original_price)}%</strong>
-                        </>:''}
-                    </div>
-                    <p className="item_text">친구들 다 같이 모여봐요 동물의 숲이에요^^ 즐거운 시간을 보내세요</p>
-                </a>
-
-                <div className="area_flag">
-                    {arr.is_best ? <div className="flag_best">BEST</div> : ''}
-                    {arr.is_new ? <div className="flag_new">NEW</div> : ''}
-                </div>
-
-                {arr.review_count > 0 ?                 
-                <div className="area_estimaion">
-                    <span className="label">리뷰</span>
-                    <span className="count">{arr.review_count}</span>
-                    <span className="label">평점</span>
-                    <span className="count">
-                        {arr.review_score}
-                        <span className="slash">/</span>
-                        5
-                    </span>
-                </div>: ''}
-
-                {arr.sold_out ?           
-                 <div className="soldout">
-                    <div className="soldout_box">
-                        SOLDOUT
-                    </div>
-                </div> : ''}
-            </li>
+            <a href="#" className={pageFocus === index+1 ? "page_focus" : 'page_unfocus'} onClick={()=>onPageFocus(index+1)}>{index+1}</a>
         )
     })
 
@@ -131,10 +125,10 @@ function ProductsList()
                         
                         <div className="sort_view_type">
                             <ul>
-                                <li className="option_tab_focus">1</li>
-                                <li>2</li>
-                                <li>3</li>
-                                <li>4</li>
+                                <li className={listViewOption === 1 ? "option_tab_focus" : ''} onClick={()=>onlistViewOption(1)}>A</li>
+                                <li className={listViewOption === 2 ? "option_tab_focus" : ''} onClick={()=>onlistViewOption(2)}>B</li>
+                                <li className={listViewOption === 3 ? "option_tab_focus" : ''} onClick={()=>onlistViewOption(3)}>C</li>
+                                <li className={listViewOption === 4 ? "option_tab_focus" : ''} onClick={()=>onlistViewOption(4)}>D</li>
                             </ul>
                         </div>
                     </div>
@@ -147,6 +141,7 @@ function ProductsList()
                         {itemList}
                         {itemList}
                         {itemList}
+                        {/* {itemList}
                         {itemList}
                         {itemList}
                         {itemList}
@@ -158,11 +153,14 @@ function ProductsList()
                         {itemList}
                         {itemList}
                         {itemList}
-                        {itemList}
-                        {itemList}
-
+                        {itemList} */}
                     </ul>
                 </div>
+
+                <div className="pagination">
+                    {paginationMap}
+                </div>
+                
             </div>
         </div>
     )
