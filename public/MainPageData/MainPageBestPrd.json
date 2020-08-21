@@ -1,0 +1,60 @@
+{
+    "home_data": [
+      {
+        "type": "best_review",
+        "title": "베스트리뷰상품",
+        "top_data": [
+          {
+            "product_id": 1,
+            "thumb_image": "https://shop-phinf.pstatic.net/20190823_15/sionstore_1566536088105iuQiq_PNG/3899476655805455_1007305887.png?type=f296_296",
+            "product_name": "PS4 갓오브워 4, 디트로이트 비컴 휴먼, 호라이즌 제로 던, 라스트 오브 어스 오늘출발",
+            "text": "물건 잘 받았습니다 일찍 왔네요 ㅎ 코드 사용기간도 길고 워낙 혜자 구성이라 좋습니다 ㅎㅎ",
+            "writer": "jski****",
+            "date": "2020.07.18."
+          },
+          {
+            "product_id": 2,
+            "thumb_image": "https://shop-phinf.pstatic.net/20200219_257/1582096865633cMByP_PNG/19458408067945955_1538494695.png?type=f296_296",
+            "product_name": "애플코리아 정품 비츠바이닥터드레 Urbeats3 3.5mm 미개봉 새제품 오늘출발",
+            "text": "음질조아요조아요조아요",
+            "writer": "ggoe****",
+            "date": "2020.08.14."
+          },
+          {
+            "product_id": 3,
+            "thumb_image": "https://shop-phinf.pstatic.net/20200320_119/1584676997543lQJ1z_PNG/22039331107780149_1163585397.png?type=f296_296",
+            "product_name": "애플 정품 아이폰XR 128G/256G 자급제폰 언락폰 미개통 공기계 미개봉 새제품 오늘출발",
+            "text": "배ᄉᆞㅜㅇ도빠르고 색상바꼈다고 서비스도 주셔서 좋네요",
+            "writer": "fore****",
+            "date": "2020.08.13."
+          },
+          {
+            "product_id": 4,
+            "thumb_image": "https://shop-phinf.pstatic.net/20200320_119/1584676997543lQJ1z_PNG/22039331107780149_1163585397.png?type=f296_296",
+            "product_name": "빠른 배송 감사합니다.",
+            "text": "물건 잘 받았습니다 일찍 왔네요 ㅎ 코드 사용기간도 길고 워낙 혜자 구성이라 좋습니다 ㅎㅎ",
+            "writer": "1052****",
+            "date": "2020.08.10."
+          }
+        ],
+        "bottom_data": [
+          {
+            "product_id": 5,
+            "thumb_image": "https://shop-phinf.pstatic.net/20200520_215/1589955312247yUulQ_PNG/27316050870005008_903431301.png?type=f80_80",
+            "product_name": "이마트 일렉트로맨 PBX-1901 파워블랜더 새제품 오늘출발",
+            "text": "완전좋아요강하고 빠르고 시원하게 잘갈려요여름이라 케일쥬스 매일 해서 먹고있어요튼튼하고 디자인도 야무지고 최곱니다주위사람들에게 추천많이 해줬어요",
+            "writer": "hope****",
+            "date": "2020.08.13."
+          },
+          {
+            "product_id": 6,
+            "thumb_image": "https://shop-phinf.pstatic.net/20200529_281/1590732855601qwDhP_PNG/28096244102152822_350998934.png?type=f80_80",
+            "product_name": "한국정품 뱅앤올룹슨 Beoplay E8 2.0 새제품 무상A/S 2년 오늘출발",
+            "text": "너무 이뻐요 역시 뱅앤올룹슨!!",
+            "writer": "leya****",
+            "date": "2020.08.15."
+          }
+        ]
+      }
+    ]
+  }

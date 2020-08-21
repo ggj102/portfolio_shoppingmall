@@ -1,0 +1,61 @@
+{
+    "title": "시온스토어",
+    "category_list": [
+      {
+        "id": 1,
+        "name": "디지털/가전",
+        "sub_category": [
+          {
+            "id": 2,
+            "name": "음향가전",
+            "sub_category": [
+              {
+                "id": 3,
+                "name": "MP3"
+              },
+              {
+                "id": 4,
+                "name": "블루투스셋",
+                "sub_category": [
+                  {
+                    "id": 5,
+                    "name": "블루투스이어폰"
+                  },
+                  {
+                    "id": 6,
+                    "name": "블루투스헤드폰"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": 7,
+            "name": "태블릿PC액세서리"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "name": "생활/건강",
+        "sub_category": [
+          {
+            "id": 9,
+            "name": "수집품",
+            "sub_category": [
+              {
+                "id": 10,
+                "name": "무선/RC",
+                "sub_category": [
+                  {
+                    "id": 11,
+                    "name": "드론"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }

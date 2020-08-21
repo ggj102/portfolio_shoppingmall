@@ -167,7 +167,7 @@ a{
 }
 
 .category_inner{
-    overflow: hidden;
+    /* overflow: hidden; */
     height: 72px;
     line-height: 72px;
     max-width: 1280px;
@@ -184,19 +184,23 @@ a{
     vertical-align: top;
 }
 
-.category_inner select{
+.category_name{
     font-size: 20px;
-    margin: 23px 20px 0 0;
+    margin: 17px 25px 0 0;
     padding-bottom: 3px;
-    border: 0;
-}
-
-.category_inner select:focus{
     border: 0;
 }
 
 .category_btn{
     margin-top: 17px;
+}
+
+.categoryMouseOver_list{
+    width: 100px;
+    height: 100px;
+    border: 1px solid #000;
+    background-color: #fff;
+    z-index: 100;
 }
 
 .category_inner a{
@@ -537,7 +541,7 @@ a{
 
 .allprd_list{
     width: 1280px;
-    margin: 40px auto;
+    margin: 0 auto;
 }
 
 .allprd_list::before{
@@ -594,6 +598,7 @@ a{
 }
 
 .allprd_list_price_area{
+    margin-top: 10px;
     font-size: 0;
     line-height: 0;
     color: #000;
@@ -614,9 +619,29 @@ a{
 }
 
 .price_text{
+    margin-right: 5px;
     vertical-align: baseline;
     font-size: 13px;
     color: #222;
+    line-height: 17px;
+}
+
+.itme_original_priceB{
+    padding-right: 5px;
+    text-decoration: line-through;
+    color: #888;
+    font-weight: normal;
+    margin-right: 6px;
+    font-size: 13px;
+    line-height: 17px;
+}
+
+
+.itme_saleB{
+    color: #6b90dc;
+    padding-left: 0;
+    margin-right: 0;
+    font-size: 13px;
     line-height: 17px;
 }
 
