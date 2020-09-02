@@ -51,14 +51,17 @@
 }
 
 .prd_thumb{
-    width: 100px;
-    height: 100px;
     cursor: pointer;
     position: absolute;
     top: 0;
     left: 0;
-    overflow: hidden;
     border-radius: 3px;
+}
+
+.prd_thumb img{
+    border-left: 0;
+    width: 100px;
+    height: 100px;
 }
 
 .prd_mall_name{
@@ -428,4 +431,27 @@
     border: 1px solid #00c63a;
     border-radius: 3px;
     cursor: pointer;
+}
+
+.cart_empty{
+    padding: 120px 0;
+    text-align: center;
+}
+
+.cart_empty_text1{
+    margin-top: 19px;
+    font-size: 17px;
+    line-height: 20px;
+    letter-spacing: -0.3px;
+    font-weight: bold;
+    color: #111;
+}
+
+.cart_empty_text2{
+    margin-top: 17px;
+    margin-bottom: 30px;
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: -0.2px;
+    color: #888;
 }
