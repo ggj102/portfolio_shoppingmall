@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import '../../css/MainPage.css'
 import Axios from 'axios';
+import { NavLink, withRouter } from 'react-router-dom';
 
-function MainPageHeader()
+function MainPageHeader({history})
 {
     const [headerData,setHeaderData] = useState({});
     const [categoryData,setCategoryData] = useState([]);
@@ -11,16 +12,52 @@ function MainPageHeader()
     const [subData2,setSubData2] = useState([]);
     const [subData3,setSubData3] = useState([]);
     const [depthNum,setdepthNum] = useState({depth1:0, depth2:false, depth3:false})
+    const [inputValue,setInputValue] = useState('');
+    const [searchData,setSearchData] = useState('');
+    const [categoryIdData,setCategoryIdData] = useState(0);
 
     useEffect(()=>{
-        Axios.get(process.env.PUBLIC_URL+'/MainPageData/MainPageHeader.json').then((response)=>{
+        Axios.get('http://lab.usagi.space/portfolio/header').then((response)=>{
             console.log(response.data);
             setHeaderData(response.data);
-            setCategoryData(response.data.category_list);
-            setSubCategoryData(response.data.subcategory_list)
+            setCategoryData(response.data.category_list.category_list);
+            setSubCategoryData(response.data.category_list.subcategory_list)
         })
     },[])
 
+    const onHome = () =>{
+        setInputValue('');
+        setSearchData('');
+        setCategoryIdData(0);
+    }
+
+    const onInputChange = (e) =>{
+        setInputValue(e.target.value);
+    }
+
+    const searchDelete = () =>{
+        setSearchData('');
+        setInputValue('');
+    }
+
+    const onSearch = () =>{
+        setSearchData(inputValue);
+        history.push('/SearchPrdList/'+inputValue);
+    }
+
+    const onCategory = (id) =>{
+        setSearchData('');
+        setInputValue('');
+        setCategoryIdData(id)
+    }
+
+    const onSearchKey = (e)=>{
+        if(e.key === 'Enter')
+        {
+            setSearchData(inputValue);
+            history.push('/SearchPrdList/'+inputValue);
+        }
+    }
     const categoryMouseOver = (id,num) =>{
         const subfilter =  subCategoryData.filter((arr)=>{
             return arr.parent_id === id;
@@ -74,7 +111,8 @@ function MainPageHeader()
                         return(
                             <li className="category_name2" 
                                 onMouseEnter={()=>categoryMouseOver(sub.id,num)}
-                            >{sub.name}</li>
+                                onClick={()=>{onCategory(sub.id)}}
+                            ><NavLink to={"/CategoryPrdList/"+sub.id}>{sub.name}</NavLink></li>
                         )
                     })}
                 </ul>
@@ -84,9 +122,11 @@ function MainPageHeader()
 
     const categoryMap = categoryData.map((arr)=>{
         return(
-            <li className="category_inner_li" onMouseLeave={categoryMouseOut}>
+            <li className="category_inner_li" 
+                onMouseLeave={categoryMouseOut}
+                onClick={()=>{onCategory(arr.id)}}>
                 <div className="category_name" onMouseEnter={()=>categoryMouseOver(arr.id,1)}
-                >{arr.name}</div>
+                ><NavLink to={"/CategoryPrdList/"+arr.id}>{arr.name}</NavLink></div>
 
             {depthNum.depth1 === arr.id &&
                 <div className="mouseOver_area" >
@@ -111,8 +151,6 @@ function MainPageHeader()
         )
     })
 
-
-
     return(
         <div className="layout_header">
             <div className="header_shopping">
@@ -134,9 +172,9 @@ function MainPageHeader()
                                     </li>
 
                                     <li>
-                                        <a href="#">
+                                        <NavLink to="/Cart">
                                             <span>장바구니</span>
-                                        </a>
+                                        </NavLink>
                                     </li>
                                 </ul>
                             </div>
@@ -145,10 +183,17 @@ function MainPageHeader()
 
                     <div className="shop_area">
                         <div className="title">
-                            <a href="#">{headerData.title}</a> 
+                            <NavLink to="/MainPage" onClick={onHome}>{headerData.title}</NavLink> 
                         </div>
                         <div className="search_area">
-
+                            <input className="search_input" value={inputValue} 
+                                onChange={onInputChange}
+                                onKeyPress={onSearchKey}
+                            />
+                            <div className="search_button_area">
+                                {searchData && <button className="x_btn" onClick={searchDelete}>X</button>}
+                            <NavLink to={"/SearchPrdList/"+inputValue} ><button className="search_btn">검색</button></NavLink> 
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -171,4 +216,4 @@ function MainPageHeader()
     )
 }
 
-export default MainPageHeader;
+export default withRouter(MainPageHeader);

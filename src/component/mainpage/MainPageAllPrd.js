@@ -1,17 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import '../../css/MainPage.css'
 import Axios from 'axios';
+import { NavLink } from 'react-router-dom';
 
 function MainPageAllPrd()
 {
     const [itemList, setItemList] = useState([]);
+    const [sortType,setSortType] = useState("recommend");
+
+    const sortTypeArr = [{type:"recommend",title:"판매자추천순"},
+                        {type:"popular",title:"인기도순"},
+                        {type:"review_score",title:"평점높은순"},
+                        {type:"recent",title:"최신등록순"}]
 
     useEffect(()=>{
-        Axios.get(process.env.PUBLIC_URL+'/MainPageData/MainPageAllPrd.json').then((response)=>{
-            console.log(response.data);
+        Axios.get('http://lab.usagi.space/portfolio/products',
+        {
+            params:{
+                sort_type: sortType,
+            }
+        }).then((response)=>{
+            console.log(sortType);
             setItemList(response.data.item_list);
         })
-    },[])
+    },[sortType])
 
     const saleCal = (price1,price2) =>{
         const cal = price2 - price1;
@@ -23,7 +35,7 @@ function MainPageAllPrd()
     const itemListMap = itemList.map((arr)=>{
         return(
             <li className="allprd_list_li">
-                <a href="#" className="allprd_list_atag">
+                <NavLink  to={"/Products/"+arr.id} className="allprd_list_atag">
                     <div className="allprd_list_thumbnail">
                         <img src={arr.thumb_image} alt="img"/>
                     </div>
@@ -44,7 +56,7 @@ function MainPageAllPrd()
                     {arr.text ? 
                     <p className="allprd_list_ptag">한국 정품 닌텐도 스위치 동물의 숲 에디션 새제품 ( 동물의 숲 타이틀은 포함되어 있지 않습니다 ) 기본 구성품</p>
                     : ''}
-                </a>
+                
                 
                 <div className="area_flag">
                     {arr.is_new ? <div className="flag flag_new">NEW</div> : ''}
@@ -69,6 +81,23 @@ function MainPageAllPrd()
                         SOLDOUT
                     </div>
                 </div>: ''}
+                </NavLink>
+            </li>
+        )
+    })
+
+    const onSortType = (e,type) =>{
+        setSortType(type);
+        e.preventDefault();
+    }
+
+    const sortTypeMap = sortTypeArr.map((arr)=>{
+        return(
+            <li className="allprd_sort_li" onClick={(e)=>{onSortType(e,arr.type)}}>
+                <a href="#" className={sortType === arr.type ? "allprd_sort_focus" : "allprd_sort_atag"}>
+                    {sortType === arr.type && <span>V</span>}
+                    {arr.title}
+                </a>
             </li>
         )
     })
@@ -81,30 +110,7 @@ function MainPageAllPrd()
 
             <div className="allprd_sort">
                 <ul className="allprd_sort_ul">
-                    <li className="allprd_sort_li">
-                        <a href="#" className="allprd_sort_atag allprd_sort_focus">
-                            <span>V</span>
-                            판매자추천순
-                        </a>
-                    </li>
-
-                    <li className="allprd_sort_li">
-                        <a href="#" className="allprd_sort_atag">
-                            인기도순
-                        </a>
-                    </li>
-
-                    <li className="allprd_sort_li">
-                        <a href="#" className="allprd_sort_atag">
-                            평점높은순
-                        </a>
-                    </li>
-
-                    <li className="allprd_sort_li">
-                        <a href="#" className="allprd_sort_atag">
-                            최신등록순
-                        </a>
-                    </li>
+                    {sortTypeMap}
                 </ul>
             </div>
 

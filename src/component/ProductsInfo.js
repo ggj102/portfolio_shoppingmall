@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import Axios from 'axios';
+import React, { useState } from 'react';
 
 function ProductsInfo({data})
 {
@@ -30,102 +29,102 @@ function ProductsInfo({data})
     }
     
     // 상품정보 ui 출력
-    const basicMap = dataReduce(data.product_information.basic).map((arr)=>{
-        return(
-            <tr>
-                {
-                    arr.map((arr2)=>{
-                        if(arr.length === 1)
-                        {
-                            return(
-                                <>
-                                <th scope="row">
-                                <span>{arr2.title}</span>
-                                </th>
-                                <td colSpan="3"><span>{arr2.description}</span></td>
-                                </>
-                            )
-                        }
-                        else{
-                            return(
-                                <>
-                                <th scope="row">
-                                <span>{arr2.title}</span>
-                                </th>
-                                <td><span>{arr2.description}</span></td>
-                                </>
-                            )
-                        }
-                    })
-                }
-            </tr>
-        )
-    })
+    // const basicMap = dataReduce(data.product_information.basic).map((arr)=>{
+    //     return(
+    //         <tr>
+    //             {
+    //                 arr.map((arr2)=>{
+    //                     if(arr.length === 1)
+    //                     {
+    //                         return(
+    //                             <>
+    //                             <th scope="row">
+    //                             <span>{arr2.title}</span>
+    //                             </th>
+    //                             <td colSpan="3"><span>{arr2.description}</span></td>
+    //                             </>
+    //                         )
+    //                     }
+    //                     else{
+    //                         return(
+    //                             <>
+    //                             <th scope="row">
+    //                             <span>{arr2.title}</span>
+    //                             </th>
+    //                             <td><span>{arr2.description}</span></td>
+    //                             </>
+    //                         )
+    //                     }
+    //                 })
+    //             }
+    //         </tr>
+    //     )
+    // })
 
     // 상품정보 ui 출력
-    const additionalMap = dataReduce(data.product_information.additional).map((arr)=>{
-        return(
-            <tr>
-                {
-                    arr.map((arr2)=>{
-                        if(arr.length === 1)
-                        {
-                            return(
-                                <>
-                                <th scope="row">
-                                <span>{arr2.title}</span>
-                                </th>
-                                <td colSpan="3"><span>{arr2.description}</span></td>
-                                </>
-                            )
-                        }
-                        else{
-                            return(
-                                <>
-                                <th scope="row">
-                                <span>{arr2.title}</span>
-                                </th>
-                                <td><span>{arr2.description}</span></td>
-                                </>
-                            )
-                        }
-                    })
-                }
-            </tr>
-        )
-    })
+    // const additionalMap = dataReduce(data.product_information.additional).map((arr)=>{
+    //     return(
+    //         <tr>
+    //             {
+    //                 arr.map((arr2)=>{
+    //                     if(arr.length === 1)
+    //                     {
+    //                         return(
+    //                             <>
+    //                             <th scope="row">
+    //                             <span>{arr2.title}</span>
+    //                             </th>
+    //                             <td colSpan="3"><span>{arr2.description}</span></td>
+    //                             </>
+    //                         )
+    //                     }
+    //                     else{
+    //                         return(
+    //                             <>
+    //                             <th scope="row">
+    //                             <span>{arr2.title}</span>
+    //                             </th>
+    //                             <td><span>{arr2.description}</span></td>
+    //                             </>
+    //                         )
+    //                     }
+    //                 })
+    //             }
+    //         </tr>
+    //     )
+    // })
 
     // 상품정보 ui 출력
-    const etcMap = data.product_information.etc.map((arr)=>{
-            return(
-                <tr>
-                    <th scope="row">
-                        <span>{arr.title}</span>
-                    </th>
-                    <td colSpan="3"><span dangerouslySetInnerHTML={{__html: arr.description}}/></td>
-                </tr>
-            )
-    })
+    // const etcMap = data.product_information.etc.map((arr)=>{
+    //         return(
+    //             <tr>
+    //                 <th scope="row">
+    //                     <span>{arr.title}</span>
+    //                 </th>
+    //                 <td colSpan="3"><span dangerouslySetInnerHTML={{__html: arr.description}}/></td>
+    //             </tr>
+    //         )
+    // })
 
     //tag ui 출력
-    const tagMap = data.tag.map((arr)=>{
-        return(
-            <li><a href="#">#{arr}</a></li>
-        )
-    })
+    // const tagMap = data.tag.map((arr)=>{
+    //     return(
+    //         <li><a href="#">#{arr}</a></li>
+    //     )
+    // })
 
     //상품정보 제공고시 ui 출력
-    const prdInfoPublicMap = data.product_information_public.map((arr)=>{
-        return(
-            <tr>
-                <th scope="row">
-                    <span>{arr.title}</span>
-                </th>
-                <td colSpan="3"><span>{arr.description}</span></td>
-            </tr>
+    // const prdInfoPublicMap = data.product_information_public.map((arr)=>{
+    //     return(
+    //         <tr>
+    //             <th scope="row">
+    //                 <span>{arr.title}</span>
+    //             </th>
+    //             <td colSpan="3"><span>{arr.description}</span></td>
+    //         </tr>
 
-        )
-    })
+    //     )
+    // })
 
     //거래조건에 관한 정보 ui 출력
     const tradMap = data.trading_conditions.map((arr)=>{
@@ -185,7 +184,7 @@ function ProductsInfo({data})
                     <div className="info_title">상품정보</div>
                     <div>
                         <table cellPadding="0" className="info_table">
-                            {basicMap}
+                            {/* {basicMap} */}
                         </table>
                         <div className="report_info">
                             ※ 상품정보 관련 문의사항은 <a href="#">Q{'&'}A</a>에 남겨주세요.
@@ -195,13 +194,13 @@ function ProductsInfo({data})
 
                 <div className="info_area">
                     <table className="info_table">
-                        {additionalMap}
+                        {/* {additionalMap} */}
                     </table>
                 </div>
 
                 <div className="info_area">
                     <table className="info_table">
-                        {etcMap}
+                        {/* {etcMap} */}
                     </table>
                 </div>
 
@@ -212,14 +211,14 @@ function ProductsInfo({data})
                 <div className="goods_tag">
                     <h3>Tag</h3>
                     <ul>
-                        {tagMap}
+                        {/* {tagMap} */}
                     </ul>
                 </div>
 
                 <div className="info_area">
                     <div className="info_title">상품정보 제공고시</div>
                     <table className="info_table">
-                        {prdInfoPublicMap}
+                        {/* {prdInfoPublicMap} */}
                     </table>
                 </div>
 
@@ -411,7 +410,7 @@ function ProductsInfo({data})
 
             {/* 판매자정보 */}
 
-            <div className="seller_info">
+            {/* <div className="seller_info">
                 <div className="seller">
                     <div className="seller_name">
                         <span className="seller_name_blank"></span>
@@ -438,7 +437,7 @@ function ProductsInfo({data})
                     </div>
 
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

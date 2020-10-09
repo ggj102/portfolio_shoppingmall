@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import '../css/Products.css'
-import { NavLink } from 'react-router-dom';
+import { NavLink , withRouter } from 'react-router-dom';
 import Axios from 'axios';
 import ProductsInfo from './ProductsInfo'
 import Installment from './Installment';
+import MainPageHeader from './mainpage/MainPageHeader';
 
-function Products(){
+function Products({match,history}){
 
     const [prdData,setPrdData] = useState({});
     const [categoryList,setCategoryList] = useState([])
@@ -26,7 +27,7 @@ function Products(){
 
     //데이터를 가져옴
     useEffect(()=>{
-        Axios.get(process.env.PUBLIC_URL+'/ProductsData.json').then((response)=>{
+        Axios.get('http://lab.usagi.space/portfolio/product/'+match.params.id).then((response)=>{
             console.log(response.data);
             setPrdData(response.data);
             setCategoryList(response.data.category_list);
@@ -96,10 +97,15 @@ function Products(){
 
         if(ReselectionFilter2.length)
         {
-            return alert('이미 선택한 옵션입니다.');
+            if(type === 'option')
+            {
+                return alert('이미 선택한 옵션입니다.');
+            }
+            else if(type === 'addPrd')
+            {
+                return alert('이미 선택한 추가상품입니다.');
+            }
         }
-
-        
 
         if(e.target.value !== '0')
         {
@@ -265,7 +271,9 @@ function Products(){
 
      // 배송방법 select의 value값을 가져옴
     const onDeliverySel=(e)=>{
-        setDeliverySelValue(e.target.options[e.target.selectedIndex].value);
+        const optionValue = e.target.options[e.target.selectedIndex].value;
+
+        setDeliverySelValue(parseInt(optionValue));
     }
 
     // deliveryMethod의 들어있는 data값으로 selectbox에 들어갈 option을 생성함
@@ -282,9 +290,46 @@ function Products(){
     const offinstallment = () =>{
         setInstallmentState(false);
     }
+
+    
+
+    const onAddCart = () =>{
+
+        if(optionListArr.length === 0)
+        {
+            alert('옵션을 선택하지 않으셨습니다. 옵션을 선택해 주세요.')
+        }
+        else{
+            const cartPageConfirm = window.confirm('장바구니에 상품을 담았습니다.\n장바구니로 이동하시겠습니까?')
+
+            const postOption = optionListArr.map((arr)=>{
+                return [arr.data_id,arr.id,arr.count];
+            });
+        
+            const postAddPrd = addPrdListArr.map((arr)=>{
+                return [arr.data_id,arr.id,arr.count];
+            });
+    
+            console.log();
+    
+            Axios.post("http://lab.usagi.space/portfolio/cart",{
+                    id: match.params.id,
+                    option: postOption,
+                    add_product: postAddPrd,
+                    delivery_method: deliverySelValue
+            })
+
+            if(cartPageConfirm)
+            {
+                history.push('/Cart');
+            }
+
+        }
+    }
     
     return(
-    <div>
+    <div className="productsPage">
+        <MainPageHeader/>
         <div id="container">
             <div className=" _category_area h_area h_area_v2">
                 <div className="loc">
@@ -292,16 +337,11 @@ function Products(){
                         <span className="bar">{'>'}</span>
                     {
                         categoryList.map((list,num)=>{
-                            if(categoryList.length === num+1)
-                            {
-                              return <NavLink to={"/category/"+list.id}>{list.name}(총{list.num}개)</NavLink>
-                            }
-                            else{
                                 return (
                                     <>
-                                    <NavLink to={"/category/"+list.id}>{list.name}</NavLink>
-                                    <span className="bar">{'>'}</span>
-                                    </>)}
+                                    <NavLink to={"/category/"+list.id}>{list.name}{categoryList.length === num+1 && "(총"+list.num+"개)"}  </NavLink>
+                                    {categoryList.length !== num+1 && <span className="bar">{'>'}</span>}
+                                    </>)
                             })
                     }
                 </div>
@@ -434,7 +474,7 @@ function Products(){
                                             <a href="#">구매하기</a>
                                         </div>
 
-                                        <div className="basket_btn">
+                                        <div className="basket_btn" onClick={onAddCart}>
                                             <a href="#">장바구니</a>
                                         </div>
 
@@ -451,7 +491,7 @@ function Products(){
         </div>
         
         {/* 하단 */}
-        {Object.keys(prdData).length > 0 ? <ProductsInfo data={prdData}/> : ''}
+        {Object.keys(prdData).length > 0 && <ProductsInfo data={prdData}/>}
 
     </div>
     )

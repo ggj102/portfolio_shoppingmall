@@ -14,13 +14,17 @@ function Cart()
     const [deliveryprice,setDeliveryprice] = useState(0);
 
     useEffect(()=>{
-        Axios.get(process.env.PUBLIC_URL+'/CartData.json').then((response)=>{
+        Axios.get('http://lab.usagi.space/portfolio/cart').then((response)=>{
             setCartData(response.data);
             setCartList(response.data.product_list);
             setListLength(response.data.product_list.length);
+            console.log(response.data.product_list);
+            console.log(totalPrice);
+            console.log(prdTotal);
+            console.log(checkCount);
             totalCal();
         })
-    },[checkItem])
+    },[checkItem,cartList])
 
     const onAllCheck = () =>{
         if(checkCount !== listLength)
@@ -37,36 +41,21 @@ function Cart()
     const checkPrdDel = () =>{
 
      const deleteConfirm = window.confirm("선택하신 "+checkItem.length+"개 상품을 장바구니에서 삭제하시겠습니까?");
-        // if(checkCount === listLength)
-        // {
-        //     setCartData({...cartData,total_delivery_price:0}); // 임시
-        //     setPrdTotal(0);
-        //     setTotalPrice(0);
-        //     setChcekCount(0);
-        //    return setCartList([]);
-        // }
         
         if(deleteConfirm)
         {
-            const filter = cartList.filter((arr)=>{
-            
-                let pass = 0;
-    
-                for(let i = 0; i<checkItem.length; i++)
-                {
-                    if(checkItem[i].id === arr.id)
-                    {
-                        pass = checkItem[i].id;
-                    }
-                }
-    
-                return pass !== arr.id;
+            const removeId = checkItem.map((arr)=>{
+                return arr.cart_id;
             })
-            
-            setCartList(filter);
+
+            Axios.delete('http://lab.usagi.space/portfolio/cart',{
+                params:{
+                    id: removeId
+                }
+            })
+            setCheckItem([]);
             setChcekCount(0);
         }
-
         return;
     }
 
@@ -102,15 +91,15 @@ function Cart()
         setPrdTotal(totalprice);
     }
 
-    const checklist = (id) =>{
+    const checklist = (cartId) =>{
        const list = [...cartList];
 
        const  checkFilter = list.filter((arr)=>{
-            return arr.id === id;
+            return arr.cart_id === cartId;
         })
 
         const unCheckFilter = checkItem.filter((arr)=>{
-            return arr.id === checkFilter[0].id;
+            return arr.cart_id === checkFilter[0].cart_id;
         })
 
         if(unCheckFilter.length === 0)
@@ -120,7 +109,7 @@ function Cart()
         }
         else{
             const removeFilter = checkItem.filter((arr)=>{
-                return arr.id !== unCheckFilter[0].id;
+                return arr.cart_id !== unCheckFilter[0].cart_id;
             })
             setCheckItem(removeFilter);
             setChcekCount(checkCount-1)
@@ -132,9 +121,9 @@ function Cart()
                 <tr>
                 <td className="cart_item_cell">
                     <input type="checkbox" 
-                           onClick={()=>checklist(arr.id)} 
+                           onClick={()=>checklist(arr.cart_id)} 
                            checked={checkItem.filter((filarr)=>{
-                                        return filarr.id === arr.id}).length === 0 ? false : true}/>
+                                        return filarr.cart_id === arr.cart_id}).length === 0 ? false : true}/>
                 </td>
             
                 <td className="cart_item_cell">
