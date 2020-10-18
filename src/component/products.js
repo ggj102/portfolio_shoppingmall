@@ -5,8 +5,10 @@ import Axios from 'axios';
 import ProductsInfo from './ProductsInfo'
 import Installment from './Installment';
 import MainPageHeader from './mainpage/MainPageHeader';
+import { connect } from 'react-redux';
+import { gCartCountIncrease } from '../store/modules/GlobalData.js'
 
-function Products({match,history}){
+function Products({match,history,gCount,gCartCountIncrease}){
 
     const [prdData,setPrdData] = useState({});
     const [categoryList,setCategoryList] = useState([])
@@ -300,8 +302,7 @@ function Products({match,history}){
             alert('옵션을 선택하지 않으셨습니다. 옵션을 선택해 주세요.')
         }
         else{
-            const cartPageConfirm = window.confirm('장바구니에 상품을 담았습니다.\n장바구니로 이동하시겠습니까?')
-
+            
             const postOption = optionListArr.map((arr)=>{
                 return [arr.data_id,arr.id,arr.count];
             });
@@ -317,12 +318,16 @@ function Products({match,history}){
                     option: postOption,
                     add_product: postAddPrd,
                     delivery_method: deliverySelValue
+            }).then(()=>{
+                gCartCountIncrease(1);
+                const cartPageConfirm = window.confirm('장바구니에 상품을 담았습니다.\n장바구니로 이동하시겠습니까?');
+                if(cartPageConfirm)
+                {
+                    history.push('/Cart');
+                }
             })
 
-            if(cartPageConfirm)
-            {
-                history.push('/Cart');
-            }
+
 
         }
     }
@@ -497,4 +502,15 @@ function Products({match,history}){
     )
 }
 
-export default Products;
+const mapStateToProps = state =>({
+    gCount: state.GlobalData.gCount
+})
+
+const mapDispatchToProps = dispatch =>({
+    gCartCountIncrease: count => dispatch(gCartCountIncrease(count))
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Products);

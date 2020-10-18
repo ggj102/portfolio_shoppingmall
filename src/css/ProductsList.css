@@ -1,3 +1,8 @@
+.listPage{
+    min-width: 1320px;
+}
+
+
 .content_productsList{
     position: relative;
 }
@@ -119,7 +124,7 @@ li{
     border-right: 1px solid #888;
 }
 
-.sort_tab_focus{
+.sort_focus{
     color: #000;
     font-weight: bold;
     padding: 0 12px;

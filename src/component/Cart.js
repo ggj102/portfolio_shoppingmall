@@ -22,9 +22,13 @@ function Cart()
             console.log(totalPrice);
             console.log(prdTotal);
             console.log(checkCount);
-            totalCal();
+           
         })
-    },[checkItem,cartList])
+    },[])
+
+    useEffect(()=>{
+        totalCal();
+    },[checkItem])
 
     const onAllCheck = () =>{
         if(checkCount !== listLength)

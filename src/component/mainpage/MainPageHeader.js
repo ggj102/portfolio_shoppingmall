@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import '../../css/MainPage.css'
 import Axios from 'axios';
 import { NavLink, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import {gMemberId,gMemberName, gCartCount,gDataReset } from '../../store/modules/GlobalData.js'
 
-function MainPageHeader({history})
+function MainPageHeader({history,gName,gCount,gMemberId,gMemberName,gCartCount,})
 {
     const [headerData,setHeaderData] = useState({});
     const [categoryData,setCategoryData] = useState([]);
@@ -16,12 +18,31 @@ function MainPageHeader({history})
     const [searchData,setSearchData] = useState('');
     const [categoryIdData,setCategoryIdData] = useState(0);
 
+    const [cartCount,setCartCount] = useState(0);
+
+    console.log(gName);
+
+    const cartCountResponse = () =>{
+        Axios.get("https://lab.usagi.space/portfolio/cart_count", {
+            withCredentials: true,
+        }).then((response)=>{
+            if(response.data.result === 0)
+            {
+                gCartCount(response.data.count);
+            }
+            else if(response.data.result === -1){
+                cartCountResponse();
+            }
+        })
+    }
+
     useEffect(()=>{
         Axios.get('http://lab.usagi.space/portfolio/header').then((response)=>{
             console.log(response.data);
             setHeaderData(response.data);
             setCategoryData(response.data.category_list.category_list);
             setSubCategoryData(response.data.category_list.subcategory_list)
+            cartCountResponse();
         })
     },[])
 
@@ -38,6 +59,15 @@ function MainPageHeader({history})
     const searchDelete = () =>{
         setSearchData('');
         setInputValue('');
+    }
+
+    const onLogOut = () =>{
+        Axios.get("https://lab.usagi.space/portfolio/logout", {
+            withCredentials: true,
+        }).then(()=>{
+            gDataReset();
+            history.push('/MainPage');
+        })
     }
 
     const onSearch = () =>{
@@ -173,9 +203,30 @@ function MainPageHeader({history})
 
                                     <li>
                                         <NavLink to="/Cart">
-                                            <span>장바구니</span>
+                                            <span>장바구니{gCount > 0 && "("+gCount+")"}</span>
                                         </NavLink>
                                     </li>
+
+
+
+                                    {!gName ? 
+                                    <li>
+                                        <NavLink to="/Login">
+                                            <span>로그인</span>
+                                        </NavLink>
+                                    </li> :
+                                    <>
+                                    <li>
+                                    <NavLink to="/Login">
+                                        <span>{gName+"님"}</span>
+                                    </NavLink>
+                                    </li>
+
+                                    <li>
+                                        <div className="Logout" onClick={onLogOut}>
+                                            <span>로그아웃</span>
+                                        </div>
+                                    </li></>}
                                 </ul>
                             </div>
                         </div>
@@ -216,4 +267,19 @@ function MainPageHeader({history})
     )
 }
 
-export default withRouter(MainPageHeader);
+const mapStateToProps = state =>({
+    gCount: state.GlobalData.gCount,
+    gName: state.GlobalData.gName
+})
+
+const mapDispatchToProps = dispatch =>({
+    gMemberId: id => dispatch(gMemberId(id)),
+    gMemberName: name => dispatch(gMemberName(name)),
+    gCartCount: count => dispatch(gCartCount(count)),
+    gDataReset: ()=> dispatch(gDataReset()),
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withRouter(MainPageHeader));

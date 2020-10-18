@@ -68,6 +68,10 @@
     display: block;
 }
 
+.Logout{
+    cursor: pointer;
+}
+
 ul{
     list-style: none;
     margin: 0;
@@ -150,6 +154,47 @@ a{
     background-color: #fff;
 }
 
+.search_input{
+    border: 0;
+    font-size: 14px;
+    height: 30px;
+}
+
+.search_input:focus{
+    outline: none;
+}
+
+.search_button_area{
+    top: 7px;
+    right: 7px;
+    position: absolute;
+}
+
+.search_area button{
+    border: 0;
+    cursor: pointer;
+}
+
+.search_btn{
+    float: right;
+    border-radius: 4px;
+}
+
+.x_btn{
+    padding: 4px 0;
+    margin-right: 10px;
+    background-color: #fff;
+    float: left;
+    right: 40px;
+    outline: none;
+}
+
+.search_button_area::after{
+    clear: both;
+    content: '';
+    display: block;
+}
+
 .category_area{
     position: relative;
     font-size: 0;
@@ -189,12 +234,14 @@ a{
 .category_name{
     font-size: 20px;
     margin: 17px 25px 0 0;
+    cursor: pointer;
 }
 
 .category_name2{
     font-size: 13px;
     line-height: 23px;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .category_btn{
@@ -234,7 +281,7 @@ a{
     z-index: 10;
 }
 
-.category_inner a{
+.category_inner {
     font-size: 20px;
     color: #000;
 }
@@ -568,6 +615,8 @@ a{
 .allprd_sort_focus{
     color: #000;
     font-weight: bold;
+    font-size: 13px;
+    display: block;
 }
 
 .allprd_list{
@@ -610,6 +659,12 @@ a{
     position: relative;
     overflow: hidden;
     background-size: 54px;
+}
+
+.allprd_list_thumbnail img{
+    width: 232px;
+    height: 300px;
+    vertical-align: top;
 }
 
 .allprd_list_title{
