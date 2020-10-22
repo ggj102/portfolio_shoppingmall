@@ -20,21 +20,21 @@ function MainPageAllPrd()
                 sort_type: sortType,
             }
         }).then((response)=>{
-            console.log(sortType);
             setItemList(response.data.item_list);
         })
     },[sortType])
 
+    //할인가 계산 함수
     const saleCal = (price1,price2) =>{
         const cal = price2 - price1;
         const cal2 = cal/(price2/100);
         return parseInt(cal2);
     }
 
-
+    // 상품 리스트 맵
     const itemListMap = itemList.map((arr)=>{
         return(
-            <li className="allprd_list_li">
+            <li key={arr.id} className="allprd_list_li">
                 <NavLink  to={"/Products/"+arr.id} className="allprd_list_atag">
                     <div className="allprd_list_thumbnail">
                         <img src={arr.thumb_image} alt="img"/>
@@ -86,14 +86,16 @@ function MainPageAllPrd()
         )
     })
 
+    // 현재 정렬된 타입 값을 set
     const onSortType = (e,type) =>{
         setSortType(type);
         e.preventDefault();
     }
 
-    const sortTypeMap = sortTypeArr.map((arr)=>{
+    // 정렬 맵
+    const sortTypeMap = sortTypeArr.map((arr,idx)=>{
         return(
-            <li className="allprd_sort_li" onClick={(e)=>{onSortType(e,arr.type)}}>
+            <li key={idx.toString()} className="allprd_sort_li" onClick={(e)=>{onSortType(e,arr.type)}}>
                 <a href="#" className={sortType === arr.type ? "allprd_sort_focus" : "allprd_sort_atag"}>
                     {sortType === arr.type && <span>V</span>}
                     {arr.title}

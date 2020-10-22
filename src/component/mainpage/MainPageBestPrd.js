@@ -11,16 +11,16 @@ function MainPageBestPrd()
 
     useEffect(()=>{
         Axios.get("http://lab.usagi.space/portfolio/main").then((response)=>{
-            console.log(response.data);
             sethomeData(response.data.home_data[0]);
             setTopData(response.data.home_data[0].top_data);
             setBottomData(response.data.home_data[0].bottom_data);
         })
     },[])
 
+    // 상단 상품리스트 맵
     const topDataMap = topData.map((arr)=>{
         return(
-            <li>
+            <li key={arr.product_id}>
                 <NavLink to={"/Products/"+arr.product_id} className="bestreview_atag">
                     <div className="bestreview_thumbnail">
                         <img src={arr.thumb_image} alt="img"/>
@@ -49,9 +49,10 @@ function MainPageBestPrd()
         )
     })
 
+    // 하단 상품리스트 맵
     const bottomDataMap = bottomData.map((arr)=>{
         return(
-            <li>
+            <li key={arr.product_id}>
                 <NavLink to={"/Products/"+arr.product_id} className="listview_atag">
                     <div className="bestreview_thumbnail">
                         <img src={arr.thumb_image}/>

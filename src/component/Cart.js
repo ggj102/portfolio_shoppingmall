@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../css/Cart.css'
 import Axios from 'axios';
+import { NavLink } from 'react-router-dom';
 
 function Cart()
 {
@@ -13,23 +14,23 @@ function Cart()
     const [checkCount,setChcekCount] = useState(0);
     const [deliveryprice,setDeliveryprice] = useState(0);
 
-    useEffect(()=>{
+    const cartDataGet = () =>{
         Axios.get('http://lab.usagi.space/portfolio/cart').then((response)=>{
             setCartData(response.data);
             setCartList(response.data.product_list);
             setListLength(response.data.product_list.length);
-            console.log(response.data.product_list);
-            console.log(totalPrice);
-            console.log(prdTotal);
-            console.log(checkCount);
-           
         })
+    }
+
+    useEffect(()=>{
+        cartDataGet();
     },[])
 
     useEffect(()=>{
         totalCal();
     },[checkItem])
 
+    // 체크박스 all check 기능
     const onAllCheck = () =>{
         if(checkCount !== listLength)
         {
@@ -42,9 +43,10 @@ function Cart()
         } 
     }
 
+    // 체크한 상품을 삭제하는 기능
     const checkPrdDel = () =>{
 
-     const deleteConfirm = window.confirm("선택하신 "+checkItem.length+"개 상품을 장바구니에서 삭제하시겠습니까?");
+        const deleteConfirm = window.confirm("선택하신 "+checkItem.length+"개 상품을 장바구니에서 삭제하시겠습니까?");
         
         if(deleteConfirm)
         {
@@ -56,13 +58,16 @@ function Cart()
                 params:{
                     id: removeId
                 }
+            }).then(()=>{
+                setCheckItem([]);
+                setChcekCount(0);
+                cartDataGet();
             })
-            setCheckItem([]);
-            setChcekCount(0);
         }
         return;
     }
 
+    // checkItem에 있는 상품들의 가격 및 배송비를 계산하는 기능
     const totalCal = () =>{
         const copylist = [...checkItem];
         let min = 0;
@@ -95,6 +100,8 @@ function Cart()
         setPrdTotal(totalprice);
     }
 
+    // 상품 체크박스를 체크하면 checkItem로 set하여 보관하며 
+    // checkItem에 있을 경우 삭제
     const checklist = (cartId) =>{
        const list = [...cartList];
 
@@ -120,12 +127,13 @@ function Cart()
         }
     }
 
+    // 장바구니 상품 리스트 맵
     const itemListMap = cartList.map((arr,index)=>{
         return(
-                <tr>
+                <tr key={arr.cart_id}>
                 <td className="cart_item_cell">
                     <input type="checkbox" 
-                           onClick={()=>checklist(arr.cart_id)} 
+                           onChange={()=>checklist(arr.cart_id)} 
                            checked={checkItem.filter((filarr)=>{
                                         return filarr.cart_id === arr.cart_id}).length === 0 ? false : true}/>
                 </td>
@@ -216,7 +224,7 @@ function Cart()
                 <table className="cart_table">
                     <thead>
                         <tr className="table_title">
-                            <th scope="col" className="table_title_part"><input type="checkbox" onClick={onAllCheck} checked={checkCount === listLength ? true : false}/></th>
+                            <th scope="col" className="table_title_part"><input type="checkbox" onChange={onAllCheck} checked={checkCount === listLength ? true : false}/></th>
                             <th scope="col" className="table_title_part">상품정보</th>
                             <th scope="col" className="table_title_part">옵션</th>
                             <th scope="col" className="table_title_part">상품금액</th>
@@ -229,7 +237,7 @@ function Cart()
                 </table>
 
                 <div className="prd_check_btn_area">
-                        <div className="checkbox_input"><input type="checkbox" onClick={onAllCheck} checked={checkCount === listLength ? true : false}/></div>
+                        <div className="checkbox_input"><input type="checkbox" onChange={onAllCheck} checked={checkCount === listLength ? true : false}/></div>
                         <button onClick={checkPrdDel}>선택상품 삭제</button>
                 </div>
 
@@ -274,7 +282,7 @@ function Cart()
                 </div>
 
                 <div className="cart_button_box">
-                    <a href="#" className="link_home">쇼핑 계속하기</a>
+                    <NavLink to='/Mainpage' className="link_home">쇼핑 계속하기</NavLink>
                     <button>주문하기</button>
                 </div>
             </div> :
@@ -282,7 +290,7 @@ function Cart()
                 <div className="cart_empty">
                     <p className="cart_empty_text1">장바구니에 담긴 상품이 없습니다.</p>
                     <p className="cart_empty_text2">원하는 상품을 장바구니에 담아보세요.</p>
-                    <a href="#" className="link_home">쇼핑 계속하기</a>
+                    <NavLink to='/Mainpage' className="link_home">쇼핑 계속하기</NavLink>
                 </div>
             }
         </div>

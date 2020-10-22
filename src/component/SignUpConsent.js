@@ -117,7 +117,7 @@ function SignUpConsent()
                 <div className="content">
                     <p className="checkAll">
                         <span className="checkAllInput">
-                            <input type="checkbox" onClick={onAllCheck}  checked={checkCount === 4 ? true : false}/>
+                            <input type="checkbox" onChange={onAllCheck}  checked={checkCount === 4 ? true : false}/>
                         </span>
                         <span className="checkAllText">
                             이용약관, 개인정보 수집 및 이용,
@@ -130,7 +130,7 @@ function SignUpConsent()
                     <ul className="consentList">
                         <li>
                             <div className="consentInput">
-                                <input type="checkbox" onClick={onTermsCheck} checked={terms}/>
+                                <input type="checkbox" onChange={onTermsCheck} checked={terms}/>
                                 <span>
                                     <span className="consentText">이용약관 동의</span> 
                                     <span className="consentNecessary">(필수)</span>
@@ -143,7 +143,7 @@ function SignUpConsent()
 
                         <li>
                             <div className="consentInput">
-                                <input type="checkbox" onClick={onPrivacyCheck} checked={privacy}/>
+                                <input type="checkbox" onChange={onPrivacyCheck} checked={privacy}/>
                                 <span>
                                     <span className="consentText">개인정보 수집 및 이용에 대한 안내</span> 
                                     <span className="consentNecessary">(필수)</span>
@@ -156,7 +156,7 @@ function SignUpConsent()
 
                         <li>
                             <div className="consentInput">
-                                <input type="checkbox" onClick={onLocationCheck} checked={location}/>
+                                <input type="checkbox" onChange={onLocationCheck} checked={location}/>
                                 <span>
                                     <span className="consentText">위치정보 이용약관 동의</span> 
                                     <span className="consentChoice">(선택)</span>
@@ -169,7 +169,7 @@ function SignUpConsent()
 
                         <li>
                             <div className="consentInput">
-                                <input type="checkbox" onClick={onEventCheck} checked={event}/>
+                                <input type="checkbox" onChange={onEventCheck} checked={event}/>
                                 <span>
                                     <span className="consentText">이벤트 등 프로모션 알림 메일 수신</span> 
                                     <span className="consentChoice">(선택)</span>

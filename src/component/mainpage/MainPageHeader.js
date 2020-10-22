@@ -3,10 +3,11 @@ import '../../css/MainPage.css'
 import Axios from 'axios';
 import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {gMemberId,gMemberName, gCartCount,gDataReset } from '../../store/modules/GlobalData.js'
+import { gMemberId, gMemberName, gCartCount, gDataReset } from '../../store/modules/GlobalData.js'
 
-function MainPageHeader({history,gName,gCount,gMemberId,gMemberName,gCartCount,})
+function MainPageHeader(props)
 {
+    const {history,gName,gCount,gCartCount,gDataReset} = props;
     const [headerData,setHeaderData] = useState({});
     const [categoryData,setCategoryData] = useState([]);
     const [subCategoryData,setSubCategoryData] = useState([]);
@@ -16,12 +17,8 @@ function MainPageHeader({history,gName,gCount,gMemberId,gMemberName,gCartCount,}
     const [depthNum,setdepthNum] = useState({depth1:0, depth2:false, depth3:false})
     const [inputValue,setInputValue] = useState('');
     const [searchData,setSearchData] = useState('');
-    const [categoryIdData,setCategoryIdData] = useState(0);
 
-    const [cartCount,setCartCount] = useState(0);
-
-    console.log(gName);
-
+    // 장바구니 count값을 서버에서 가져오며 result가 -1 일때 재귀함수로 서버에 재요청 함
     const cartCountResponse = () =>{
         Axios.get("https://lab.usagi.space/portfolio/cart_count", {
             withCredentials: true,
@@ -38,7 +35,6 @@ function MainPageHeader({history,gName,gCount,gMemberId,gMemberName,gCartCount,}
 
     useEffect(()=>{
         Axios.get('http://lab.usagi.space/portfolio/header').then((response)=>{
-            console.log(response.data);
             setHeaderData(response.data);
             setCategoryData(response.data.category_list.category_list);
             setSubCategoryData(response.data.category_list.subcategory_list)
@@ -49,7 +45,6 @@ function MainPageHeader({history,gName,gCount,gMemberId,gMemberName,gCartCount,}
     const onHome = () =>{
         setInputValue('');
         setSearchData('');
-        setCategoryIdData(0);
     }
 
     const onInputChange = (e) =>{
@@ -61,26 +56,21 @@ function MainPageHeader({history,gName,gCount,gMemberId,gMemberName,gCartCount,}
         setInputValue('');
     }
 
+    // 로그아웃 서버에 값을 요청하며 작업이 끝난 후 store의 글로벌 데이터 초기화
     const onLogOut = () =>{
         Axios.get("https://lab.usagi.space/portfolio/logout", {
             withCredentials: true,
         }).then(()=>{
             gDataReset();
-            history.push('/MainPage');
         })
     }
 
-    const onSearch = () =>{
-        setSearchData(inputValue);
-        history.push('/SearchPrdList/'+inputValue);
-    }
-
-    const onCategory = (id) =>{
+    const onCategory = () =>{
         setSearchData('');
         setInputValue('');
-        setCategoryIdData(id)
     }
 
+    // enter key 입력시 inputValue를 검색하는 이벤트 동작
     const onSearchKey = (e)=>{
         if(e.key === 'Enter')
         {
@@ -88,6 +78,8 @@ function MainPageHeader({history,gName,gCount,gMemberId,gMemberName,gCartCount,}
             history.push('/SearchPrdList/'+inputValue);
         }
     }
+
+    // mouseover 할 경우 카테고리가 단계적으로 활성화 됨
     const categoryMouseOver = (id,num) =>{
         const subfilter =  subCategoryData.filter((arr)=>{
             return arr.parent_id === id;
@@ -133,15 +125,16 @@ function MainPageHeader({history,gName,gCount,gMemberId,gMemberName,gCartCount,}
         setSubData3([]);
     }
 
+    // 카테고리 mouseover시 활성화 됬을 때 보여주는 서브 카테고리
     const subDataMap = (data,num) =>{
         return(
             <div className="categoryMouseOver_list">
                 <ul>
                     {data.map((sub)=>{
                         return(
-                            <li className="category_name2" 
+                            <li key={sub.id} className="category_name2" 
                                 onMouseEnter={()=>categoryMouseOver(sub.id,num)}
-                                onClick={()=>{onCategory(sub.id)}}
+                                onClick={()=>{onCategory()}}
                             ><NavLink to={"/CategoryPrdList/"+sub.id}>{sub.name}</NavLink></li>
                         )
                     })}
@@ -150,11 +143,13 @@ function MainPageHeader({history,gName,gCount,gMemberId,gMemberName,gCartCount,}
         )
     }
 
+    // 상품 카테고리 맵
     const categoryMap = categoryData.map((arr)=>{
         return(
-            <li className="category_inner_li" 
+            <li key={arr.id}
+                className="category_inner_li" 
                 onMouseLeave={categoryMouseOut}
-                onClick={()=>{onCategory(arr.id)}}>
+                onClick={()=>{onCategory()}}>
                 <div className="category_name" onMouseEnter={()=>categoryMouseOver(arr.id,1)}
                 ><NavLink to={"/CategoryPrdList/"+arr.id}>{arr.name}</NavLink></div>
 
@@ -207,14 +202,20 @@ function MainPageHeader({history,gName,gCount,gMemberId,gMemberName,gCartCount,}
                                         </NavLink>
                                     </li>
 
-
-
                                     {!gName ? 
+                                    <>
                                     <li>
                                         <NavLink to="/Login">
                                             <span>로그인</span>
                                         </NavLink>
-                                    </li> :
+                                    </li> 
+
+                                    <li>
+                                    <NavLink to="/SignUpConsent">
+                                        <span>회원가입</span>
+                                    </NavLink>
+                                    </li> 
+                                    </> :
                                     <>
                                     <li>
                                     <NavLink to="/Login">

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+// 함수 전체가 주석된 부분은 서버에 데이터가 구현 안됨
+
 function ProductsInfo({data})
 {
     const [tabNum,setTabNum] = useState(1);
@@ -127,21 +129,21 @@ function ProductsInfo({data})
     // })
 
     //거래조건에 관한 정보 ui 출력
-    const tradMap = data.trading_conditions.map((arr)=>{
+    const tradMap = data.trading_conditions.map((arr,idx)=>{
         return(
-            <tr>
-            <th scope="row">
-                <span>{arr.title}</span>
-            </th>
-            <td><span>{arr.description}</span></td>
-        </tr>
+            <tr key={idx.toString()}>
+                <th scope="row">
+                    <span>{arr.title}</span>
+                </th>
+                <td><span>{arr.description}</span></td>
+            </tr>
         )
     })
     
     // qna ui 출력
     const qnaListMap = data.qna.map((arr)=>{
         return(
-            <li>
+            <li key={arr.id}>
                 <div className="qna_table">
                     <div className="qna_state">
                         <span className="list_item_text">{arr.status === 1 ? "답변대기" : "답변완료"}</span>
@@ -225,7 +227,9 @@ function ProductsInfo({data})
                 <div className="info_area">
                     <div className="info_title">거래조건에 관한 정보</div>
                     <table className="info_table">
+                        <tbody>
                             {tradMap}
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -249,7 +253,7 @@ function ProductsInfo({data})
 
                         <div className="qna_sort_area">
                             <div className="area_switch">
-                                <label class="qna_label" for="qnaSwitch">
+                                <label className="qna_label" htmlFor="qnaSwitch">
                                     <span>내 Q{'&'}A 보기</span>
                                 </label>
                                 <input type="checkbox" id="qnaSwitch" className="qna_checkbox"/>
@@ -309,31 +313,33 @@ function ProductsInfo({data})
                         <p>반품/교환에 관한 일반적인 사항은 판매자 제시사항보다 관계법령이 우선합니다.</p>
                     </div>
                     <table cellPadding="0" border="1" className="info_table">
-                        <tr>
-                            <th scope="row">
-                                <span>판매자 지정택배사</span>
-                            </th>
-                            <td colSpan="3"><span>{data.return_exchange.delivery}</span></td>
-                        </tr>
+                        <tbody>
+                            <tr>
+                                <th scope="row">
+                                    <span>판매자 지정택배사</span>
+                                </th>
+                                <td colSpan="3"><span>{data.return_exchange.delivery}</span></td>
+                            </tr>
 
-                        <tr>
-                            <th scope="row">
-                                <span>반품배송비</span>
-                            </th>
-                            <td><span>{data.return_exchange.return_price}</span></td>
+                            <tr>
+                                <th scope="row">
+                                    <span>반품배송비</span>
+                                </th>
+                                <td><span>{data.return_exchange.return_price}</span></td>
 
-                            <th scope="row">
-                                <span>교환배송비</span>
-                            </th>
-                            <td><span>{data.return_exchange.exchange_price}</span></td>
-                        </tr>
+                                <th scope="row">
+                                    <span>교환배송비</span>
+                                </th>
+                                <td><span>{data.return_exchange.exchange_price}</span></td>
+                            </tr>
 
-                        <tr>
-                            <th scope="row">
-                                <span>보내실 곳</span>
-                            </th>
-                            <td colSpan="3"><span>{data.return_exchange.address}</span></td>
-                        </tr>
+                            <tr>
+                                <th scope="row">
+                                    <span>보내실 곳</span>
+                                </th>
+                                <td colSpan="3"><span>{data.return_exchange.address}</span></td>
+                            </tr>
+                        </tbody>
                     </table>
 
                     <div className="guide_title">

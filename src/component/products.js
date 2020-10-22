@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import '../css/Products.css'
-import { NavLink , withRouter } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Axios from 'axios';
 import ProductsInfo from './ProductsInfo'
 import Installment from './Installment';
@@ -8,7 +8,7 @@ import MainPageHeader from './mainpage/MainPageHeader';
 import { connect } from 'react-redux';
 import { gCartCountIncrease } from '../store/modules/GlobalData.js'
 
-function Products({match,history,gCount,gCartCountIncrease}){
+function Products({match,history,gCartCountIncrease}){
 
     const [prdData,setPrdData] = useState({});
     const [categoryList,setCategoryList] = useState([])
@@ -30,7 +30,6 @@ function Products({match,history,gCount,gCartCountIncrease}){
     //데이터를 가져옴
     useEffect(()=>{
         Axios.get('http://lab.usagi.space/portfolio/product/'+match.params.id).then((response)=>{
-            console.log(response.data);
             setPrdData(response.data);
             setCategoryList(response.data.category_list);
             setPrdImg(response.data.product_image);
@@ -44,14 +43,11 @@ function Products({match,history,gCount,gCartCountIncrease}){
     },[addPrdListArr,optionListArr])
 
     // 이미지의 값이 2개 이상일 경우 메인 이미지 하단에 paiging형태로 출력됨
-    const imgPaging = prdImg.map((arr)=>{
+    const imgPaging = prdImg.map((arr,idx)=>{
         if(prdImg.length > 1)
         {
             return(
-                <>
-                {console.log(arr.url)}
-                <span className="_image_box" onMouseOver={()=>onPaging(arr.url)}><img src={arr.url} alt="img"/></span>
-                </>
+                <span key={idx.toString()} className="_image_box" onMouseOver={()=>onPaging(arr.url)}><img src={arr.url} alt="img"/></span>
             )
         }
     })
@@ -132,7 +128,6 @@ function Products({match,history,gCount,gCartCountIncrease}){
             })
 
             const filter_list = prdFilter2[0];
-            console.log(filter_list);
 
             if(filter_list.soldout)
             {
@@ -170,8 +165,7 @@ function Products({match,history,gCount,gCartCountIncrease}){
     // optionListArr의 값을 map으로 뿌려주며 추가된 상품의 ui가 생성됨 
     const optionList = optionListArr.map((arr,num)=>{
         return(
-            <li>
-                {console.log()}
+            <li key={arr.id}>
                 <span className="list_prd">{arr.name}</span>
                 <div className="list_count">
                     <button className="delBtn" onClick={()=>onRemove(num,optionListArr,'option')}>X</button>
@@ -189,8 +183,7 @@ function Products({match,history,gCount,gCartCountIncrease}){
     // addPrdListArr의 값을 map으로 뿌려주며 추가된 상품의 ui가 생성됨
     const addPrdList = addPrdListArr.map((arr,num)=>{
         return(
-            <li>
-                {console.log()}
+            <li key={arr.id}>
                 <span className="list_prd">{arr.name}</span>
                 <div className="list_count">
                     <button className="delBtn" onClick={()=>onRemove(num,addPrdListArr,'addPrd')}>X</button>
@@ -261,12 +254,10 @@ function Products({match,history,gCount,gCartCountIncrease}){
         
         if(type === 'option')
         {
-            console.log("옵션");
             setOptionListArr(removeFilter);
         }
         else if(type === 'addPrd')
         {
-            console.log("추가상품");
             setAddPrdListArr(removeFilter);
         }
      }
@@ -280,7 +271,7 @@ function Products({match,history,gCount,gCartCountIncrease}){
 
     // deliveryMethod의 들어있는 data값으로 selectbox에 들어갈 option을 생성함
     const deliverySel = deliveryMethod.map((arr)=>{
-        return <option value={arr.id}>{arr.name}</option>
+        return <option key={arr.id} value={arr.id}>{arr.name}</option>
     })
 
     // 무이자 상품 자세히보기 활성화 
@@ -294,7 +285,9 @@ function Products({match,history,gCount,gCartCountIncrease}){
     }
 
     
-
+    // 장바구니 클릭 시 이벤트 발생
+    // 옵션 미선택시 alert
+    // 상품데이터를 서버에 post하며 작업 이후 store에 cartCount값을 dispatch 함
     const onAddCart = () =>{
 
         if(optionListArr.length === 0)
@@ -311,8 +304,6 @@ function Products({match,history,gCount,gCartCountIncrease}){
                 return [arr.data_id,arr.id,arr.count];
             });
     
-            console.log();
-    
             Axios.post("http://lab.usagi.space/portfolio/cart",{
                     id: match.params.id,
                     option: postOption,
@@ -326,9 +317,6 @@ function Products({match,history,gCount,gCartCountIncrease}){
                     history.push('/Cart');
                 }
             })
-
-
-
         }
     }
     
@@ -343,10 +331,10 @@ function Products({match,history,gCount,gCartCountIncrease}){
                     {
                         categoryList.map((list,num)=>{
                                 return (
-                                    <>
+                                    <Fragment key={list.id}>
                                     <NavLink to={"/category/"+list.id}>{list.name}{categoryList.length === num+1 && "(총"+list.num+"개)"}  </NavLink>
                                     {categoryList.length !== num+1 && <span className="bar">{'>'}</span>}
-                                    </>)
+                                    </Fragment>)
                             })
                     }
                 </div>
@@ -427,11 +415,11 @@ function Products({match,history,gCount,gCartCountIncrease}){
                                             {
                                                 prdOption.map((option_item) => {
                                                     return (
-                                                        <select onChange={(e) => onSelectValue(prdOption,optionListArr,'option',option_item.id,e)}>
+                                                        <select key={option_item.id} onChange={(e) => onSelectValue(prdOption,optionListArr,'option',option_item.id,e)}>
                                                             <option value='0'>{option_item.name}</option>
                                                             {
                                                                 option_item.option_list.map((list)=>{
-                                                                    return <option value={list.id}>{list.name}{list.add_price ? "  ("+list.add_price+"원)추가" : ''} {list.soldout ? "(품절)": ''}</option>
+                                                                    return <option key={list.id}  value={list.id}>{list.name}{list.add_price ? "  ("+list.add_price+"원)추가" : ''} {list.soldout ? "(품절)": ''}</option>
                                                                 })
                                                             }
                                                         </select>
@@ -446,11 +434,11 @@ function Products({match,history,gCount,gCartCountIncrease}){
                                                 {
                                                     addPrd.map((addItem) => {
                                                         return (
-                                                            <select onChange={(e) => onSelectValue(addPrd,addPrdListArr,'addPrd',addItem.id,e)}>
+                                                            <select key={addItem.id} onChange={(e) => onSelectValue(addPrd,addPrdListArr,'addPrd',addItem.id,e)}>
                                                                 <option value='0'>{addItem.name}</option>
                                                                 {
                                                                     addItem.product_list.map((list)=>{
-                                                                     return <option value={list.id}>{list.name} {list.price}원 {list.soldout ? "(품절)": ''}</option>
+                                                                     return <option key={list.id} value={list.id}>{list.name} {list.price}원 {list.soldout ? "(품절)": ''}</option>
                                                                     })
                                                                 }
                                                             </select>
@@ -503,7 +491,7 @@ function Products({match,history,gCount,gCartCountIncrease}){
 }
 
 const mapStateToProps = state =>({
-    gCount: state.GlobalData.gCount
+
 })
 
 const mapDispatchToProps = dispatch =>({

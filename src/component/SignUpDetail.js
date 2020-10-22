@@ -1,18 +1,18 @@
+import Axios from 'axios';
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import '../css/SignUpDetail.css'
 
-function SignUpDetail()
+function SignUpDetail({history})
 {
     const [idCheck,setIdCheck] = useState({onClick:false, blank:false,form:false,value:''});
     const [pwCheck,setPwCheck] = useState({onClick:false,blank:false,form:false,value:''});
     const [reconfirmCheck,setReconfirmCheck] = useState({onClick:false,blank:false,form:false,value:''});
     const [nameCheck,setNameCheck] = useState({onClick:false,blank:false,form:false,value:''});
     const [birCheck,setBirCheck] = useState({onClick:false,vy:false, mm: false, dd:false, vyValue:'',mmValue:'',ddValue:''});
-    const [genderCheck,setGenderCheck] = useState({onClick:false,form:false});
+    const [genderCheck,setGenderCheck] = useState({onClick:false,form:false,value:''});
     const [emailCheck,setEmailCheck] = useState({form:true,value:''});
     const [phoneCheck,setPhoneCheck] = useState({onClick:false,blank:false,form:false,value:''});
-    const [joinCheck,setJoinCheck] = useState(false);
 
     let today = new Date();
     let year = today.getFullYear();
@@ -167,7 +167,6 @@ function SignUpDetail()
             {
                 if(parseInt(targetValue) > month)
                 {
-                    console.log(month);
                     stateCopy.mm = false;
                 }
                 else{ 
@@ -193,7 +192,6 @@ function SignUpDetail()
                 
             }
         }
-        console.log(targetValue);
         setBirCheck(stateCopy);
     }
 
@@ -214,6 +212,7 @@ function SignUpDetail()
         else if(targetValue)
         {
             stateCopy.form = true;
+            stateCopy.value = targetValue;
         }
 
         setGenderCheck(stateCopy);
@@ -239,22 +238,17 @@ function SignUpDetail()
 
         if(stateCopy.value === '')
         {
-            console.log("공란");
             stateCopy.blank = false;
         }
         else if(stateCopy.value.length > 0)
         {
             if(stateCopy.value.length <= 4 || stateCopy.value.length > 21)
             {
-                console.log('길이');
                 stateCopy.blank = true;
                 stateCopy.form = false;
             }
             else if(scText.test(stateCopy.value) || noText.test(stateCopy.value))
             {
-                console.log('텍스트');
-                console.log(scText.test(stateCopy.value));
-                console.log(noText.test(stateCopy.value));
                 stateCopy.blank = true;
                 stateCopy.form = false;
             }
@@ -290,7 +284,6 @@ function SignUpDetail()
             }
             else if(!scText.test(stateCopy.value) ||!noNum.test(stateCopy.value)||!noAZ.test(stateCopy.value)||!noaz.test(stateCopy.value))
             {
-                console.log("양식오류");
                 stateCopy.form = false;
                 stateCopy.blank = true;
             }
@@ -310,7 +303,6 @@ function SignUpDetail()
 
         if(stateCopy.value === '')
         {
-            console.log("공란");
             stateCopy.blank = false;
         }
         else if(pwCheck.value !== stateCopy.value)
@@ -362,12 +354,10 @@ function SignUpDetail()
             || parseInt(stateCopy.vyValue) < 1900 // 혹은 년도가 1900 미만인 경우
             || parseInt(stateCopy.vyValue) > year) // 현재 년도보다 높을 경우
         {
-            console.log("년도길이");
             stateCopy.vy = false;
         }
         else if(stateCopy.vyValue.length === 4) // 년도 길이가 4인 경우
         {
-            console.log("년도길이통과");
             if(noText.test(stateCopy.vyValue)) // 숫자가 아닌지 체크
             {
                 stateCopy.vy = false;
@@ -385,27 +375,18 @@ function SignUpDetail()
 
         if(stateCopy.ddValue === '' || stateCopy.ddValue.length > 2 || stateCopy.ddValue.indexOf(zero) === 0 || parseInt(stateCopy.ddValue) > 31)
         {
-            console.log('첫번째');
             stateCopy.dd = false;
         }
         else if(stateCopy.ddValue.length === 1 || stateCopy.ddValue.length === 2)
         {
-            console.log('통과');
             if(stateCopy.vy)
             {
-                console.log('그다음');
                 if(stateCopy.mm)
                 {
-                    console.log('그그다음');
-                    console.log(stateCopy.mmValue);
-                    console.log(month);
                     if(parseInt(stateCopy.mmValue) === month)
                     {
-                        console.log('두번째');
                         if(parseInt(stateCopy.ddValue) > date)
                         {
-                            console.log('세번째');
-                            console.log(date);
                             stateCopy.dd = false;
                         }
                         else stateCopy.dd = true;
@@ -469,7 +450,35 @@ function SignUpDetail()
         setPhoneCheck(stateCopy);
     }
 
-    // 가입하기 버튼을 클릭 시 동작하며 모든 항목을 검사하고 조건에 충족되지 않는 항목에 경고문을 활성화하며 모든 항목이 충족 될 경우 다음페이지로 넘어감
+    // 회원가입시 가입자의 데이터를 서버로 post함
+    // 작업 후 result값이 0일 경우 메인페이지로 이동
+    const joinPost = () =>{
+        Axios.post('https://lab.usagi.space/portfolio/join',{
+            "id": idCheck.value,
+            "pw": pwCheck.value,
+            "name": nameCheck.value,
+            "birth": {
+                "year": parseInt(birCheck.vyValue),
+                "month": parseInt(birCheck.mmValue),
+                "day": parseInt(birCheck.ddValue)
+            },
+            "gender": genderCheck.value,
+            "email": emailCheck.value,
+            "phone_number": phoneCheck.value,
+        }).then((response)=>{
+            if(response.data.result !== 0)
+            {
+                alert(response.data.message);
+            }
+            else{
+                history.push('/MainPage')
+            }
+        })
+    }
+
+    // 가입하기 버튼을 클릭 시 동작하며 모든 항목을 검사하고 조건에 충족되지 않는 항목에 경고문을 활성화
+    // 모든 항목이 충족 될 경우 joinPost함수를 호출하며 다음 페이지로 넘어감
+
     const onJoinBtn=()=>{
         setIdCheck({...idCheck,onClick:true});
         setPwCheck({...pwCheck,onClick:true});
@@ -482,9 +491,11 @@ function SignUpDetail()
         if(!idCheck.form || !pwCheck.form || !reconfirmCheck.form || !nameCheck.form || !genderCheck.form || !emailCheck.form || 
            !phoneCheck.form || !birCheck.vy || !birCheck.mm || !birCheck.dd)
            {
-              setJoinCheck(false);
+              return
            }
-           else setJoinCheck(true);
+        else{
+            joinPost();
+        }
     }
 
     return(
@@ -574,7 +585,7 @@ function SignUpDetail()
                                 <select className="contentSel" onBlur={genderBlur}>
                                     <option value=''>성별</option>
                                     <option value="M">남자</option>
-                                    <option value="W">여자</option>
+                                    <option value="F">여자</option>
                                 </select>
                             </div>
                         </div>
@@ -602,8 +613,7 @@ function SignUpDetail()
                         {phoneCheck.onClick ? phoneWarning() : ''}
 
                         <div className="joinBtnArea">
-                            <NavLink to={joinCheck ? '/':'#'} className="joinBtn btnPrimary" onClick={onJoinBtn}><span>가입하기</span></NavLink>
-                            {/* <div className="joinBtn btnPrimary" onClick={onJoinBtn}><span>가입하기</span></div> */}
+                            <div className="joinBtn btnPrimary" onClick={onJoinBtn}><span>가입하기</span></div>
                         </div>
                     </div>
                 </div>

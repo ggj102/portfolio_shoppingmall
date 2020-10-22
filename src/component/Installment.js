@@ -11,6 +11,9 @@ import Nh from '../img/nh.png'
 import Samsung from '../img/samsung.png'
 import Shinhan from '../img/shinhan.png'
 
+
+// 할부 관련 정보
+
 function Installment({btn}){
     return(
         <div className="popup_card">

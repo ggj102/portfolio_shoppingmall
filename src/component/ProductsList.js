@@ -7,10 +7,8 @@ import ListViewTypeC from '../productslistviewoption/ListViewTypeC';
 import ListViewTypeD from '../productslistviewoption/ListViewTypeD';
 
 
-//<서버에 추가해야할 데이터>
-//제품 이름
-
-
+// ctegoryPrdList, searchPrdList 의 기본이 되는 컴포넌트
+// 실질적으로 이 컴포넌트는 사용하지 않음
 
 function ProductsList({searchData,categoryIdData})
 {
@@ -40,7 +38,6 @@ function ProductsList({searchData,categoryIdData})
                     per_page: perPage,
                 }
             }).then((response)=>{
-                console.log(perPage);
             setListData(response.data);
             setListItemData(response.data.item_list);
             })
@@ -53,7 +50,6 @@ function ProductsList({searchData,categoryIdData})
                     per_page: perPage,
                 }
             }).then((response)=>{
-                console.log(perPage);
             setListData(response.data);
             setListItemData(response.data.item_list);
             })
