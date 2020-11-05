@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import '../../css/MainPage.css'
-import Axios from 'axios';
 import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { gMemberId, gMemberName, gCartCount, gDataReset } from '../../store/modules/GlobalData.js'
+import { MainPageHeaderAxios, MainPageHeaderCountAxios, MainPageHeaderLogoutAxios } from '../AxiosLink';
 
 function MainPageHeader(props)
 {
@@ -20,9 +20,7 @@ function MainPageHeader(props)
 
     // 장바구니 count값을 서버에서 가져오며 result가 -1 일때 재귀함수로 서버에 재요청 함
     const cartCountResponse = () =>{
-        Axios.get("https://lab.usagi.space/portfolio/cart_count", {
-            withCredentials: true,
-        }).then((response)=>{
+        MainPageHeaderCountAxios().then((response)=>{
             if(response.data.result === 0)
             {
                 gCartCount(response.data.count);
@@ -34,7 +32,7 @@ function MainPageHeader(props)
     }
 
     useEffect(()=>{
-        Axios.get('http://lab.usagi.space/portfolio/header').then((response)=>{
+        MainPageHeaderAxios().then((response)=>{
             setHeaderData(response.data);
             setCategoryData(response.data.category_list.category_list);
             setSubCategoryData(response.data.category_list.subcategory_list)
@@ -42,7 +40,7 @@ function MainPageHeader(props)
         })
     },[])
 
-    const onHome = () =>{
+    const onReset = () =>{
         setInputValue('');
         setSearchData('');
     }
@@ -51,23 +49,11 @@ function MainPageHeader(props)
         setInputValue(e.target.value);
     }
 
-    const searchDelete = () =>{
-        setSearchData('');
-        setInputValue('');
-    }
-
     // 로그아웃 서버에 값을 요청하며 작업이 끝난 후 store의 글로벌 데이터 초기화
     const onLogOut = () =>{
-        Axios.get("https://lab.usagi.space/portfolio/logout", {
-            withCredentials: true,
-        }).then(()=>{
+        MainPageHeaderLogoutAxios().then(()=>{
             gDataReset();
         })
-    }
-
-    const onCategory = () =>{
-        setSearchData('');
-        setInputValue('');
     }
 
     // enter key 입력시 inputValue를 검색하는 이벤트 동작
@@ -81,6 +67,7 @@ function MainPageHeader(props)
 
     // mouseover 할 경우 카테고리가 단계적으로 활성화 됨
     const categoryMouseOver = (id,num) =>{
+        //parent_id가 2개 이상일수도 있으므로 filter로 가공함
         const subfilter =  subCategoryData.filter((arr)=>{
             return arr.parent_id === id;
         })
@@ -134,7 +121,7 @@ function MainPageHeader(props)
                         return(
                             <li key={sub.id} className="category_name2" 
                                 onMouseEnter={()=>categoryMouseOver(sub.id,num)}
-                                onClick={()=>{onCategory()}}
+                                onClick={()=>{onReset()}}
                             ><NavLink to={"/CategoryPrdList/"+sub.id}>{sub.name}</NavLink></li>
                         )
                     })}
@@ -149,24 +136,18 @@ function MainPageHeader(props)
             <li key={arr.id}
                 className="category_inner_li" 
                 onMouseLeave={categoryMouseOut}
-                onClick={()=>{onCategory()}}>
+                onClick={()=>{onReset()}}>
                 <div className="category_name" onMouseEnter={()=>categoryMouseOver(arr.id,1)}
                 ><NavLink to={"/CategoryPrdList/"+arr.id}>{arr.name}</NavLink></div>
-
             {depthNum.depth1 === arr.id &&
                 <div className="mouseOver_area" >
                     <div className="category_depth1">
-
                         {subDataMap(subData1,2)}
-
                         {depthNum.depth2 && 
                             <div className="category_depth2">
-                              
                                 {subDataMap(subData2,3)}
-                                
                             {depthNum.depth3 && 
                                 <div className="category_depth3">
-                                  
                                     {subDataMap(subData3,4)}
                                 </div>}
                         </div>}
@@ -195,13 +176,11 @@ function MainPageHeader(props)
                                             <span>마이페이지</span>
                                         </a>
                                     </li>
-
                                     <li>
                                         <NavLink to="/Cart">
                                             <span>장바구니{gCount > 0 && "("+gCount+")"}</span>
                                         </NavLink>
                                     </li>
-
                                     {!gName ? 
                                     <>
                                     <li>
@@ -209,7 +188,6 @@ function MainPageHeader(props)
                                             <span>로그인</span>
                                         </NavLink>
                                     </li> 
-
                                     <li>
                                     <NavLink to="/SignUpConsent">
                                         <span>회원가입</span>
@@ -222,7 +200,6 @@ function MainPageHeader(props)
                                         <span>{gName+"님"}</span>
                                     </NavLink>
                                     </li>
-
                                     <li>
                                         <div className="Logout" onClick={onLogOut}>
                                             <span>로그아웃</span>
@@ -232,10 +209,9 @@ function MainPageHeader(props)
                             </div>
                         </div>
                     </div>
-
                     <div className="shop_area">
                         <div className="title">
-                            <NavLink to="/MainPage" onClick={onHome}>{headerData.title}</NavLink> 
+                            <NavLink to="/" onClick={onReset}>{headerData.title}</NavLink> 
                         </div>
                         <div className="search_area">
                             <input className="search_input" value={inputValue} 
@@ -243,14 +219,13 @@ function MainPageHeader(props)
                                 onKeyPress={onSearchKey}
                             />
                             <div className="search_button_area">
-                                {searchData && <button className="x_btn" onClick={searchDelete}>X</button>}
+                                {searchData && <button className="x_btn" onClick={onReset}>X</button>}
                             <NavLink to={"/SearchPrdList/"+inputValue} ><button className="search_btn">검색</button></NavLink> 
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div className="category_area">
                 <div className="category_inner">
                     <ul className="category_inner_ul">

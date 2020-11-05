@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import '../css/Cart.css'
-import Axios from 'axios';
 import { NavLink } from 'react-router-dom';
+import { CartDataAxios, CartListDeleteAxios } from './AxiosLink';
 
 function Cart()
 {
     const [cartData,setCartData] = useState({});
     const [cartList,setCartList] = useState([]);
-    const [listLength,setListLength] = useState(0);
-    const [totalPrice,setTotalPrice] = useState(0);
     const [prdTotal,setPrdTotal] = useState(0);
     const [checkItem,setCheckItem] = useState([]);
     const [checkCount,setChcekCount] = useState(0);
     const [deliveryprice,setDeliveryprice] = useState(0);
 
     const cartDataGet = () =>{
-        Axios.get('http://lab.usagi.space/portfolio/cart').then((response)=>{
+        CartDataAxios().then((response)=>{
             setCartData(response.data);
             setCartList(response.data.product_list);
-            setListLength(response.data.product_list.length);
         })
     }
 
@@ -32,9 +29,9 @@ function Cart()
 
     // 체크박스 all check 기능
     const onAllCheck = () =>{
-        if(checkCount !== listLength)
+        if(checkCount !== cartList.length)
         {
-            setChcekCount(listLength);
+            setChcekCount(cartList.length);
             setCheckItem(cartList);
         }
         else{
@@ -54,11 +51,7 @@ function Cart()
                 return arr.cart_id;
             })
 
-            Axios.delete('http://lab.usagi.space/portfolio/cart',{
-                params:{
-                    id: removeId
-                }
-            }).then(()=>{
+            CartListDeleteAxios(removeId).then(()=>{
                 setCheckItem([]);
                 setChcekCount(0);
                 cartDataGet();
@@ -75,52 +68,44 @@ function Cart()
         if(copylist.length > 0)
         {
             min = copylist[0].delivery_price;
-            for(let i = 0; i<copylist.length; i++)
+            for(let i = 1; i<copylist.length; i++)
             {
-                if(min <= copylist[i].delivery_price)
+                if(min > copylist[i].delivery_price)
                 {
-                    setDeliveryprice(min);
-                }
-                else{
                     min = copylist[i].delivery_price;
-                    setDeliveryprice(min);
                 }
             }
         }
-        else{
-            min = 0;
-            setDeliveryprice(0)
-        }
-
+  
         const totalprice = copylist.reduce((acc,value)=>{
             return acc+value.price;
         },0)
 
-        setTotalPrice(totalprice+min);
+        setDeliveryprice(min)
         setPrdTotal(totalprice);
     }
 
     // 상품 체크박스를 체크하면 checkItem로 set하여 보관하며 
     // checkItem에 있을 경우 삭제
     const checklist = (cartId) =>{
-       const list = [...cartList];
+        const list = [...cartList];
 
-       const  checkFilter = list.filter((arr)=>{
+        const checkFind = list.find((arr)=>{
             return arr.cart_id === cartId;
         })
 
-        const unCheckFilter = checkItem.filter((arr)=>{
-            return arr.cart_id === checkFilter[0].cart_id;
+        const unCheckFind = checkItem.find((arr)=>{
+            return arr.cart_id === checkFind.cart_id;
         })
 
-        if(unCheckFilter.length === 0)
+        if(!unCheckFind)
         {
-            setCheckItem([...checkItem,checkFilter[0]]);
+            setCheckItem([...checkItem,checkFind]);
             setChcekCount(checkCount+1)
         }
         else{
             const removeFilter = checkItem.filter((arr)=>{
-                return arr.cart_id !== unCheckFilter[0].cart_id;
+                return arr.cart_id !== unCheckFind.cart_id;
             })
             setCheckItem(removeFilter);
             setChcekCount(checkCount-1)
@@ -134,10 +119,9 @@ function Cart()
                 <td className="cart_item_cell">
                     <input type="checkbox" 
                            onChange={()=>checklist(arr.cart_id)} 
-                           checked={checkItem.filter((filarr)=>{
-                                        return filarr.cart_id === arr.cart_id}).length === 0 ? false : true}/>
+                           checked={checkItem.find((findarr)=>{
+                                        return findarr.cart_id === arr.cart_id})}/>
                 </td>
-            
                 <td className="cart_item_cell">
                     <div className="prd_desc">
                         <div className="prd_description">
@@ -163,7 +147,6 @@ function Cart()
                         <button>X</button>
                     </div>
                 </td>
-
                 <td className="cart_item_cell valign_top">
                     <div className="prd_option_area">
                         <div className="prd_option_wrap">
@@ -174,7 +157,6 @@ function Cart()
                         </div>
                     </div>
                 </td>
-
                 <td className="cart_item_cell">
                     <div className="item_prd_price">
                         <em className="item_prd_price_em">
@@ -187,8 +169,7 @@ function Cart()
                         </div>
                     </div>
                 </td>
-
-                {index === 0 && <td rowSpan={listLength} className="cart_item_cell">
+                {index === 0 && <td rowSpan={cartList.length} className="cart_item_cell">
                     <div className="delivery_free">
                         <div className="delivery_free_price">
                             <span className="delivery_free_price_text">
@@ -196,7 +177,6 @@ function Cart()
                             </span>
                             <div className="delivery_free_blank"></div>
                         </div>
-
                         <div className="delivery_free_text_area">
                             <span className="icon_today">오늘출발</span>
                             <span className="delivery_free_text">
@@ -204,7 +184,6 @@ function Cart()
                                 <em>오늘 바로 발송</em>
                             </span>
                         </div>
-
                         <div className="delivery_comment">
                             판매자 설정에 따라
                             <br/>
@@ -224,7 +203,7 @@ function Cart()
                 <table className="cart_table">
                     <thead>
                         <tr className="table_title">
-                            <th scope="col" className="table_title_part"><input type="checkbox" onChange={onAllCheck} checked={checkCount === listLength ? true : false}/></th>
+                            <th scope="col" className="table_title_part"><input type="checkbox" onChange={onAllCheck} checked={checkCount === cartList.length}/></th>
                             <th scope="col" className="table_title_part">상품정보</th>
                             <th scope="col" className="table_title_part">옵션</th>
                             <th scope="col" className="table_title_part">상품금액</th>
@@ -237,10 +216,9 @@ function Cart()
                 </table>
 
                 <div className="prd_check_btn_area">
-                        <div className="checkbox_input"><input type="checkbox" onChange={onAllCheck} checked={checkCount === listLength ? true : false}/></div>
+                        <div className="checkbox_input"><input type="checkbox" onChange={onAllCheck} checked={checkCount === cartList.length}/></div>
                         <button onClick={checkPrdDel}>선택상품 삭제</button>
                 </div>
-
                 <div className="order_calculator">
                     <div className="prd_price_detail">
                         <dl className="prd_price_detail_text_area">
@@ -250,9 +228,7 @@ function Cart()
                                 원
                             </dd>
                         </dl>
-
                         <span className="order_calculator_mark">+</span>
-
                         <dl className="prd_price_detail_text_area">
                             <dt>배송비</dt>
                             <dd>
@@ -260,9 +236,7 @@ function Cart()
                                 원
                             </dd>
                         </dl>
-
                         <span className="order_calculator_mark">-</span>
-
                         <dl className="prd_price_detail_text_area">
                             <dt>할인예상금액</dt>
                             <dd className="discount_text">
@@ -271,26 +245,23 @@ function Cart()
                             </dd>
                         </dl>
                     </div>
-
                     <div className="prd_price_total">
                         <span className="prd_price_total_text">총 주문금액</span>
                         <span className="prd_price_total_num">
-                            <span className="prd_price_total_num_text">{totalPrice}</span>
+                            <span className="prd_price_total_num_text">{prdTotal+deliveryprice}</span>
                             원
                         </span>
                     </div>
                 </div>
-
                 <div className="cart_button_box">
-                    <NavLink to='/Mainpage' className="link_home">쇼핑 계속하기</NavLink>
+                    <NavLink to='/' className="link_home">쇼핑 계속하기</NavLink>
                     <button>주문하기</button>
                 </div>
             </div> :
-                
                 <div className="cart_empty">
                     <p className="cart_empty_text1">장바구니에 담긴 상품이 없습니다.</p>
                     <p className="cart_empty_text2">원하는 상품을 장바구니에 담아보세요.</p>
-                    <NavLink to='/Mainpage' className="link_home">쇼핑 계속하기</NavLink>
+                    <NavLink to='/' className="link_home">쇼핑 계속하기</NavLink>
                 </div>
             }
         </div>

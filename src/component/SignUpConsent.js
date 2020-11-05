@@ -5,19 +5,17 @@ import { NavLink } from 'react-router-dom';
 function SignUpConsent()
 {
     const [checkCount, setCheckCount] = useState(0);
-    const [terms,setTerms] = useState(false);
-    const [privacy,setPrivacy] = useState(false);
-    const [location,setLocation] = useState(false);
-    const [event,setEvent] = useState(false);
+    const [checkState,setCheckState] = useState({terms: false,privacy: false,location: false,event: false})
     const [warning, setWarning] = useState(false);
     const [nextBtn,setNextBtn] = useState(0);
 
     // 모두 동의하는 checkbox며 모든 항목이 check됨
-    const allCheckSet=(b)=>{
-        setTerms(b);
-        setPrivacy(b);
-        setLocation(b);
-        setEvent(b);
+    const allCheckSet=(state)=>{
+        setCheckState({...checkState,
+            terms: state,
+            privacy: state,
+            location: state,
+            event: state})
     }
 
     // 모든 항목이 check가 될 경우 allcheck부분 항목 checkbox 활성화
@@ -38,14 +36,14 @@ function SignUpConsent()
 
     // 이용약관 동의 check
     const onTermsCheck=()=>{
-        if(terms)
+        if(checkState.terms)
         {
-            setTerms(false);
+            setCheckState({...checkState,terms:false});
             setNextBtn(nextBtn-1);
             setCheckCount(checkCount-1)
         }
         else{
-            setTerms(true);
+            setCheckState({...checkState,terms:true});
             setNextBtn(nextBtn+1)
             setCheckCount(checkCount+1)
         }
@@ -53,14 +51,14 @@ function SignUpConsent()
 
     // 개인정보 수집 및 이용에 대한 안내 check
     const onPrivacyCheck=()=>{
-        if(privacy)
+        if(checkState.privacy)
         {
-            setPrivacy(false);
+            setCheckState({...checkState,privacy:false});
             setNextBtn(nextBtn-1);
             setCheckCount(checkCount-1)
         }
         else{
-            setPrivacy(true);
+            setCheckState({...checkState,privacy:true});
             setNextBtn(nextBtn+1)
             setCheckCount(checkCount+1)
         }
@@ -68,35 +66,28 @@ function SignUpConsent()
 
     // 위치정보 이용약관 동의 check
     const onLocationCheck=()=>{
-        if(location)
+        if(checkState.location)
         {
-            setLocation(false);
+            setCheckState({...checkState,location:false});
             setCheckCount(checkCount-1)
         }
         else{
-            setLocation(true);
+            setCheckState({...checkState,location:true});
             setCheckCount(checkCount+1)
         }
     }
 
     // 이벤트 등 프로모션 알림 메일 수신 check
     const onEventCheck=()=>{
-        if(event)
+        if(checkState.event)
         {
-            setEvent(false);
+            setCheckState({...checkState,event:false});
             setCheckCount(checkCount-1)
         }
         else{
-            setEvent(true);
+            setCheckState({...checkState,event:true});
             setCheckCount(checkCount+1)
         }
-    }
-
-    // 필수 항목이 check되지 않을 경우 경고문 활성화
-    const warningPhrase=()=>{
-        return(
-            <span className="warning">이용약관과 개인정보 수집 및 이용에 대한 안내 모두 동의해주세요.</span>
-        )
     }
 
     // 확인 버튼 클릭 시 필수 항목이 전부 check되있는지 검사 후 다음 페이지로 넘어감
@@ -112,12 +103,11 @@ function SignUpConsent()
             <div className="header">
                 <NavLink to="/" className="title">회원가입 이용약관 페이지(홈으로)</NavLink>
             </div>
-
             <div className="container">
                 <div className="content">
                     <p className="checkAll">
                         <span className="checkAllInput">
-                            <input type="checkbox" onChange={onAllCheck}  checked={checkCount === 4 ? true : false}/>
+                            <input type="checkbox" onChange={onAllCheck}  checked={checkCount === 4}/>
                         </span>
                         <span className="checkAllText">
                             이용약관, 개인정보 수집 및 이용,
@@ -126,11 +116,10 @@ function SignUpConsent()
                             프로모션 안내 메일 수신(선택)에 모두 동의합니다
                         </span>
                     </p>
-
                     <ul className="consentList">
                         <li>
                             <div className="consentInput">
-                                <input type="checkbox" onChange={onTermsCheck} checked={terms}/>
+                                <input type="checkbox" onChange={onTermsCheck} checked={checkState.terms}/>
                                 <span>
                                     <span className="consentText">이용약관 동의</span> 
                                     <span className="consentNecessary">(필수)</span>
@@ -140,10 +129,9 @@ function SignUpConsent()
                                 <div>이용약관 동의</div>
                             </div>
                         </li>
-
                         <li>
                             <div className="consentInput">
-                                <input type="checkbox" onChange={onPrivacyCheck} checked={privacy}/>
+                                <input type="checkbox" onChange={onPrivacyCheck} checked={checkState.privacy}/>
                                 <span>
                                     <span className="consentText">개인정보 수집 및 이용에 대한 안내</span> 
                                     <span className="consentNecessary">(필수)</span>
@@ -153,10 +141,9 @@ function SignUpConsent()
                                 <div>개인정보 수집</div>
                             </div>
                         </li>
-
                         <li>
                             <div className="consentInput">
-                                <input type="checkbox" onChange={onLocationCheck} checked={location}/>
+                                <input type="checkbox" onChange={onLocationCheck} checked={checkState.location}/>
                                 <span>
                                     <span className="consentText">위치정보 이용약관 동의</span> 
                                     <span className="consentChoice">(선택)</span>
@@ -166,10 +153,9 @@ function SignUpConsent()
                                 <div>위치정보 수집</div>
                             </div>
                         </li>
-
                         <li>
                             <div className="consentInput">
-                                <input type="checkbox" onChange={onEventCheck} checked={event}/>
+                                <input type="checkbox" onChange={onEventCheck} checked={checkState.event}/>
                                 <span>
                                     <span className="consentText">이벤트 등 프로모션 알림 메일 수신</span> 
                                     <span className="consentChoice">(선택)</span>
@@ -177,7 +163,7 @@ function SignUpConsent()
                             </div>
                         </li>
                     </ul>
-                    {warning ? warningPhrase() : ''}
+                    {warning && <span className="warning">이용약관과 개인정보 수집 및 이용에 대한 안내 모두 동의해주세요.</span>}
                     <div className="consentBtn">
                         <span>
                             <NavLink to="/" className="cancelBtn consentBtnType">취소</NavLink>
@@ -188,7 +174,6 @@ function SignUpConsent()
                     </div>
                 </div>
             </div>
-
         </div>
 
     )

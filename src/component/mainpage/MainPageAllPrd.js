@@ -53,16 +53,11 @@ function MainPageAllPrd()
                             </>:''}
                         </strong>
                     </div>
-                    {arr.text ? 
-                    <p className="allprd_list_ptag">한국 정품 닌텐도 스위치 동물의 숲 에디션 새제품 ( 동물의 숲 타이틀은 포함되어 있지 않습니다 ) 기본 구성품</p>
-                    : ''}
-                
-                
+                    {arr.text && arr.text}
                 <div className="area_flag">
                     {arr.is_new ? <div className="flag flag_new">NEW</div> : ''}
                     {arr.is_best ?  <div className="flag flag_best">BEST</div> : ''}
                 </div>
-
                 {arr.review_count > 0 ? 
                     <div className="allprd_list_estimation">
                     <span className="allprd_list_estimation_text">리뷰</span>
@@ -74,7 +69,6 @@ function MainPageAllPrd()
                         5
                     </span>
                 </div> : ''}
-
                 {arr.sold_out ?
                     <div className="soldout_area">
                     <div className="soldout">
@@ -109,13 +103,11 @@ function MainPageAllPrd()
             <h4 className="allprd_title">
                 <span className="title_inner">상품전체</span>
             </h4>
-
             <div className="allprd_sort">
                 <ul className="allprd_sort_ul">
                     {sortTypeMap}
                 </ul>
             </div>
-
             <div>
                 <div className="allprd_list">
                     <ul className="allprd_list_ul">

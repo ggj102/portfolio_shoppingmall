@@ -109,11 +109,11 @@ function ProductsInfo({data})
     // })
 
     //tag ui 출력
-    // const tagMap = data.tag.map((arr)=>{
-    //     return(
-    //         <li><a href="#">#{arr}</a></li>
-    //     )
-    // })
+    const tagMap = data.tag.map((arr)=>{
+        return(
+            <li><a href="#">#{arr}</a></li>
+        )
+    })
 
     //상품정보 제공고시 ui 출력
     // const prdInfoPublicMap = data.product_information_public.map((arr)=>{
@@ -148,17 +148,12 @@ function ProductsInfo({data})
                     <div className="qna_state">
                         <span className="list_item_text">{arr.status === 1 ? "답변대기" : "답변완료"}</span>
                     </div>
-
                     <div className="qna_title">
-                        {arr.secret ? 
-                        <span className="list_item_text">비밀글입니다.</span> 
-                        : <span className="list_item_text">{arr.title}</span>}
+                        <span className="list_item_text">{arr.secret ? "비밀글입니다." : arr.title}</span>
                     </div>
-            
                     <div className="qna_author">
                         <span className="list_item_text">{arr.writer}</span>
                     </div>
-            
                     <div className="qna_date">
                         <span className="list_item_text">{arr.date}</span>
                     </div>
@@ -170,17 +165,11 @@ function ProductsInfo({data})
     return(
         <div className="detail_info">
             <div className="tab_area">
-          
                     <a href="#id_prd_info" className={tabNum === 1 ? "info_tab_focus" : 'info_tab'} onClick={()=>onTabChange(1)}>상세정보</a>
-            
                     <a href="#id_qna" className={tabNum === 2 ? "info_tab_focus" : 'info_tab'} onClick={()=>onTabChange(2)}>Q{'&'}A</a>
-              
                     <a href="#id_return_exchange" className={tabNum === 3 ? "info_tab_focus" : 'info_tab'} onClick={()=>onTabChange(3)}>반품/교환정보</a>
-               
             </div>
-
             <div id="id_prd_info"></div>
-
             <div className="prd_info" >
                 <div className="info_area">
                     <div className="info_title">상품정보</div>
@@ -193,37 +182,30 @@ function ProductsInfo({data})
                         </div>
                     </div>
                 </div>
-
                 <div className="info_area">
                     <table className="info_table">
                         {/* {additionalMap} */}
                     </table>
                 </div>
-
                 <div className="info_area">
                     <table className="info_table">
                         {/* {etcMap} */}
                     </table>
                 </div>
-
                 <div dangerouslySetInnerHTML={{__html: data.product_more_information}} />
-
                 <div className="test_interval"> </div>
-
                 <div className="goods_tag">
                     <h3>Tag</h3>
                     <ul>
-                        {/* {tagMap} */}
+                        {tagMap}
                     </ul>
                 </div>
-
                 <div className="info_area">
                     <div className="info_title">상품정보 제공고시</div>
                     <table className="info_table">
                         {/* {prdInfoPublicMap} */}
                     </table>
                 </div>
-
                 <div className="info_area">
                     <div className="info_title">거래조건에 관한 정보</div>
                     <table className="info_table">
@@ -233,7 +215,6 @@ function ProductsInfo({data})
                     </table>
                 </div>
             </div>
-
             {/* Q&A */}
             <div id ="id_qna"></div>
             <div className="qna" id ="id_qna">
@@ -243,14 +224,12 @@ function ProductsInfo({data})
                         <a href="#"> '판매자 문의하기'</a>를 이용해 주시기 바랍니다.
                     </p>
                 </div>
-
                 <div className="qna_content">
                     <div className="qna_header">
                         <div className="qna_btn_area">
                             <a href="#" className="qna_btn qna_write">상품 Q{'&'}A 작성하기</a>
                             <a href="#" className="qna_btn qna_arrow">판매자 문의하기 {'>'}</a>
                         </div>
-
                         <div className="qna_sort_area">
                             <div className="area_switch">
                                 <label className="qna_label" htmlFor="qnaSwitch">
@@ -258,7 +237,6 @@ function ProductsInfo({data})
                                 </label>
                                 <input type="checkbox" id="qnaSwitch" className="qna_checkbox"/>
                             </div>
-
                             <div className="select_sort">
                                 <select>
                                     <option>답변상태</option>
@@ -268,39 +246,32 @@ function ProductsInfo({data})
                             </div>
                         </div>
                     </div>
-
                     <div className="qna_list">
                         <div className="qna_table">
                             <div className="qna_state">
                                 <span className="list_header_text">답변상태</span>
                             </div>
-
                             <div className="qna_title">
                                 <span className="list_header_text">제목</span>
                             </div>
-
                             <div className="qna_author">
                                 <span className="list_header_text">작성자</span>
                             </div>
-
                             <div className="qna_date">
                                 <span className="list_header_text">작성일</span>
                             </div>
                         </div>
-
                         <div className="qna_list_area">
                             <ul>
                                 {qnaListMap}
                             </ul>
                         </div>
-
                         <div className="list_paging"> 
                             <strong>1</strong>
                         </div>
                     </div>
                 </div>
             </div>
-
             {/* 반품/교환정보 */}
             <div id ="id_return_exchange"></div>
             <div className="return_exchange">
@@ -320,19 +291,16 @@ function ProductsInfo({data})
                                 </th>
                                 <td colSpan="3"><span>{data.return_exchange.delivery}</span></td>
                             </tr>
-
                             <tr>
                                 <th scope="row">
                                     <span>반품배송비</span>
                                 </th>
                                 <td><span>{data.return_exchange.return_price}</span></td>
-
                                 <th scope="row">
                                     <span>교환배송비</span>
                                 </th>
                                 <td><span>{data.return_exchange.exchange_price}</span></td>
                             </tr>
-
                             <tr>
                                 <th scope="row">
                                     <span>보내실 곳</span>
@@ -341,7 +309,6 @@ function ProductsInfo({data})
                             </tr>
                         </tbody>
                     </table>
-
                     <div className="guide_title">
                         반품/교환 사유에 따른 요청 가능 기간
                         <p>반품 시 먼저 판매자와 연락하셔서 반품 사유,택배사,배송비,반품지 주소 등을 협의하신 후 반품상품을 발송해 주시기 바랍니다.</p>
@@ -353,7 +320,6 @@ function ProductsInfo({data})
                                 구매자 단순 변심은 상품 수령 후 7일 이내
                                 <em> (구매자 반품배송비 부담)</em>
                             </li>
-
                             <li>
                                 <span className="guide_text_num">2</span>
                                 표시/광고와 상이, 상품하자의 경우 상품 수령 후 3개월 이내 혹은 표시/광고와 다른 사실을 안 날로부터 30일 이내<br/>
@@ -362,48 +328,40 @@ function ProductsInfo({data})
                             </li>
                         </ol>
                     </div>
-
                     <div className="guide_title">
                         반품/교환 불가능 사유
                         <p>아래와 같은 경우 반품/교환이 불가능 합니다.</p>
                     </div>
-
                     <div className="guide_text">
                         <ol>
                             <li>
                                 <span className="guide_text_num">1</span>
                                 반품요정기간이 지난 경우
                             </li>
-
                             <li>
                                 <span className="guide_text_num">2</span>
                                 구매자의 책임 있는 사유로 상품 등이 멸실 또는 훼손된 경우
                                 <em> (단, 상품의 내용을 확인하기 위하여 포장 등을 훼손한 경우는 제외)</em>
                             </li>
-
                             <li>
                                 <span className="guide_text_num">3</span>
                                 구매자의 책임있는 사유로 포장이 훼손되어 상품 가치가 현저히 상실된 경우
                                 <em> (예: 식품,화장품,향수류,음반 등)</em>
                             </li>
-
                             <li>
                                 <span className="guide_text_num">4</span>
                                 구매자의 사용 또는 일부 소비에 의하여 상품의 가치가 현저히 감소한 경우
                                 <em> (라벨이 떨어진 의류 또는 태그가 떨어진 명품관 상품인 경우)</em>
                             </li>
-
                             <li>
                                 <span className="guide_text_num">5</span>
                                 시간의 경과에 의하여 재판매가 곤란할 정도로 상품 등의 가치가 현저히 감소한 경우
                             </li>
-
                             <li>
                                 <span className="guide_text_num">6</span>
                                 고객의 요청사항에 맞춰 제작에 들어가는 맞춤제작상품의 경우
                                 <em> (판매자에게 회복불가능한 손해가 예상되고,그러한 예정으로 청약철회권 행사가 불가능하다는 사실을 서면 동의 받은 경우)</em>
                             </li>
-
                             <li>
                                 <span className="guide_text_num">7</span>
                                 복제가 가능한 상품 등의 포장을 훼손한 경우
@@ -413,10 +371,8 @@ function ProductsInfo({data})
                     </div>
                 </div>
             </div>
-
             {/* 판매자정보 */}
-
-            {/* <div className="seller_info">
+            <div className="seller_info">
                 <div className="seller">
                     <div className="seller_name">
                         <span className="seller_name_blank"></span>
@@ -429,7 +385,6 @@ function ProductsInfo({data})
                         <span className="seller_name_bar">|</span>
                         대표자 : {data.seller_info.ceo}
                     </div>
-
                     <div className="seller_detail_info">
                         사업자등록번호 : {data.seller_info.business_number}
                         <br/>
@@ -441,9 +396,8 @@ function ProductsInfo({data})
                         <br/>
                         메일 : {data.seller_info.email}
                     </div>
-
                 </div>
-            </div> */}
+            </div>
         </div>
     )
 }

@@ -1,7 +1,7 @@
-import Axios from 'axios';
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import '../css/SignUpDetail.css'
+import { SignUpDetailPostAxios } from './AxiosLink';
 
 function SignUpDetail({history})
 {
@@ -20,6 +20,7 @@ function SignUpDetail({history})
     let date = today.getDate();
 
     // 필수정보 경고문
+    // 쓰는 부분이 많아 함수로 만들었습니다.
     const necessaryInfo=()=>{
         return(
             <span className="Warning">필수 정보입니다.</span>
@@ -152,7 +153,7 @@ function SignUpDetail({history})
     }
 
     // 월 select값 check
-    const birMmBlur=(e)=>{
+    const birMmChange=(e)=>{
 
         const targetValue = e.target.options[e.target.selectedIndex].value;
         const stateCopy = {...birCheck};
@@ -201,7 +202,7 @@ function SignUpDetail({history})
     }
 
     // 성별 select 값 check
-    const genderBlur=(e)=>{
+    const genderChange=(e)=>{
         const stateCopy = {...genderCheck,onClick:true};
         const targetValue = e.target.options[e.target.selectedIndex].value;
 
@@ -453,25 +454,23 @@ function SignUpDetail({history})
     // 회원가입시 가입자의 데이터를 서버로 post함
     // 작업 후 result값이 0일 경우 메인페이지로 이동
     const joinPost = () =>{
-        Axios.post('https://lab.usagi.space/portfolio/join',{
-            "id": idCheck.value,
-            "pw": pwCheck.value,
-            "name": nameCheck.value,
-            "birth": {
-                "year": parseInt(birCheck.vyValue),
-                "month": parseInt(birCheck.mmValue),
-                "day": parseInt(birCheck.ddValue)
-            },
-            "gender": genderCheck.value,
-            "email": emailCheck.value,
-            "phone_number": phoneCheck.value,
-        }).then((response)=>{
+        SignUpDetailPostAxios(
+            idCheck.value,
+            pwCheck.value,
+            nameCheck.value,
+            birCheck.vyValue,
+            birCheck.mmValue,
+            birCheck.ddValue,
+            genderCheck.value,
+            emailCheck.value,
+            phoneCheck.value
+            ).then((response)=>{
             if(response.data.result !== 0)
             {
                 alert(response.data.message);
             }
             else{
-                history.push('/MainPage')
+                history.push('/')
             }
         })
     }
@@ -503,7 +502,6 @@ function SignUpDetail({history})
             <div className="header">
                 <NavLink to="/" className="title">회원가입 상세 페이지(홈으로)</NavLink>
             </div>
-
             <div className="container">
                 <div className="content">
                     <div className="contentDetail">
@@ -513,34 +511,26 @@ function SignUpDetail({history})
                                 <input className="contentInput" onChange={idChange} onBlur={onIdCheck}/>
                                 {/* <span className="emailUrl">@naver.com</span> */}
                             </div>
-
                             {idCheck.onClick ? idWarning() : ''}
-
                             <div className="contentTitleText">비밀번호</div>
                             <div className="pwBox boxType">
                                 <input className="contentInput" onChange={pwChange} onBlur={onPwCheck}/>
                                 {/* <span>자물쇠</span> */}
                             </div>
-                            
                             {pwCheck.onClick ? pwWarning() : ''}
-
                             <div className="contentTitleText">비밀번호 재확인</div>
                             <div className="pwBox boxType">
                                 <input className="contentInput" onChange={reconfirmChange} onBlur={onReconfirmCheck}/>
                                 {/* <span>자물쇠확인</span> */}
                             </div>
                         </div>
-
                         {reconfirmCheck.onClick ? reconfirmWarning() : ''}
-
                         <div className="privacy">
                             <div className="contentTitleText">이름</div>
                             <div className="nameBox boxType">
                                 <input className="contentInput" onChange={nameChange} onBlur={onNameCheck}/>
                             </div>
-
                             {nameCheck.onClick ? nameWarning() : ''}
-                            
                             <div className="contentTitleText">생년월일</div>
                             <div className="bir">
                                 <div className="birVy birCommon">
@@ -548,10 +538,9 @@ function SignUpDetail({history})
                                         <input className="contentInput" placeholder="년(4자)" onKeyUp={birVyChange} onBlur={onBirCheck}/>
                                     </span>
                                 </div>
-
                                 <div className="birMm birCommon">
                                     <span className="boxType">
-                                        <select className="contentSel" onBlur={birMmBlur}>
+                                        <select className="contentSel" onChange={birMmChange}>
                                             <option value=''>월</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
@@ -568,30 +557,25 @@ function SignUpDetail({history})
                                         </select>
                                     </span>
                                 </div>
-
                                 <div className="birDd birCommon">
                                     <span className="boxType">
                                         <input className="contentInput" placeholder="일" onChange={birDdChange} onBlur={onBirCheck}/>
                                     </span>
                                 </div>
                             </div>
-
                             {birCheck.onClick ? birWarning() : ''}
                         </div>
-
                         <div className="sex">
                             <div className="contentTitleText">성별</div>
                             <div className="genderBox boxType">
-                                <select className="contentSel" onBlur={genderBlur}>
+                                <select className="contentSel" onChange={genderChange}>
                                     <option value=''>성별</option>
                                     <option value="M">남자</option>
                                     <option value="F">여자</option>
                                 </select>
                             </div>
                         </div>
-
                         {genderCheck.onClick ? genderWarning() : ''}
-
                         <div className="email">
                             <div className="contentTitleText">본인 확인 이메일
                                 <span className="choiceText">(선택)</span>
@@ -600,18 +584,14 @@ function SignUpDetail({history})
                                 <input className="contentInput" placeholder="선택입력" onChange={emailChange} onBlur={onEmailCheck}/>
                             </div>
                         </div>
-
                         {emailWarning()}
-
                         <div className="mobile">
                             <div className="contentTitleText">휴대전화</div>
                             <div className="boxType">
                                 <input className="contentInput" placeholder="- 없이 입력해주세요" onChange={phoneChange} onBlur={onPhoneCheck}/>
                             </div>
                         </div> 
-        
                         {phoneCheck.onClick ? phoneWarning() : ''}
-
                         <div className="joinBtnArea">
                             <div className="joinBtn btnPrimary" onClick={onJoinBtn}><span>가입하기</span></div>
                         </div>

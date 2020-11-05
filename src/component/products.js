@@ -1,15 +1,16 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import '../css/Products.css'
 import { NavLink } from 'react-router-dom';
-import Axios from 'axios';
 import ProductsInfo from './ProductsInfo'
 import Installment from './Installment';
 import MainPageHeader from './mainpage/MainPageHeader';
 import { connect } from 'react-redux';
 import { gCartCountIncrease } from '../store/modules/GlobalData.js'
+import { ProductsCartAddAxios, ProductsDataAxios } from './AxiosLink';
 
-function Products({match,history,gCartCountIncrease}){
+function Products(props){
 
+    const {match,history,gCartCountIncrease} = props;
     const [prdData,setPrdData] = useState({});
     const [categoryList,setCategoryList] = useState([])
     const [deliveryMethod,setDeliveryMethod] = useState([]);
@@ -29,7 +30,7 @@ function Products({match,history,gCartCountIncrease}){
 
     //데이터를 가져옴
     useEffect(()=>{
-        Axios.get('http://lab.usagi.space/portfolio/product/'+match.params.id).then((response)=>{
+       ProductsDataAxios(match.params.id).then((response)=>{
             setPrdData(response.data);
             setCategoryList(response.data.category_list);
             setPrdImg(response.data.product_image);
@@ -84,16 +85,16 @@ function Products({match,history,gCartCountIncrease}){
     }
 
     // 옵션과 추가상품의 selectbox의 상품을 선택할 경우 list의 추가 시켜줌
-    const onSelectValue = (dataType,arrList,type,data,e) =>{
+    const onSelectValue = (dataType,arrList,type,id,e) =>{
         const ReselectionFilter = arrList.filter((arr)=>{
-            return arr.data_id === data;
+            return arr.data_id === id;
         })
         
-        const ReselectionFilter2 = ReselectionFilter.filter((arr)=>{
+        const ReselectionFilter2 = ReselectionFilter.find((arr)=>{
             return arr.id === parseInt(e.target.value);
         })
-
-        if(ReselectionFilter2.length)
+        
+        if(ReselectionFilter2)
         {
             if(type === 'option')
             {
@@ -108,45 +109,40 @@ function Products({match,history,gCartCountIncrease}){
         if(e.target.value !== '0')
         {
             const copy = [...dataType];
-            const prdFilter = copy.filter((arr)=>{
-                return  arr.id === data
+            const prdFilter = copy.find((arr)=>{
+                return  arr.id === id
             })
 
             let list;
 
             if(type === 'option')
             {
-                list = prdFilter[0].option_list;
+                list = prdFilter.option_list;
             }
             else if(type === 'addPrd')
             {
-                list = prdFilter[0].product_list;
+                list = prdFilter.product_list;
             }
 
-            const prdFilter2 = list.filter((arr)=>{
+            const prdFilter2 = list.find((arr)=>{
                 return arr.id === parseInt(e.target.value);
             })
 
-            const filter_list = prdFilter2[0];
-
-            if(filter_list.soldout)
+            if(prdFilter2.soldout)
             {
                 e.target.value = '0';
                 return alert('품절인 옵션은 구매하실 수 없습니다.');
             }
             else{
-                const listMap = prdFilter2.map((arr)=>{
-                return {data_id:data,count:1,...arr};
-                })
+               const prdItem = {...prdFilter2,data_id:id,count:1,};
                 
-                const prdOp = listMap[0];
                 if(type === 'option')
                 {
-                    setOptionListArr([...arrList,prdOp])
+                    setOptionListArr([...arrList,prdItem])
                 }
                 else if(type === 'addPrd')
                 {
-                    setAddPrdListArr([...arrList,prdOp])
+                    setAddPrdListArr([...arrList,prdItem])
                 }
                 
             }
@@ -304,12 +300,7 @@ function Products({match,history,gCartCountIncrease}){
                 return [arr.data_id,arr.id,arr.count];
             });
     
-            Axios.post("http://lab.usagi.space/portfolio/cart",{
-                    id: match.params.id,
-                    option: postOption,
-                    add_product: postAddPrd,
-                    delivery_method: deliverySelValue
-            }).then(()=>{
+            ProductsCartAddAxios(match.params.id,postOption,postAddPrd,deliverySelValue).then(()=>{
                 gCartCountIncrease(1);
                 const cartPageConfirm = window.confirm('장바구니에 상품을 담았습니다.\n장바구니로 이동하시겠습니까?');
                 if(cartPageConfirm)
@@ -354,7 +345,6 @@ function Products({match,history,gCartCountIncrease}){
                                 {imgPaging}
                             </div>
                         </div>
-
                         <div className="info">
                             <div>
                                 <div className="_copyable">
@@ -385,9 +375,7 @@ function Products({match,history,gCartCountIncrease}){
                                             </div>
                                         </dd>
                                     </dl>
-
                                     {installmentState ?<Installment btn={offinstallment}/> : ''}
-
                                     <div className="delivery">
                                         <div className="delivery_way">
                                             <span>배송방법</span>
@@ -408,7 +396,6 @@ function Products({match,history,gCartCountIncrease}){
                                             </div>
                                         </div> : ''}
                                     </div>
-
                                     <div className="prd_option">
                                         <div className="option">
                                             <span>옵션</span>
@@ -427,7 +414,6 @@ function Products({match,history,gCartCountIncrease}){
                                                 })
                                             }
                                         </div>
-
                                         <div className="add">
                                             <span>추가상품</span>
                                             <div className="select_area">
@@ -448,12 +434,10 @@ function Products({match,history,gCartCountIncrease}){
                                             </div>
                                         </div>
                                     </div>
-
                                     <ul className="purchase_list">
                                         {optionList}
                                         {addPrdList}
                                     </ul>
-
                                     <div className="total">
                                             <span className="total_count">총 수량 {totalCount}개</span>
                                         <span className="total_cost">
@@ -461,16 +445,13 @@ function Products({match,history,gCartCountIncrease}){
                                             <span>{totalPrice}원</span>
                                         </span>
                                     </div>
-
                                     <div className="btn_area">
                                         <div className="buy_btn">
                                             <a href="#">구매하기</a>
                                         </div>
-
                                         <div className="basket_btn" onClick={onAddCart}>
                                             <a href="#">장바구니</a>
                                         </div>
-
                                         <div className="pick_btn">
                                             <a href="#">찜</a>
                                         </div>
