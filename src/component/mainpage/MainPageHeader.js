@@ -3,7 +3,7 @@ import '../../css/MainPage.css'
 import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { gMemberId, gMemberName, gCartCount, gDataReset } from '../../store/modules/GlobalData.js'
-import { MainPageHeaderAxios, MainPageHeaderCountAxios, MainPageHeaderLogoutAxios } from '../AxiosLink';
+import { MainPageHeaderAxios, MainPageHeaderCountAxios, MainPageHeaderLogoutAxios } from '../common/api';
 
 function MainPageHeader(props)
 {

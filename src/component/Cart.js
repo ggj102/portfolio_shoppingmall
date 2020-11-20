@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../css/Cart.css'
 import { NavLink } from 'react-router-dom';
-import { CartDataAxios, CartListDeleteAxios } from './AxiosLink';
+import { CartDataAxios, CartListDeleteAxios } from './common/api.js';
 
 function Cart()
 {

@@ -10,7 +10,7 @@ import SignUpConsent from '../component/SignUpConsent';
 import SignUpDetail from '../component/SignUpDetail';
 import MainPage from './MainPage';
 import { gMemberId,gMemberName } from '../store/modules/GlobalData.js'
-import { ShoppingMallMainDataAxios } from '../component/AxiosLink';
+import { ShoppingMallMainDataAxios } from '../component/common/api.js';
 
 function ShoppingMallMain({gMemberId,gMemberName})
 {

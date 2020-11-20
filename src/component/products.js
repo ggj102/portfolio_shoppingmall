@@ -6,7 +6,7 @@ import Installment from './Installment';
 import MainPageHeader from './mainpage/MainPageHeader';
 import { connect } from 'react-redux';
 import { gCartCountIncrease } from '../store/modules/GlobalData.js'
-import { ProductsCartAddAxios, ProductsDataAxios } from './AxiosLink';
+import { ProductsCartAddAxios, ProductsDataAxios } from './common/api.js';
 
 function Products(props){
 

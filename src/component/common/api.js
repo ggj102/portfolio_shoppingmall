@@ -1,17 +1,18 @@
 import Axios from 'axios';
 import React from 'react';
 
+Axios.defaults.baseURL = "https://lab.usagi.space/portfolio/";
+Axios.defaults.withCredentials = true;
+
 export function ShoppingMallMainDataAxios(){
     return(
-        Axios.get("https://lab.usagi.space/portfolio/user", {
-          withCredentials: true,
-        })
+        Axios.get("user")
     )
 }
 
 export function MainPageAllPrdAxios(type){
     return(
-        Axios.get('http://lab.usagi.space/portfolio/products',
+        Axios.get("products",
         {
             params:{
                 sort_type: type,
@@ -21,42 +22,35 @@ export function MainPageAllPrdAxios(type){
 }
 
 export function MainPageBestPrdAxios(){
-    return(
-        Axios.get("http://lab.usagi.space/portfolio/main")
-    )
+    return Axios.get("main")
+    
 }
 
 export function MainPageHeaderAxios(){
-    return(
-        Axios.get('http://lab.usagi.space/portfolio/header')
-    )
+    return Axios.get('header')
+    
 }
 
 export function MainPageHeaderCountAxios(){
     return(
-        Axios.get("https://lab.usagi.space/portfolio/cart_count", {
-            withCredentials: true,
-        })
+        Axios.get("cart_count")
     )
 }
 
 export function MainPageHeaderLogoutAxios(){
     return(
-        Axios.get("https://lab.usagi.space/portfolio/logout", {
-            withCredentials: true,
-        })
+        Axios.get("logout")
     )
 }
 
 export function CartDataAxios(){
-    return(
-        Axios.get('http://lab.usagi.space/portfolio/cart')
-    )
+    return Axios.get("cart")
+    
 }
 
 export function CartListDeleteAxios(id){
     return(
-        Axios.delete('http://lab.usagi.space/portfolio/cart',{
+        Axios.delete("cart",{
                 params:{
                     id: id
                 }
@@ -66,7 +60,7 @@ export function CartListDeleteAxios(id){
 
 export function CategoryPrdListAxios(id,type,now,per){
     return(
-        Axios.get('http://lab.usagi.space/portfolio/category/'+id,{
+        Axios.get("category/"+id,{
             params:{
                 sort_type: type,
                 page: now,
@@ -78,7 +72,7 @@ export function CategoryPrdListAxios(id,type,now,per){
 
 export function SearchPrdListAxios(data,type,now,per){
     return(
-        Axios.get('http://lab.usagi.space/portfolio/search',{
+        Axios.get("search",{
             params:{
                 query: data,
                 sort_type: type,
@@ -91,24 +85,21 @@ export function SearchPrdListAxios(data,type,now,per){
 
 export function LoginPostAxios(id,pw){
     return(
-        Axios.post("https://lab.usagi.space/portfolio/login", {
+        Axios.post("login", {
             "id": id,
             "pw": pw
-        }, {
-            withCredentials: true,
         })
     )
 }
 
 export function ProductsDataAxios(id){
-    return(
-        Axios.get('http://lab.usagi.space/portfolio/product/'+id)
-    )
+    return Axios.get("product/"+id)
+    
 }
 
 export function ProductsCartAddAxios(id,op,prd,delvalue){
     return(
-        Axios.post("http://lab.usagi.space/portfolio/cart",{
+        Axios.post("cart",{
                     id: id,
                     option: op,
                     add_product: prd,
@@ -119,7 +110,7 @@ export function ProductsCartAddAxios(id,op,prd,delvalue){
 
 export function SignUpDetailPostAxios(id,pw,name,vy,mm,dd,gender,email,phone){
     return(
-        Axios.post('https://lab.usagi.space/portfolio/join',{
+        Axios.post("join",{
             "id": id,
             "pw": pw,
             "name": name,
@@ -134,10 +125,3 @@ export function SignUpDetailPostAxios(id,pw,name,vy,mm,dd,gender,email,phone){
         })
     )
 }
-
-function AxiosLink()
-{
-    return
-}
-
-export default AxiosLink;

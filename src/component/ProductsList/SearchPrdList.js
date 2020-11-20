@@ -1,6 +1,6 @@
 import React from 'react'
 import '../../css/ProductsList.css'
-import { SearchPrdListAxios } from '../AxiosLink';
+import { SearchPrdListAxios } from '../common/api';
 import PrdList from './PrdList';
 
 function SearchPrdList({match})

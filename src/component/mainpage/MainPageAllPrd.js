@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../../css/MainPage.css'
 import Axios from 'axios';
 import { NavLink } from 'react-router-dom';
+import { MainPageAllPrdAxios } from '../common/api';
 
 function MainPageAllPrd()
 {
@@ -13,13 +14,10 @@ function MainPageAllPrd()
                         {type:"review_score",title:"평점높은순"},
                         {type:"recent",title:"최신등록순"}]
 
+                        
+
     useEffect(()=>{
-        Axios.get('http://lab.usagi.space/portfolio/products',
-        {
-            params:{
-                sort_type: sortType,
-            }
-        }).then((response)=>{
+        MainPageAllPrdAxios(sortType).then((response)=>{
             setItemList(response.data.item_list);
         })
     },[sortType])

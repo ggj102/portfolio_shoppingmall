@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../../css/MainPage.css'
 import { NavLink } from 'react-router-dom';
-import { MainPageBestPrdAxios } from '../AxiosLink';
+import { MainPageBestPrdAxios } from '../common/api.js';
 
 function MainPageBestPrd()
 {
@@ -52,7 +52,7 @@ function MainPageBestPrd()
             <li key={arr.product_id}>
                 <NavLink to={"/Products/"+arr.product_id} className="listview_atag">
                     <div className="bestreview_thumbnail">
-                        <img src={arr.thumb_image}/>
+                        <img src={arr.thumb_image} alt="img"/>
                     </div>
                     <p className="bestreview_text">{arr.text}</p>
                     <div className="listview_product_name">

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import '../css/SignUpDetail.css'
-import { SignUpDetailPostAxios } from './AxiosLink';
+import { SignUpDetailPostAxios } from './common/api.js';
 
 function SignUpDetail({history})
 {
@@ -41,7 +41,7 @@ function SignUpDetail({history})
         }
     }
 
-    // passward 경고문
+    // password 경고문
     const pwWarning=()=>{
         if(!pwCheck.blank)
         {
@@ -55,7 +55,7 @@ function SignUpDetail({history})
         }
     }
 
-    // passward 확인 경고문
+    // password 확인 경고문
     const reconfirmWarning=()=>{
         if(!reconfirmCheck.form)
         {
@@ -132,12 +132,12 @@ function SignUpDetail({history})
         setIdCheck({...idCheck,value:e.target.value})
     }
 
-    // passward값 check
+    // password값 check
     const pwChange=(e)=>{
         setPwCheck({...pwCheck,value:e.target.value})
     }
 
-    // passward 확인값 check
+    // password 확인값 check
     const reconfirmChange=(e)=>{
         setReconfirmCheck({...reconfirmCheck,value:e.target.value})
     }
@@ -261,7 +261,7 @@ function SignUpDetail({history})
         setIdCheck(stateCopy);
     }
 
-    // passward를 입력 후 onblur로 이벤트 작동
+    // password를 입력 후 onblur로 이벤트 작동
     // scText,noNum,noAZ,noaz 값이 없거나 또는 값이 blank 및 조건의 맞는 길이가 아닐 경우 경고문이 활성화
     const onPwCheck=()=>{
 
@@ -297,8 +297,8 @@ function SignUpDetail({history})
         setPwCheck(stateCopy);
     }
 
-    // passward 확인을 입력 후 onblur로 이벤트 작동
-    // passward에 입력했던 값이 passward확인 값과 일치 하지 않거나 blank일 경우 경고문 활성화
+    // password 확인을 입력 후 onblur로 이벤트 작동
+    // password에 입력했던 값이 password확인 값과 일치 하지 않거나 blank일 경우 경고문 활성화
     const onReconfirmCheck=()=>{
         const stateCopy = {...reconfirmCheck,onClick:true};
 
@@ -514,13 +514,13 @@ function SignUpDetail({history})
                             {idCheck.onClick ? idWarning() : ''}
                             <div className="contentTitleText">비밀번호</div>
                             <div className="pwBox boxType">
-                                <input className="contentInput" onChange={pwChange} onBlur={onPwCheck}/>
+                                <input type="password" className="contentInput" onChange={pwChange} onBlur={onPwCheck}/>
                                 {/* <span>자물쇠</span> */}
                             </div>
                             {pwCheck.onClick ? pwWarning() : ''}
                             <div className="contentTitleText">비밀번호 재확인</div>
                             <div className="pwBox boxType">
-                                <input className="contentInput" onChange={reconfirmChange} onBlur={onReconfirmCheck}/>
+                                <input type="password" className="contentInput" onChange={reconfirmChange} onBlur={onReconfirmCheck}/>
                                 {/* <span>자물쇠확인</span> */}
                             </div>
                         </div>

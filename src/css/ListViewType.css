@@ -226,7 +226,7 @@
 /* typeB */
 
 .list_typeB{
-    width: 262px;
+    width: 20%;
     padding: 0 15px;
     position: relative;
     float: left;
@@ -239,6 +239,13 @@
     color: #000;
     vertical-align: top;
     text-decoration: none;
+}
+
+.item_imgB img{
+    width: 232px;
+    height: 232px;
+    vertical-align: top;
+    border: 0;
 }
 
 .item_titleB{
@@ -381,7 +388,7 @@
 /* typeC */
 
 .list_typeC{
-    width: 327px;
+    width: 25%;
     padding: 0 18px;
     position: relative;
     float: left;
@@ -401,8 +408,8 @@
 }
 
 .item_imgC img{
-    width: 100%;
-    height: 100%;
+    width: 291px;
+    height: 379px;
 }
 
 .item_titleC{

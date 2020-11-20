@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import '../css/Login.css'
 import { connect } from 'react-redux';
 import { gMemberId, gMemberName } from '../store/modules/GlobalData.js'
-import { LoginPostAxios } from './AxiosLink';
+import { LoginPostAxios } from './common/api.js';
 
 function LogIn({history,gMemberId,gMemberName})
 {
@@ -56,11 +56,12 @@ function LogIn({history,gMemberId,gMemberName})
                                 </span>
                             </div>
                         </div>
-                        <div className="passward">
+                        <div className="password">
                             <div className="inputRow">
                                 <span className="inputBox">
                                     <input 
-                                    className="passwardInput" 
+                                    type="password"
+                                    className="passwordInput" 
                                     placeholder="비밀번호"
                                     onChange={onChangePw}/>
                                 </span>

@@ -26,147 +26,126 @@ function Installment({btn}){
             </div>
             <ul>
                 <li className="item_card">
-                    <div className="bland_img"><img src={Kb}/></div>
+                    <div className="bland_img"><img src={Kb} alt="img"/></div>
                     <div className="card_text_area">
                         <div className="card_text">
                             <span className="card_month">2,3,4,5,6개월 무이자</span>
                             <span className="card_price">5만원 이상</span>
                         </div>
-
                         <div className="card_text">
                             <span className="card_month">2,3개월 무이자</span>
                             <span className="card_price">5만원 이상</span>
                         </div>
-
                         <div className="card_text">
                             <span className="card_month">10개월 부분무이자(1,2,3개월 고객부담)</span>
                             <span className="card_price">5만원 이상</span>
                         </div>
-
                         <div className="card_text">
                             <span className="card_month">12개월 부분무이자(1,2,3,4개월 고객부담)</span>
                             <span className="card_price">5만원 이상</span>
                         </div>
                     </div>
                 </li>
-
                 <li className="item_card">
-                    <div className="bland_img"><img src={Samsung}/></div>
+                    <div className="bland_img"><img src={Samsung} alt="img"/></div>
                     <div className="card_text_area">
                         <div className="card_text">
                             <span className="card_month">2,3,4,5,6개월 무이자</span>
                             <span className="card_price">5만원 이상</span>
                         </div>
-
                         <div className="card_text">
                             <span className="card_month">2,3개월 무이자</span>
                             <span className="card_price">5만원 이상</span>
                         </div>
-
                         <div className="card_text">
                             <span className="card_month">10개월 부분무이자(1,2,3개월 고객부담)</span>
                             <span className="card_price">5만원 이상</span>
                         </div>
-
                         <div className="card_text">
                             <span className="card_month">12개월 부분무이자(1,2,3,4개월 고객부담)</span>
                             <span className="card_price">5만원 이상</span>
                         </div>
                     </div>
                 </li>
-
                 <li className="item_card">
-                    <div className="bland_img"><img src={Nh}/></div>
+                    <div className="bland_img"><img src={Nh} alt="img"/></div>
                     <div className="card_text_area">
                         <div className="card_text">
                             <span className="card_month">2,3,4,5,6개월 무이자</span>
                             <span className="card_price">5만원 이상</span>
                         </div>
-
                         <div className="card_text">
                             <span className="card_month">2,3개월 무이자</span>
                             <span className="card_price">5만원 이상</span>
                         </div>
                     </div>
                 </li>
-
                 <li className="item_card">
-                    <div className="bland_img"><img src={Hyundai}/></div>
+                    <div className="bland_img"><img src={Hyundai} alt="img"/></div>
                     <div className="card_text_area">
                         <div className="card_text">
                             <span className="card_month">2,3,4,5,6,7개월 무이자</span>
                             <span className="card_price">1만원 이상</span>
                         </div>
-
                         <div className="card_text">
                             <span className="card_month">10개월 무이자</span>
                             <span className="card_price">30만원 이상</span>
                         </div>
-
                         <div className="card_text">
                             <span className="card_month">2,3개월 무이자</span>
                             <span className="card_price">5만원 이상</span>
                         </div>
                     </div>
                 </li>
-
                 <li className="item_card">
-                    <div className="bland_img"><img src={Lotte}/></div>
+                    <div className="bland_img"><img src={Lotte} alt="img"/></div>
                     <div className="card_text_area">
                         <div className="card_text">
                             <span className="card_month">2,3,4,5개월 무이자</span>
                             <span className="card_price">5만원 이상</span>
                         </div>
-
                         <div className="card_text">
                             <span className="card_month">2,3개월 무이자</span>
                             <span className="card_price">5만원 이상</span>
                         </div>
                     </div>
                 </li>
-
                 <li className="item_card">
-                    <div className="bland_img"><img src={Hana}/></div>
+                    <div className="bland_img"><img src={Hana} alt="img"/></div>
                     <div className="card_text_area">
                         <div className="card_text">
                             <span className="card_month">2,3,4,5,6개월 무이자</span>
                             <span className="card_price">5만원 이상</span>
                         </div>
-
                         <div className="card_text">
                             <span className="card_month">2,3개월 무이자</span>
                             <span className="card_price">5만원 이상</span>
                         </div>
                     </div>
                 </li>
-
                 <li className="item_card">
-                    <div className="bland_img"><img src={Shinhan}/></div>
+                    <div className="bland_img"><img src={Shinhan} alt="img"/></div>
                     <div className="card_text_area">
                         <div className="card_text">
                             <span className="card_month">10개월 무이자</span>
                             <span className="card_price">30만원 이상</span>
                         </div>
-
                         <div className="card_text">
                             <span className="card_month">2,3,4,5,6개월 무이자</span>
                             <span className="card_price">5만원 이상</span>
                         </div>
-
                         <div className="card_text">
                             <span className="card_month">2,3개월 무이자(</span>
                             <span className="card_price">5만원 이상</span>
                         </div>
-
                         <div className="card_text">
                             <span className="card_month">12개월 부분무이자(1,2,3,4개월 고객부담)</span>
                             <span className="card_price">5만원 이상</span>
                         </div>
                     </div>
                 </li>
-
                 <li className="item_card">
-                    <div className="bland_img"><img src={Citi}/></div>
+                    <div className="bland_img"><img src={Citi} alt="img"/></div>
                     <div className="card_text_area">
                         <div className="card_text">
                             <span className="card_month">2,3,4,5,6개월 무이자</span>
@@ -174,24 +153,21 @@ function Installment({btn}){
                         </div>
                     </div>
                 </li>
-
                 <li className="item_card">
-                    <div className="bland_img"><img src={Bc}/></div>
+                    <div className="bland_img"><img src={Bc} alt="img"/></div>
                     <div className="card_text_area">
                         <div className="card_text">
                             <span className="card_month">2,3,4,5,6개월 무이자</span>
                             <span className="card_price">5만원 이상</span>
                         </div>
-
                         <div className="card_text">
                             <span className="card_month">2,3개월 무이자</span>
                             <span className="card_price">5만원 이상</span>
                         </div>
                     </div>
                 </li>
-
                 <li className="item_card">
-                    <div className="bland_img"><img src={Kwang}/></div>
+                    <div className="bland_img"><img src={Kwang} alt="img"/></div>
                     <div className="card_text_area">
                         <div className="card_text">
                             <span className="card_month">2,3개월 무이자</span>
