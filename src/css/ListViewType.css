@@ -1,0 +1,799 @@
+/* typeA */
+.list_typeA{
+    position: relative;
+    height: 140px;
+    padding: 20px 250px 20px 0;
+    border-bottom: 1px solid #e2e5e9;
+}
+
+.list_typeA::after{
+    position: absolute;
+    top: 20px;
+    right: 166px;
+    bottom: 20px;
+    content: '';
+    width: 1px;
+    background-color: #e2e5e9;
+}
+
+.list_typeA a{
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    color: #000;
+    vertical-align: top;
+}
+
+.item_imgA{
+    overflow: hidden;
+    position: relative;
+    float: left;
+    width: 140px;
+    height: 140px;
+    margin-right: 20px;
+}
+
+.item_imgA img{
+    height: 100%;
+}
+
+.item_infoA{
+    overflow: hidden;
+    height: 100%;
+}
+
+.align_wrapA{
+    display: table;
+    width: 100%;
+    height: 100%;
+    table-layout: fixed;
+}
+
+.align_boxA{
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.item_titleA{
+    overflow: hidden;
+    width: 100%;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    display: block;
+    white-space: nowrap;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.item_textA{
+    overflow: hidden;
+    width: 100%;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    display: block;
+    white-space: nowrap;
+    margin-top: 6px;
+    color: #888;
+    line-height: 15px;
+    vertical-align: top;
+    font-size: 12px;
+}
+
+.area_priceA{
+    margin-top: 15px;
+    font-size: 0;
+    line-height: 0;
+}
+
+.itme_priceA{
+    line-height: 21px;
+    font-size: 16px;
+    vertical-align: middle;
+}
+.itme_priceA .price_text1{
+    vertical-align: baseline;
+    position: relative;
+    top: 1px;
+    font-weight: 600;
+}
+
+.itme_priceA .price_text2{
+    vertical-align: baseline;
+    font-size: 15px;
+}
+
+.itme_original_priceA{
+    font-size: 15px;
+    color: #888;
+    margin-left: 5px;
+    vertical-align: middle;
+    line-height: 21px;
+}
+
+.itme_original_priceA .price_text1{
+    font-size: 14px;
+    font-weight: normal;
+    text-decoration: line-through;
+    vertical-align: baseline;
+    position: relative;
+    top: 1px;
+    color: #888;
+}
+
+.itme_original_priceA .price_text2{
+    font-size: 13px;
+    vertical-align: baseline;
+    color: #888;
+}
+
+.itme_saleA{
+    color: #6b90dc;
+    position: relative;
+    bottom: -1px;
+    margin-left: 5px;
+    padding-left: 5px;
+    line-height: 21px;
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+.soldoutA{
+    display: inline-block;
+    margin: 1px 0 0 8px;
+    vertical-align: middle;
+}
+
+.soldout_boxA{
+    padding: 0 7px;
+    width: 64px;
+    color: #fff;
+    background-color: #535967;
+    height: 20px;
+    line-height: 20px;
+    box-sizing: border-box;
+    font-size: 11px;
+}
+
+.area_flagA{
+    top: 20px;
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    font-size: 11px;
+    line-height: 21px;
+}
+
+.flag_bestA{
+    text-align: center;
+    background-color: #4eb6dd;
+    color: #fff;
+    width: 48px;
+    height: 21px;
+    position: relative;
+}
+
+.flag_newA{
+    text-align: center;
+    background-color: #b176ce;
+    color: #fff;
+    width: 48px;
+    height: 21px;
+    position: relative;
+}
+
+.area_estimaionA{
+    top: 30px;
+    width: 136px;
+    position: absolute;
+    right: 0;
+    font-size: 0;
+    line-height: 0;
+}
+
+.area_estimaionA .label{
+    display: inline-block;
+    margin-bottom: 6px;
+    line-height: 13px;
+    font-size: 12px;
+    width: 39px;
+    color: #8f8f8f;
+}
+
+.area_estimaionA .count{
+    color: #6b90dc;
+    width: 70px;
+    display: inline-block;
+    margin-bottom: 6px;
+    line-height: 13px;
+    font-size: 12px;
+    vertical-align: top;
+}
+
+
+.area_estimaionA .slash{
+    margin: 0 1px;
+    color: #ccc;
+    display: inline-block;
+    line-height: 13px;
+    font-size: 12px;
+    vertical-align: top;
+}
+
+
+
+
+/* typeB */
+
+.list_typeB{
+    width: 20%;
+    padding: 0 15px;
+    position: relative;
+    float: left;
+    margin: 20px 0;
+    box-sizing: border-box;
+}
+
+.list_typeB a{
+    display: block;
+    color: #000;
+    vertical-align: top;
+    text-decoration: none;
+}
+
+.item_imgB img{
+    width: 232px;
+    height: 232px;
+    vertical-align: top;
+    border: 0;
+}
+
+.item_titleB{
+    overflow: hidden;
+    width: 100%;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    display: block;
+    white-space: nowrap;
+    margin-top: 14px;
+    margin-bottom: 3px;
+    padding-right: 26px;
+    box-sizing: border-box;
+    font-size: 13px;
+    color: #222;
+    line-height: 16px;
+}
+
+.item_textB{
+    overflow: hidden;
+    width: 100%;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.42em;
+    max-height: 2.84em;
+    margin-top: 10px;
+    color: #888;
+    vertical-align: top;
+    font-size: 12px;
+}
+
+.area_priceB{
+    font-size: 0;
+    line-height: 0;
+}
+
+.itme_priceB{
+    margin-right: 6px;
+    font-size: 13px;
+    color: #222;
+    line-height: 17px;
+}
+
+.itme_original_priceB{
+    padding-right: 5px;
+    text-decoration: line-through;
+    color: #888;
+    font-weight: normal;
+    margin-right: 6px;
+    font-size: 13px;
+    line-height: 17px;
+}
+
+
+.itme_saleB{
+    color: #6b90dc;
+    padding-left: 0;
+    margin-right: 0;
+    font-size: 13px;
+    line-height: 17px;
+}
+
+.area_flagB{
+    left: 15px;
+    position: absolute;
+    top: 0;
+    font-size: 11px;
+    line-height: 21px;
+    z-index: 1;
+}
+
+.flag_bestB{
+    text-align: center;
+    background-color: #4eb6dd;
+    color: #fff;
+    width: 48px;
+    height: 21px;
+    position: relative;
+}
+
+.flag_newB{
+    text-align: center;
+    background-color: #b176ce;
+    color: #fff;
+    width: 48px;
+    height: 21px;
+    position: relative;
+}
+
+.area_estimaionB{
+    height: 14px;
+    margin-top: 20px;
+    font-size: 0;
+    line-height: 0;
+}
+
+.area_estimaionB .label{
+    position: relative;
+    margin-right: 4px;
+    color: #8f8f8f;
+    line-height: 13px;
+    font-size: 12px;
+    vertical-align: top;
+}
+
+.area_estimaionB .count{
+    margin-right: 14px;
+    color: #6b90dc;
+    line-height: 13px;
+    font-size: 12px;
+    vertical-align: top;
+}
+
+.area_estimaionB .slash{
+    margin: 0 1px;
+    color: #ccc;
+    line-height: 13px;
+    font-size: 12px;
+    vertical-align: top;
+}
+
+.soldoutB{
+    margin-top: 15px;
+    white-space: nowrap;
+}
+
+.soldout_boxB{
+    width: 64px;
+    padding: 2px 7px;
+    color: #fff;
+    background-color: #535967;
+    height: 20px;
+    box-sizing: border-box;
+    font-size: 11px;
+}
+
+/* typeC */
+
+.list_typeC{
+    width: 25%;
+    padding: 0 18px;
+    position: relative;
+    float: left;
+    margin: 20px 0;
+    box-sizing: border-box;
+}
+
+.list_typeC a{
+    display: block;
+    color: #000;
+    vertical-align: top;
+}
+
+.item_imgC{
+    position: relative;
+    overflow: hidden;
+}
+
+.item_imgC img{
+    width: 291px;
+    height: 379px;
+}
+
+.item_titleC{
+    overflow: hidden;
+    width: 100%;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    display: block;
+    white-space: nowrap;
+    margin-top: 14px;
+    margin-bottom: 3px;
+    padding-right: 26px;
+    box-sizing: border-box;
+    font-size: 13px;
+    color: #222;
+    line-height: 16px;
+}
+
+.area_priceC{
+    font-size: 0;
+    line-height: 0;
+}
+
+.itme_priceC{
+    margin-right: 6px;
+    font-size: 13px;
+    color: #222;
+    line-height: 17px;
+}
+.itme_priceC .price_text1{
+    vertical-align: baseline;
+    font-size: 13px;
+    color: #222;
+    line-height: 17px;
+}
+
+.itme_priceC .price_text2{
+    vertical-align: baseline;
+    font-size: 13px;
+    color: #222;
+    line-height: 17px;
+}
+
+.itme_original_priceC{
+    padding-right: 5px;
+    text-decoration: line-through;
+    color: #888;
+    font-weight: normal;
+    margin-right: 6px;
+    font-size: 13px;
+    line-height: 17px;
+}
+
+.itme_original_priceC .price_text1{
+    vertical-align: baseline;
+    color: #888;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 17px;
+}
+
+.itme_original_priceC .price_text2{
+    vertical-align: baseline;
+    color: #888;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 17px;
+}
+
+.itme_saleC{
+    color: #6b90dc;
+    padding-left: 0;
+    margin-right: 0;
+    font-size: 13px;
+    line-height: 17px;
+}
+
+.item_textC{
+    overflow: hidden;
+    width: 100%;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.42em;
+    max-height: 2.84em;
+    margin-top: 10px;
+    color: #888;
+    vertical-align: top;
+    font-size: 12px;
+}
+
+.area_flagC{
+    left: 18px;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    font-size: 11px;
+}
+
+.flag_bestC{
+    
+    text-align: center;
+    background-color: #4eb6dd;
+    color: #fff;
+    width: 48px;
+    height: 21px;
+    line-height: 21px;
+    position: relative;
+}
+
+.flag_newC{
+    text-align: center;
+    background-color: #b176ce;
+    color: #fff;
+    width: 48px;
+    height: 21px;
+    line-height: 21px;
+    position: relative;
+}
+
+.area_estimaionC{
+    height: 14px;
+    margin-top: 20px;
+    font-size: 0;
+    line-height: 0;
+}
+
+.area_estimaionC .label{
+    margin-left: 0;
+    position: relative;
+    margin-right: 4px;
+    color: #8f8f8f;
+    line-height: 13px;
+    font-size: 12px;
+    vertical-align: top;
+}
+
+.area_estimaionC .count{
+    color: #6b90dc;
+    margin-right: 14px;
+    line-height: 13px;
+    font-size: 12px;
+    vertical-align: top;
+}
+
+
+.area_estimaionC .slash{
+    margin: 0 1px;
+    color: #ccc;
+    display: inline-block;
+    line-height: 13px;
+    font-size: 12px;
+    vertical-align: top;
+}
+
+.soldoutC{
+    margin-top: 15px;
+    white-space: nowrap;
+}
+
+.soldout_boxC{
+    padding: 0 7px;
+    width: 64px;
+    color: #fff;
+    background-color: #535967;
+    height: 20px;
+    line-height: 20px;
+    box-sizing: border-box;
+    font-size: 11px;
+}
+
+/* typeD */
+
+.list_typeD{
+    width: 655px;
+    padding: 0 38px;
+    position: relative;
+    float: left;
+    margin: 20px 0;
+    box-sizing: border-box;
+}
+
+.list_typeD a{
+    position: relative;
+    display: block;
+    color: #000;
+    vertical-align: top;
+}
+
+.img_areaD{
+    position: relative;
+    margin-bottom: 39px;
+}
+
+.item_imgD{
+    height: 602px;
+    position: relative;
+    overflow: hidden;
+}
+
+.item_imgD img{
+    width: 100%;
+    height: 100%;
+}
+
+
+
+.item_titleD{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 28px;
+    height: 56px;
+    z-index: 1;
+    margin-top: -25px;
+    padding: 2px 50px 0 0;
+    max-width: 100%;
+    font-size: 20px;
+    word-break: keep-all;
+    box-sizing: border-box;
+}
+
+.area_priceD{
+    margin-top: 39px;
+    font-size: 0;
+    line-height: 0;
+}
+
+.itme_priceD{
+    line-height: 22px;
+    font-size: 18px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+.itme_priceD .price_text1{
+    vertical-align: baseline;
+    position: relative;
+    top: 1px;
+    line-height: 22px;
+    font-size: 18px;
+    color: #000;
+}
+
+.itme_priceD .price_text2{
+    vertical-align: baseline;
+    font-size: 16px;
+    color: #222;
+    line-height: 22px;
+}
+
+.itme_original_priceD{
+    padding-right: 5px;
+    font-size: 15px;
+    color: #888;
+    line-height: 22px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.itme_original_priceD .price_text1{
+    font-size: 14px;
+    font-weight: normal;
+    text-decoration: line-through;
+    vertical-align: baseline;
+    position: relative;
+    top: 1px;
+    color: #888;
+    line-height: 22px;
+}
+
+.itme_original_priceD .price_text2{
+    font-size: 13px;
+    vertical-align: baseline;
+    color: #888;
+    line-height: 22px;
+}
+
+.itme_saleD{
+    color: #6b90dc;
+    padding-left: 0;
+    margin-right: 0;
+    line-height: 22px;
+    font-size: 18px;
+    vertical-align: middle;
+}
+
+.item_textD{
+    overflow: hidden;
+    width: 100%;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.5em;
+    max-height: 3em;
+    margin-top: 11px;
+    font-size: 13px;
+    color: #aaa;
+    vertical-align: top;
+}
+
+.area_flagD{
+    left: 38px;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    font-size: 11px;
+}
+
+.flag_bestD{
+    text-align: center;
+    background-color: #4eb6dd;
+    color: #fff;
+    width: 48px;
+    height: 21px;
+    line-height: 21px;
+    position: relative;
+}
+
+.flag_newD{
+    text-align: center;
+    background-color: #b176ce;
+    color: #fff;
+    width: 48px;
+    height: 21px;
+    line-height: 21px;
+    position: relative;
+}
+
+.area_estimaionD{
+    margin-top: 10px;
+    font-size: 0;
+    line-height: 0;
+}
+
+.area_estimaionD .label{
+    margin-left: 0;
+    position: relative;
+    margin-right: 4px;
+    color: #8f8f8f;
+    line-height: 13px;
+    font-size: 12px;
+    vertical-align: top;
+}
+
+.area_estimaionD .count{
+    color: #6b90dc;
+    margin-right: 14px;
+    line-height: 13px;
+    font-size: 12px;
+    vertical-align: top;
+}
+
+
+.area_estimaionD .slash{
+    margin: 0 1px;
+    color: #ccc;
+    display: inline-block;
+    line-height: 13px;
+    font-size: 12px;
+    vertical-align: top;
+}
+
+.soldoutD{
+    padding-top: 2px;
+    margin-top: 15px;
+    white-space: nowrap;
+}
+
+.soldout_boxD{
+    padding: 0 7px;
+    width: 64px;
+    color: #fff;
+    background-color: #535967;
+    height: 20px;
+    line-height: 20px;
+    box-sizing: border-box;
+    font-size: 11px;
+}
