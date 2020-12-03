@@ -39,27 +39,11 @@ function Products(props){
             setDeliveryMethod(response.data.delivery_method);
             setPrdOption(response.data.option);
             setAddPrd(response.data.add_product);
-            Calculator();
         })
-    },[addPrdListArr,optionListArr])
+    },[match.params.id])
 
-    // 이미지의 값이 2개 이상일 경우 메인 이미지 하단에 paiging형태로 출력됨
-    const imgPaging = prdImg.map((arr,idx)=>{
-        if(prdImg.length > 1)
-        {
-            return(
-                <span key={idx.toString()} className="_image_box" onMouseOver={()=>onPaging(arr.url)}><img src={arr.url} alt="img"/></span>
-            )
-        }
-    })
-        
-    //paging으로 출력된 이미지를 mouseover 할 경우 url값을 set함
-    const onPaging = (url) =>{
-        setImgState(url);
-    }
-    
     // 옵션과 추가상품의 총 수량과 총 가격을 계산해줌
-    const Calculator = () =>{
+    useEffect(() => {
         const optionCountReduce = optionListArr.reduce((acc,arr)=>{
             return acc+arr.count;
         },0)
@@ -82,6 +66,23 @@ function Products(props){
 
         setTotalCount(optionCountReduce+addPrdCountReduce);
         setTotalPrice(optionPriceReduce+addPrdPriceReduce);
+    }, [optionListArr, addPrdListArr, product_price]);
+
+    // 이미지의 값이 2개 이상일 경우 메인 이미지 하단에 paiging형태로 출력됨
+    const imgPaging = prdImg.map((arr,idx) => {
+        if(prdImg.length > 1)
+        {
+            return(
+                <span key={idx.toString()} className="_image_box" onMouseOver={()=>onPaging(arr.url)}><img src={arr.url} alt="img"/></span>
+            )
+        }
+
+        return arr;
+    })
+        
+    //paging으로 출력된 이미지를 mouseover 할 경우 url값을 set함
+    const onPaging = (url) =>{
+        setImgState(url);
     }
 
     // 옵션과 추가상품의 selectbox의 상품을 선택할 경우 list의 추가 시켜줌
@@ -371,7 +372,7 @@ function Products(props){
                                             </div>
                                             <div className="installment">
                                                 <div className="h">무이자할부</div>
-                                                <a href="#" className="detailBtn" onClick={oninstallment}>자세히보기</a>
+                                                <a href="#detailBtn" className="detailBtn" onClick={oninstallment}>자세히보기</a>
                                             </div>
                                         </dd>
                                     </dl>
@@ -392,7 +393,7 @@ function Products(props){
                                             <div className="cost">
                                                 <div className="delivery_price">{ (deliveryMethod.length && deliveryMethod[0].price) === 0 ? '무료' : deliveryMethod.length && deliveryMethod[0].price+'원'}</div>
                                                 <div className="interval">{deliveryMethod.length && deliveryMethod[0].additional_description}</div>
-                                                <div><a href="#" className="saving">배송비 절약상품보기</a></div>
+                                                <div><a href="#saving" className="saving">배송비 절약상품보기</a></div>
                                             </div>
                                         </div> : ''}
                                     </div>
@@ -447,13 +448,13 @@ function Products(props){
                                     </div>
                                     <div className="btn_area">
                                         <div className="buy_btn">
-                                            <a href="#">구매하기</a>
+                                            <a href="#btn">구매하기</a>
                                         </div>
                                         <div className="basket_btn" onClick={onAddCart}>
-                                            <a href="#">장바구니</a>
+                                            <a href="#btn">장바구니</a>
                                         </div>
                                         <div className="pick_btn">
-                                            <a href="#">찜</a>
+                                            <a href="#btn">찜</a>
                                         </div>
                                     </div>
                                 </div>

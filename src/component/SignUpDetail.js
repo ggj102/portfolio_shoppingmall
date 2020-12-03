@@ -405,7 +405,7 @@ function SignUpDetail({history})
     // email을 입력 후 onblur로 이벤트 작동
     // emailTextCheck값으로 check하며 email 양식에 적합하지 않을 경우 경고문 활성화
     const onEmailCheck=()=>{
-        const emailTextCheck=/^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+        const emailTextCheck=/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
         const stateCopy = {...emailCheck};
      
         if(stateCopy.value === '')

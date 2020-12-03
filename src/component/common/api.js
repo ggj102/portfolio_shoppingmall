@@ -1,5 +1,4 @@
 import Axios from 'axios';
-import React from 'react';
 
 Axios.defaults.baseURL = "https://lab.usagi.space/portfolio/";
 Axios.defaults.withCredentials = true;

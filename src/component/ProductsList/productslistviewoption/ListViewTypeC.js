@@ -5,7 +5,7 @@ function ListViewTypeC({arr,saleCal})
 {
     return(      
         <li className="list_typeC">
-            <a href="#">
+            <a href="#type">
                 <div className="item_imgC"><img  src={arr.thumb_image ? arr.thumb_image:''} alt="img"/></div>
                 <strong className="item_titleC">{arr.name}</strong>
                 <div className="area_priceC">

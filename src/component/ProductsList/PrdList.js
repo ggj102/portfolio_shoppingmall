@@ -22,7 +22,7 @@ function PrdList({sortTypeArr,ListAxios,data})
             setListData(response.data);
             setListItemData(response.data.item_list);
             })
-    },[sortType,nowPage,perPage,data])
+    },[sortType,nowPage,perPage,data,ListAxios])
 
 
     // 할인가 계산
@@ -40,7 +40,7 @@ function PrdList({sortTypeArr,ListAxios,data})
     const sortMap = sortTypeArr.map((arr,idx)=>{
         return(
             <li key={idx.toString()}>
-            <a href="#" className={sortType === arr.type ? "sort_focus" : "sort_tab"} 
+            <a href="#sort" className={sortType === arr.type ? "sort_focus" : "sort_tab"} 
             onClick={()=>{onSort(arr.type)}}>
                 {sortType === arr.type && <span>V</span>}
                 {arr.title}</a>
@@ -71,6 +71,8 @@ function PrdList({sortTypeArr,ListAxios,data})
         {
           return  <ListViewTypeD key={arr.id} arr={arr} saleCal={saleCal}/>
         }
+
+        return 0;
     })
 
     //현재 페이지에서 보여 줄수 있는 상품의 개수의 값
@@ -85,10 +87,10 @@ function PrdList({sortTypeArr,ListAxios,data})
     }
 
     // 임시로 만든 페이지네이션 기능 추가가 더 필요함
-    const paginationMap = test.map((arr,index)=>{
+    const paginationMap = test.map((arr)=>{
         return(
-            <a key={index.toString()} href="#" className={nowPage === index+1 ? "page_focus" : 'page_unfocus'} 
-                onClick={()=>onPageFocus(index+1)}>{index+1}</a>
+            <a key={arr.toString()} href="#pagenum" className={nowPage === arr ? "page_focus" : 'page_unfocus'} 
+                onClick={()=>onPageFocus(arr)}>{arr}</a>
         )
     })
 
@@ -104,15 +106,15 @@ function PrdList({sortTypeArr,ListAxios,data})
                         <div className="category_route">
                             <ul>
                                 <li>
-                                    <a href="#" className="route_text">홈</a>
+                                    <a href="#route" className="route_text">홈</a>
                                     <span className="arrow_mark">&gt;</span>
                                 </li>
                                 <li>
-                                    <a href="#" className="route_text2">Nintendo Switch(29)</a>
+                                    <a href="#route" className="route_text2">Nintendo Switch(29)</a>
                                     <span className="arrow_mark">&gt;</span>
                                 </li>
                                 <li>
-                                    <a href="#" className="route_text">전체</a>
+                                    <a href="#route" className="route_text">전체</a>
                                 </li>
                             </ul>
                         </div>

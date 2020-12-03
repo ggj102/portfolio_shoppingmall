@@ -26,7 +26,7 @@ function ShoppingMallMain({gMemberId,gMemberName})
                return
             }
         })
-      },[])
+      },[gMemberId,gMemberName])
 
     return(
       <>

@@ -35,10 +35,11 @@ function MainPageHeader(props)
         MainPageHeaderAxios().then((response)=>{
             setHeaderData(response.data);
             setCategoryData(response.data.category_list.category_list);
-            setSubCategoryData(response.data.category_list.subcategory_list)
-            cartCountResponse();
+            setSubCategoryData(response.data.category_list.subcategory_list);
         })
-    },[])
+    },[]);
+
+    useEffect(cartCountResponse, []);
 
     const onReset = () =>{
         setInputValue('');
@@ -166,13 +167,13 @@ function MainPageHeader(props)
                             <div className="menu_area">
                                 <ul>
                                     <li>
-                                        <a href="#">
+                                        <a href="#menu">
                                             <span>찜한 스토어</span>
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="#">
+                                        <a href="#menu">
                                             <span>마이페이지</span>
                                         </a>
                                     </li>
@@ -233,7 +234,7 @@ function MainPageHeader(props)
                         
                         <li className="category_inner_li">
                             <div className="category_btn">
-                                <a href="#">전체상품</a>
+                                <a href="#allprd">전체상품</a>
                             </div>
                         </li>
                     </ul>

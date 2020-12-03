@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import '../css/MainPage.css'
 import MainPageBestPrd from '../component/mainpage/MainPageBestPrd';
 import MainPageAllPrd from '../component/mainpage/MainPageAllPrd';

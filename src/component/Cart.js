@@ -19,13 +19,36 @@ function Cart()
         })
     }
 
+    // checkItem에 있는 상품들의 가격 및 배송비를 계산하는 기능
+    const totalCal = () =>{
+        const copylist = [...checkItem];
+        let min = 0;
+
+        if(copylist.length > 0)
+        {
+            min = copylist[0].delivery_price;
+            for(let i = 1; i<copylist.length; i++)
+            {
+                if(min > copylist[i].delivery_price)
+                {
+                    min = copylist[i].delivery_price;
+                }
+            }
+        }
+  
+        const totalprice = copylist.reduce((acc,value)=>{
+            return acc+value.price;
+        },0)
+
+        setDeliveryprice(min)
+        setPrdTotal(totalprice);
+    }
+
     useEffect(()=>{
         cartDataGet();
     },[])
 
-    useEffect(()=>{
-        totalCal();
-    },[checkItem])
+    useEffect(totalCal, [checkItem]);
 
     // 체크박스 all check 기능
     const onAllCheck = () =>{
@@ -58,31 +81,6 @@ function Cart()
             })
         }
         return;
-    }
-
-    // checkItem에 있는 상품들의 가격 및 배송비를 계산하는 기능
-    const totalCal = () =>{
-        const copylist = [...checkItem];
-        let min = 0;
-
-        if(copylist.length > 0)
-        {
-            min = copylist[0].delivery_price;
-            for(let i = 1; i<copylist.length; i++)
-            {
-                if(min > copylist[i].delivery_price)
-                {
-                    min = copylist[i].delivery_price;
-                }
-            }
-        }
-  
-        const totalprice = copylist.reduce((acc,value)=>{
-            return acc+value.price;
-        },0)
-
-        setDeliveryprice(min)
-        setPrdTotal(totalprice);
     }
 
     // 상품 체크박스를 체크하면 checkItem로 set하여 보관하며 
@@ -128,7 +126,7 @@ function Cart()
                             <span className="prd_thumb">
                                 <img src={arr.thumb}  alt="img"/>
                             </span>
-                            <a href="#" className="prd_mall_name">시온스토어</a>
+                            <a href="#title" className="prd_mall_name">시온스토어</a>
                             <span className="prd_channel_name">스마트스토어</span>
                             <span className="prd_name">{arr.title}</span>
                             <span className="prd_price_area">

@@ -111,7 +111,7 @@ function ProductsInfo({data})
     //tag ui 출력
     const tagMap = data.tag.map((arr)=>{
         return(
-            <li><a href="#">#{arr}</a></li>
+            <li><a href="#tag">#{arr}</a></li>
         )
     })
 
@@ -178,7 +178,7 @@ function ProductsInfo({data})
                             {basicMap}
                         </table>
                         <div className="report_info">
-                            ※ 상품정보 관련 문의사항은 <a href="#">Q{'&'}A</a>에 남겨주세요.
+                            ※ 상품정보 관련 문의사항은 <a href="#qna">Q{'&'}A</a>에 남겨주세요.
                         </div>
                     </div>
                 </div>
@@ -221,14 +221,14 @@ function ProductsInfo({data})
                 <div className="qna_title_text">
                     <h3>Q{'&'}A</h3>
                     <p>구매하시려는 상품에 대해 궁금하신 점이 있으신 경우 문의해주세요. 상품문의 이외에 배송/반품/교환 관련 문의는 
-                        <a href="#"> '판매자 문의하기'</a>를 이용해 주시기 바랍니다.
+                        <a href="#question"> '판매자 문의하기'</a>를 이용해 주시기 바랍니다.
                     </p>
                 </div>
                 <div className="qna_content">
                     <div className="qna_header">
                         <div className="qna_btn_area">
-                            <a href="#" className="qna_btn qna_write">상품 Q{'&'}A 작성하기</a>
-                            <a href="#" className="qna_btn qna_arrow">판매자 문의하기 {'>'}</a>
+                            <a href="#qnabtn" className="qna_btn qna_write">상품 Q{'&'}A 작성하기</a>
+                            <a href="#qnabtn" className="qna_btn qna_arrow">판매자 문의하기 {'>'}</a>
                         </div>
                         <div className="qna_sort_area">
                             <div className="area_switch">

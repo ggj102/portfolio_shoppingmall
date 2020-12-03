@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import '../../css/MainPage.css'
-import Axios from 'axios';
 import { NavLink } from 'react-router-dom';
 import { MainPageAllPrdAxios } from '../common/api';
 
@@ -13,8 +12,6 @@ function MainPageAllPrd()
                         {type:"popular",title:"인기도순"},
                         {type:"review_score",title:"평점높은순"},
                         {type:"recent",title:"최신등록순"}]
-
-                        
 
     useEffect(()=>{
         MainPageAllPrdAxios(sortType).then((response)=>{
@@ -88,7 +85,7 @@ function MainPageAllPrd()
     const sortTypeMap = sortTypeArr.map((arr,idx)=>{
         return(
             <li key={idx.toString()} className="allprd_sort_li" onClick={(e)=>{onSortType(e,arr.type)}}>
-                <a href="#" className={sortType === arr.type ? "allprd_sort_focus" : "allprd_sort_atag"}>
+                <a href="#sort" className={sortType === arr.type ? "allprd_sort_focus" : "allprd_sort_atag"}>
                     {sortType === arr.type && <span>V</span>}
                     {arr.title}
                 </a>
