@@ -151,11 +151,21 @@ function Products(props){
     }
 
     // 옵션과 추가상품의 수량을 입력하는 input에서 값이 0 또는 ''일 경우 값을 1로 바꾸고 경고창을 띄움
-    const onBlurCount = (e) =>{
+    const onBlurCount = (arrList,e,num,type) =>{
         if(e.target.value === '0' || e.target.value === '')
         {
-            e.target.value= '1';
             alert("1개 이상부터 구매하실 수 있습니다.");
+            const countMap = [...arrList];
+            countMap[num].count = 1;
+    
+            if(type === 'option')
+            {
+                setOptionListArr(countMap);
+            }
+            else if(type === 'addPrd')
+            {
+                setAddPrdListArr(countMap);
+            }
         }
     }
 
@@ -169,7 +179,7 @@ function Products(props){
                     <span className="list_price">{arr.add_price ? arr.count*(arr.add_price + product_price) : arr.count*(product_price)}</span>
                     <div className="list_input" >
                         <button onClick={()=>{onCountBtn(optionListArr,num,'option','minus')}}>-</button>
-                        <input value={arr.count} onChange={(e) => onChangeCount(optionListArr,e,num,'option')} onBlur={onBlurCount}/>
+                        <input value={arr.count} onChange={(e) => onChangeCount(optionListArr,e,num,'option')} onBlur={(e)=>{onBlurCount(optionListArr,e,num,'option')}}/>
                         <button onClick={()=>{onCountBtn(optionListArr,num,'option','plus')}}>+</button>
                     </div>
                 </div>
@@ -440,7 +450,7 @@ function Products(props){
                                         {addPrdList}
                                     </ul>
                                     <div className="total">
-                                            <span className="total_count">총 수량 {totalCount}개</span>
+                                        <span className="total_count">총 수량 {totalCount}개</span>
                                         <span className="total_cost">
                                             총 상품금액
                                             <span>{totalPrice}원</span>

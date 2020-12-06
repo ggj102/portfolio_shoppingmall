@@ -603,7 +603,7 @@ dd {
     margin-top: 40px;
     font-size: 16px;
     padding-bottom: 15px;
-    margin-left: 184px;
+    text-align: right;
 }
 
 .total::after{
