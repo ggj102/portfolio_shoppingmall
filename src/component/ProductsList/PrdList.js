@@ -6,6 +6,25 @@ import ListViewTypeC from './productslistviewoption/ListViewTypeC';
 import ListViewTypeD from './productslistviewoption/ListViewTypeD';
 import MainPageHeader from '../mainpage/MainPageHeader';
 
+function Pagination({num,nowpage,onpagefocus})
+{
+    // const pageNum = () =>{
+
+    const pageNumArr = []
+
+    for(let i = 0; i < num; i++)
+    {
+        pageNumArr.push(<a key={(i+1).toString()} href="#pagenum" className={nowpage === i+1 ? "page_focus" : 'page_unfocus'} 
+        onClick={()=>onpagefocus(i+1)}>{i+1}</a>) 
+    }
+    // console.log(pageNumArr);
+    
+    // }
+
+    // return pageNum();
+    return pageNumArr;
+}
+
 function PrdList({sortTypeArr,ListAxios,data})
 {
     const [listData,setListData] = useState({});
@@ -14,14 +33,17 @@ function PrdList({sortTypeArr,ListAxios,data})
     const [sortType,setSortType] = useState('popular');
     const [nowPage,setNowPage] = useState(1);
     const [perPage,setPerPage] = useState(40);
-    // const [test,setTest] = useState([1,2,3,4]);  페이지네이션 임시
-    const test = [1,2,3,4];
+    const [pagination,setPagination] = useState();  
+    // const test = [1,2,3,4];
 
     useEffect(()=>{  
         ListAxios(data,sortType,nowPage,perPage).then((response)=>{
             setListData(response.data);
             setListItemData(response.data.item_list);
+            setPagination(response.data.total_count < perPage ? 1 : Math.ceil(response.data.total_count/perPage))
+            console.log(response.data.total_count < perPage ? 1 : Math.ceil(response.data.total_count/perPage))
             })
+            
     },[sortType,nowPage,perPage,data,ListAxios])
 
 
@@ -87,12 +109,12 @@ function PrdList({sortTypeArr,ListAxios,data})
     }
 
     // 임시로 만든 페이지네이션 기능 추가가 더 필요함
-    const paginationMap = test.map((arr)=>{
-        return(
-            <a key={arr.toString()} href="#pagenum" className={nowPage === arr ? "page_focus" : 'page_unfocus'} 
-                onClick={()=>onPageFocus(arr)}>{arr}</a>
-        )
-    })
+    // const paginationMap = test.map((arr)=>{
+    //     return(
+    //         <a key={arr.toString()} href="#pagenum" className={nowPage === arr ? "page_focus" : 'page_unfocus'} 
+    //             onClick={()=>onPageFocus(arr)}>{arr}</a>
+    //     )
+    // })
 
     return(
         <div className="listPage">
@@ -153,7 +175,20 @@ function PrdList({sortTypeArr,ListAxios,data})
                     </div>
 
                     <div className="pagination">
-                        {paginationMap}
+                        <Pagination 
+                        num = {pagination} 
+                        nowpage = {nowPage} 
+                        onpagefocus = {onPageFocus}
+                        />
+                        {/* {()=>{
+                            const pageNum = [];
+
+                            for(let i = 1; i < pagination; i++)
+                            {
+                                pageNum.push(<a key={arr.toString()} href="#pagenum" className={nowPage === arr ? "page_focus" : 'page_unfocus'} 
+                                onClick={()=>onPageFocus(arr)}>{arr}</a>) 
+                            }
+                        }} */}
                     </div>
                     
                 </div>

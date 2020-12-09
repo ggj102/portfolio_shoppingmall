@@ -16,7 +16,7 @@ function Products(props){
     const [deliveryMethod,setDeliveryMethod] = useState([]);
     const [prdImg,setPrdImg] = useState([])
     const [imgState,setImgState] = useState('');
-    const [saleInfo,setSaleInfo] = useState([]);
+    const [saleInfo,setSaleInfo] = useState(null);
     const [prdOption,setPrdOption] = useState([])
     const [addPrd,setAddPrd] = useState([])
     const [deliverySelValue,setDeliverySelValue] = useState("1")
@@ -25,6 +25,7 @@ function Products(props){
     const [totalCount,setTotalCount] = useState(0);
     const [totalPrice,setTotalPrice] = useState(0);
     const [installmentState,setInstallmentState] = useState(false);
+    const [singleCount,setSingleCount] = useState(1);
 
     const {product_code,product_name,product_price} = prdData;
 
@@ -35,10 +36,17 @@ function Products(props){
             setCategoryList(response.data.category_list);
             setPrdImg(response.data.product_image);
             setImgState(response.data.product_image[0].url);
-            setSaleInfo(response.data.sale_info);
             setDeliveryMethod(response.data.delivery_method);
-            setPrdOption(response.data.option);
             setAddPrd(response.data.add_product);
+            if(response.data.sale_info)
+            {
+                setSaleInfo(response.data.sale_info);
+            }
+
+            if(response.data.option)
+            {
+                setPrdOption(response.data.option);
+            }
         })
     },[match.params.id])
 
@@ -64,9 +72,17 @@ function Products(props){
             return acc+(arr.count*arr.price);
         },0)
 
-        setTotalCount(optionCountReduce+addPrdCountReduce);
-        setTotalPrice(optionPriceReduce+addPrdPriceReduce);
-    }, [optionListArr, addPrdListArr, product_price]);
+        if(prdOption.length === 0)
+        {
+            setTotalCount(singleCount+addPrdCountReduce)
+            setTotalPrice(singleCount*product_price+addPrdPriceReduce)
+        }
+        else{
+            setTotalCount(optionCountReduce+addPrdCountReduce);
+            setTotalPrice(optionPriceReduce+addPrdPriceReduce);
+        }
+
+    }, [optionListArr, addPrdListArr, product_price, singleCount, prdOption]);
 
     // 이미지의 값이 2개 이상일 경우 메인 이미지 하단에 paiging형태로 출력됨
     const imgPaging = prdImg.map((arr,idx) => {
@@ -77,7 +93,7 @@ function Products(props){
             )
         }
 
-        return arr;
+        return null;
     })
         
     //paging으로 출력된 이미지를 mouseover 할 경우 url값을 set함
@@ -155,16 +171,22 @@ function Products(props){
         if(e.target.value === '0' || e.target.value === '')
         {
             alert("1개 이상부터 구매하실 수 있습니다.");
-            const countMap = [...arrList];
-            countMap[num].count = 1;
-    
+            const countMap = type !== 'single' && [...arrList];
+            
+            
             if(type === 'option')
             {
+                countMap[num].count = 1;
                 setOptionListArr(countMap);
             }
             else if(type === 'addPrd')
             {
+                countMap[num].count = 1;
                 setAddPrdListArr(countMap);
+            }
+            else if(type === 'single')
+            {
+                setSingleCount(1);
             }
         }
     }
@@ -175,7 +197,7 @@ function Products(props){
             <li key={arr.id}>
                 <span className="list_prd">{arr.name}</span>
                 <div className="list_count">
-                    <button className="delBtn" onClick={()=>onRemove(num,optionListArr,'option')}>X</button>
+                    {<button className="delBtn" onClick={()=>onRemove(num,optionListArr,'option')}>X</button>}
                     <span className="list_price">{arr.add_price ? arr.count*(arr.add_price + product_price) : arr.count*(product_price)}</span>
                     <div className="list_input" >
                         <button onClick={()=>{onCountBtn(optionListArr,num,'option','minus')}}>-</button>
@@ -208,16 +230,21 @@ function Products(props){
     // 옵션과 추가상품의 수량을 입력하는 input에서 값을 바꾸면 해당하는 객체의 count값을 바꾸며 list를 set함
     const onChangeCount = (arrList,e,num,type) =>{
         const inputNumber = e.target.value === "" ? 0 : parseInt(e.target.value);
-        const countMap = [...arrList];
-        countMap[num].count = inputNumber;
-
+        const countMap = type !== 'single' && [...arrList];
+        
         if(type === 'option')
         {
+            countMap[num].count = inputNumber;
             setOptionListArr(countMap);
         }
         else if(type === 'addPrd')
         {
+            countMap[num].count = inputNumber;
             setAddPrdListArr(countMap);
+        }
+        else if(type === 'single')
+        {
+            setSingleCount(inputNumber);
         }
    }
 
@@ -236,20 +263,36 @@ function Products(props){
     // type을 검사하여 수량 버튼을 동작 시킴
     const onCountBtn = (arrList,num,arrType,type) =>{
 
-        const listCopy = [...arrList];
+        const listCopy = arrType !== 'single' && [...arrList];
 
         if(type === 'plus')
         {
-            listCopy[num].count +=1;
-            arrTypeCheck(listCopy,arrType)
+            if(arrType === 'single')
+            {
+                setSingleCount(singleCount+1);
+            }
+            else{
+                listCopy[num].count +=1;
+                arrTypeCheck(listCopy,arrType)
+            }
+            
         }
         else if(type === 'minus')
         {
-            if(listCopy[num].count - 1 !== 0)
+            if(arrType === 'single')
             {
-                listCopy[num].count -=1;
+                if(singleCount - 1 !== 0)
+                {
+                    setSingleCount(singleCount-1);
+                }
             }
-            arrTypeCheck(listCopy,arrType)
+            else{
+                if(listCopy[num].count - 1 !== 0)
+                {
+                    listCopy[num].count -=1;
+                }
+                arrTypeCheck(listCopy,arrType)
+            }
         }
     }
 
@@ -297,16 +340,22 @@ function Products(props){
     // 상품데이터를 서버에 post하며 작업 이후 store에 cartCount값을 dispatch 함
     const onAddCart = () =>{
 
-        if(optionListArr.length === 0)
+        if(optionListArr.length === 0 && prdOption.length !== 0)
         {
             alert('옵션을 선택하지 않으셨습니다. 옵션을 선택해 주세요.')
         }
         else{
-            
-            const postOption = optionListArr.map((arr)=>{
-                return [arr.data_id,arr.id,arr.count];
-            });
-        
+            let postOption = [];
+
+            if(prdOption.length === 0){
+                postOption = [[null,null,singleCount]]
+            }
+            else{
+                 postOption = optionListArr.map((arr)=>{
+                    return [arr.data_id,arr.id,arr.count];
+                });
+            }
+
             const postAddPrd = addPrdListArr.map((arr)=>{
                 return [arr.data_id,arr.id,arr.count];
             });
@@ -366,18 +415,16 @@ function Products(props){
                                     <dl className="_easy_purchase_hide_area">
                                         <dt className="prd_name">
                                             <strong>{product_name}</strong>
-                                            <em className="sub">플레이스테이션4 프로</em>
                                         </dt>
                                         <dd>
                                             <div className="area_cost">
                                                 <strong className="info_cost">
                                                     <span className="price">{product_price}<span>원</span></span>
-                                                    {saleInfo.length !== 0 ?
+                                                    {saleInfo &&
                                                         <> 
                                                         <span className="dc">{saleInfo.discount_percent}</span>
                                                         <span className="ori">{saleInfo.original_price}<span>원</span></span>
-                                                        </> : ''
-                                                    }
+                                                        </>}
                                                 </strong>
                                             </div>
                                             <div className="installment">
@@ -407,25 +454,28 @@ function Products(props){
                                             </div>
                                         </div> : ''}
                                     </div>
-                                    <div className="prd_option">
-                                        <div className="option">
-                                            <span>옵션</span>
-                                            {
-                                                prdOption.map((option_item) => {
-                                                    return (
-                                                        <select key={option_item.id} onChange={(e) => onSelectValue(prdOption,optionListArr,'option',option_item.id,e)}>
-                                                            <option value='0'>{option_item.name}</option>
-                                                            {
-                                                                option_item.option_list.map((list)=>{
-                                                                    return <option key={list.id}  value={list.id}>{list.name}{list.add_price ? "  ("+list.add_price+"원)추가" : ''} {list.soldout ? "(품절)": ''}</option>
-                                                                })
-                                                            }
-                                                        </select>
-                                                    )
-                                                })
-                                            }
-                                        </div>
-                                        <div className="add">
+                                    
+                                        <div className={(prdOption.length === 0 && addPrd.length === 0) ? '' : "prd_option"}>
+                                        {prdOption.length > 0 && 
+                                            <div className="option">
+                                                <span>옵션</span>
+                                                {
+                                                    prdOption.map((option_item) => {
+                                                        return (
+                                                            <select key={option_item.id} onChange={(e) => onSelectValue(prdOption,optionListArr,'option',option_item.id,e)}>
+                                                                <option value='0'>{option_item.name}</option>
+                                                                {
+                                                                    option_item.option_list.map((list)=>{
+                                                                        return <option key={list.id}  value={list.id}>{list.name}{list.add_price ? "  ("+list.add_price+"원)추가" : ''} {list.soldout ? "(품절)": ''}</option>
+                                                                    })
+                                                                }
+                                                            </select>
+                                                        )
+                                                    })
+                                                }
+                                            </div>}
+                                        {addPrd.length > 0 &&
+                                            <div className="add">
                                             <span>추가상품</span>
                                             <div className="select_area">
                                                 {
@@ -443,11 +493,20 @@ function Products(props){
                                                     })
                                                 }
                                             </div>
-                                        </div>
+                                        </div>}
                                     </div>
                                     <ul className="purchase_list">
                                         {optionList}
                                         {addPrdList}
+                                        {prdOption.length === 0 && 
+                                        <div className = "prd_single">
+                                            <div className="list_input" >
+                                                <button onClick={()=>{onCountBtn(null,null,'single','minus')}}>-</button>
+                                                <input value={singleCount} onChange={(e) => onChangeCount(null,e,null,'single')} onBlur={(e)=>{onBlurCount(null,e,null,'single')}}/>
+                                                <button onClick={()=>{onCountBtn(null,null,'single','plus')}}>+</button>
+                                            </div>
+                                        </div>}
+
                                     </ul>
                                     <div className="total">
                                         <span className="total_count">총 수량 {totalCount}개</span>
@@ -462,9 +521,6 @@ function Products(props){
                                         </div>
                                         <div className="basket_btn" onClick={onAddCart}>
                                             <a href="#btn">장바구니</a>
-                                        </div>
-                                        <div className="pick_btn">
-                                            <a href="#btn">찜</a>
                                         </div>
                                     </div>
                                 </div>
