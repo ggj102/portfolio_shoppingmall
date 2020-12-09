@@ -167,17 +167,6 @@ function MainPageHeader(props)
                             <div className="menu_area">
                                 <ul>
                                     <li>
-                                        <a href="#menu">
-                                            <span>찜한 스토어</span>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="#menu">
-                                            <span>마이페이지</span>
-                                        </a>
-                                    </li>
-                                    <li>
                                         <NavLink to="/Cart">
                                             <span>장바구니{gCount > 0 && "("+gCount+")"}</span>
                                         </NavLink>
@@ -197,9 +186,7 @@ function MainPageHeader(props)
                                     </> :
                                     <>
                                     <li>
-                                    <NavLink to="/Login">
                                         <span>{gName+"님"}</span>
-                                    </NavLink>
                                     </li>
                                     <li>
                                         <div className="Logout" onClick={onLogOut}>

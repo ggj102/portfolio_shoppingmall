@@ -1,11 +1,12 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom';
 import '../../../css/ListViewType.css'
 
 function ListViewTypeA({arr,saleCal})
 {
     return(   
         <li className="list_typeA">
-            <a href="#type">
+            <NavLink to={"/Products/"+arr.id}>
                 <div className="item_imgA"><img  src={arr.thumb_image ? arr.thumb_image:''} alt="img"/></div>
                 <div className="item_infoA">
                     <div className="align_wrapA">
@@ -35,7 +36,7 @@ function ListViewTypeA({arr,saleCal})
                         </div>
                     </div>
                 </div>
-            </a>
+            </NavLink>
             <div className="area_flagA">
                         {arr.is_best ? <div className="flag_bestA">BEST</div> : ''}
                         {arr.is_new ? <div className="flag_newA">NEW</div> : ''}

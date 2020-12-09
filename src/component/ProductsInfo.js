@@ -29,117 +29,14 @@ function ProductsInfo({data})
 
         return basicReduce;
     }
-    
-    // 상품정보 ui 출력
-    const basicMap = dataReduce(data.product_information.basic).map((arr)=>{
-        return(
-            <tr>
-                {
-                    arr.map((arr2)=>{
-                        if(arr.length === 1)
-                        {
-                            return(
-                                <>
-                                <th scope="row">
-                                <span>{arr2.title}</span>
-                                </th>
-                                <td colSpan="3"><span>{arr2.description}</span></td>
-                                </>
-                            )
-                        }
-                        else{
-                            return(
-                                <>
-                                <th scope="row">
-                                <span>{arr2.title}</span>
-                                </th>
-                                <td><span>{arr2.description}</span></td>
-                                </>
-                            )
-                        }
-                    })
-                }
-            </tr>
-        )
-    })
-
-    // 상품정보 ui 출력
-    const additionalMap = dataReduce(data.product_information.additional).map((arr)=>{
-        return(
-            <tr>
-                {
-                    arr.map((arr2)=>{
-                        if(arr.length === 1)
-                        {
-                            return(
-                                <>
-                                <th scope="row">
-                                <span>{arr2.title}</span>
-                                </th>
-                                <td colSpan="3"><span>{arr2.description}</span></td>
-                                </>
-                            )
-                        }
-                        else{
-                            return(
-                                <>
-                                <th scope="row">
-                                <span>{arr2.title}</span>
-                                </th>
-                                <td><span>{arr2.description}</span></td>
-                                </>
-                            )
-                        }
-                    })
-                }
-            </tr>
-        )
-    })
-
-    // 상품정보 ui 출력
-    const etcMap = data.product_information.etc.map((arr)=>{
-            return(
-                <tr>
-                    <th scope="row">
-                        <span>{arr.title}</span>
-                    </th>
-                    <td colSpan="3"><span dangerouslySetInnerHTML={{__html: arr.description}}/></td>
-                </tr>
-            )
-    })
 
     //tag ui 출력
-    const tagMap = data.tag.map((arr)=>{
+    const tagMap = data.tag.map((arr,idx)=>{
         return(
-            <li><a href="#tag">#{arr}</a></li>
+            <li key={idx.toString()}><a href="#tag">#{arr}</a></li>
         )
     })
 
-    //상품정보 제공고시 ui 출력
-    // const prdInfoPublicMap = data.product_information_public.map((arr)=>{
-    //     return(
-    //         <tr>
-    //             <th scope="row">
-    //                 <span>{arr.title}</span>
-    //             </th>
-    //             <td colSpan="3"><span>{arr.description}</span></td>
-    //         </tr>
-
-    //     )
-    // })
-
-    //거래조건에 관한 정보 ui 출력
-    const tradMap = data.trading_conditions.map((arr,idx)=>{
-        return(
-            <tr key={idx.toString()}>
-                <th scope="row">
-                    <span>{arr.title}</span>
-                </th>
-                <td><span>{arr.description}</span></td>
-            </tr>
-        )
-    })
-    
     // qna ui 출력
     const qnaListMap = data.qna.map((arr)=>{
         return(
@@ -175,7 +72,39 @@ function ProductsInfo({data})
                     <div className="info_title">상품정보</div>
                     <div>
                         <table cellPadding="0" className="info_table">
-                            {basicMap}
+                            <tbody>
+                            {dataReduce(data.product_information.basic).map((arr,idx)=>{
+                                return(
+                                    <tr key={idx.toString()}>
+                                        {
+                                            arr.map((arr2)=>{
+                                                if(arr.length === 1)
+                                                {
+                                                    return(
+                                                        <>
+                                                        <th scope="row">
+                                                        <span>{arr2.title}</span>
+                                                        </th>
+                                                        <td colSpan="3"><span>{arr2.description}</span></td>
+                                                        </>
+                                                    )
+                                                }
+                                                else{
+                                                    return(
+                                                        <>
+                                                        <th scope="row">
+                                                        <span>{arr2.title}</span>
+                                                        </th>
+                                                        <td><span>{arr2.description}</span></td>
+                                                        </>
+                                                    )
+                                                }
+                                            })
+                                        }
+                                    </tr>
+                                        )
+                                    })}
+                            </tbody>
                         </table>
                         <div className="report_info">
                             ※ 상품정보 관련 문의사항은 <a href="#qna">Q{'&'}A</a>에 남겨주세요.
@@ -184,12 +113,55 @@ function ProductsInfo({data})
                 </div>
                 <div className="info_area">
                     <table className="info_table">
-                        {additionalMap}
+                        <tbody>
+                        {dataReduce(data.product_information.additional).map((arr,idx)=>{
+                        return(
+                            <tr key={idx.toString()}>
+                                {
+                                    arr.map((arr2)=>{
+                                        if(arr.length === 1)
+                                        {
+                                            return(
+                                                <>
+                                                <th scope="row">
+                                                <span>{arr2.title}</span>
+                                                </th>
+                                                <td colSpan="3"><span>{arr2.description}</span></td>
+                                                </>
+                                            )
+                                        }
+                                        else{
+                                            return(
+                                                <>
+                                                <th scope="row">
+                                                <span>{arr2.title}</span>
+                                                </th>
+                                                <td><span>{arr2.description}</span></td>
+                                                </>
+                                            )
+                                        }
+                                    })
+                                }
+                            </tr>
+                                )
+                            })}
+                        </tbody>
                     </table>
                 </div>
                 <div className="info_area">
                     <table className="info_table">
-                        {etcMap}
+                        <tbody>
+                            {data.product_information.etc.map((arr,idx)=>{
+                            return(
+                                <tr key={idx.toString()}>
+                                    <th scope="row">
+                                        <span>{arr.title}</span>
+                                    </th>
+                                    <td colSpan="3"><span dangerouslySetInnerHTML={{__html: arr.description}}/></td>
+                                </tr>
+                                        )
+                                })}
+                        </tbody>
                     </table>
                 </div>
                 <div dangerouslySetInnerHTML={{__html: data.product_more_information}} />
@@ -197,20 +169,41 @@ function ProductsInfo({data})
                 <div className="goods_tag">
                     <h3>Tag</h3>
                     <ul>
-                        {tagMap}
+                        {data.tag && tagMap}
                     </ul>
                 </div>
                 <div className="info_area">
                     <div className="info_title">상품정보 제공고시</div>
                     <table className="info_table">
-                        {/* {prdInfoPublicMap} */}
+                        <tbody>
+                            {data.product_information_public.map((arr,idx)=>{
+                            return(
+                                <tr key={idx.toString()}>
+                                    <th scope="row">
+                                        <span>{arr.title}</span>
+                                    </th>
+                                    <td colSpan="3"><span>{arr.description}</span></td>
+                                </tr>
+
+                                )
+                            })}
+                        </tbody>
                     </table>
                 </div>
                 <div className="info_area">
                     <div className="info_title">거래조건에 관한 정보</div>
                     <table className="info_table">
                         <tbody>
-                            {tradMap}
+                            {data.trading_conditions.map((arr,idx)=>{
+                            return(
+                                <tr key={idx.toString()}>
+                                    <th scope="row">
+                                        <span>{arr.title}</span>
+                                    </th>
+                                    <td><span>{arr.description}</span></td>
+                                </tr>
+                                )
+                            })}
                         </tbody>
                     </table>
                 </div>
@@ -280,7 +273,7 @@ function ProductsInfo({data})
                 </div>
                 <div className="exchange_guide">
                     <div className="guide_title">
-                        Mania 반품/교환 안내
+                        반품/교환 안내
                         <p>반품/교환에 관한 일반적인 사항은 판매자 제시사항보다 관계법령이 우선합니다.</p>
                     </div>
                     <table cellPadding="0" border="1" className="info_table">
