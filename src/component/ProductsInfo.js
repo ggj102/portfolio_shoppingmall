@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 function ProductsInfo({data})
 {
     const [tabNum,setTabNum] = useState(1);
+    const [qnaState,setQnaState] = useState("0");
 
     // tabnumber set
     const onTabChange = (num) =>{
@@ -37,10 +38,18 @@ function ProductsInfo({data})
         )
     })
 
+    const qnaAnswerChange = (e) =>{
+        setQnaState(e.target.value);
+    }
+
     // qna ui 출력
     const qnaListMap = data.qna.map((arr)=>{
+
+
+        
         return(
             <li key={arr.id}>
+                {(qnaState === "0" ||  parseInt(qnaState) === arr.status) &&
                 <div className="qna_table">
                     <div className="qna_state">
                         <span className="list_item_text">{arr.status === 1 ? "답변대기" : "답변완료"}</span>
@@ -54,7 +63,7 @@ function ProductsInfo({data})
                     <div className="qna_date">
                         <span className="list_item_text">{arr.date}</span>
                     </div>
-                </div>
+                </div>}
             </li>
         )
     })
@@ -219,22 +228,23 @@ function ProductsInfo({data})
                 </div>
                 <div className="qna_content">
                     <div className="qna_header">
-                        <div className="qna_btn_area">
+                        {/* <div className="qna_btn_area">
                             <a href="#qnabtn" className="qna_btn qna_write">상품 Q{'&'}A 작성하기</a>
                             <a href="#qnabtn" className="qna_btn qna_arrow">판매자 문의하기 {'>'}</a>
-                        </div>
+                        </div> */}
                         <div className="qna_sort_area">
-                            <div className="area_switch">
+                            {/* <div className="area_switch">
                                 <label className="qna_label" htmlFor="qnaSwitch">
                                     <span>내 Q{'&'}A 보기</span>
                                 </label>
                                 <input type="checkbox" id="qnaSwitch" className="qna_checkbox"/>
-                            </div>
+                            </div> */}
                             <div className="select_sort">
-                                <select>
-                                    <option>답변상태</option>
-                                    <option>미답변</option>
-                                    <option>답변완료</option>
+                                <select onChange={qnaAnswerChange}>
+                                    <option value = "0">답변상태</option>
+                                    <option value = "1">답변대기</option>
+                                    <option value = "2">답변완료</option>
+
                                 </select>
                             </div>
                         </div>

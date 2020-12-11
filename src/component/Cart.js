@@ -64,6 +64,21 @@ function Cart()
         } 
     }
 
+    const prdDelBtn = (cartId) =>{
+        const deleteConfirm = window.confirm("해당 상품을 장바구니에서 삭제하시겠습니까?");
+        const idArr = [cartId];
+
+        if(deleteConfirm)
+        {
+            CartListDeleteAxios(idArr).then(()=>{
+                setCheckItem([]);
+                setChcekCount(0);
+                cartDataGet();
+            })
+        }
+        return;
+    }
+
     // 체크한 상품을 삭제하는 기능
     const checkPrdDel = () =>{
 
@@ -127,8 +142,8 @@ function Cart()
                             <span className="prd_thumb">
                                 <img src={arr.thumb}  alt="img"/>
                             </span>
-                            <a href="#title" className="prd_mall_name">시온스토어</a>
-                            <span className="prd_channel_name">스마트스토어</span>
+                            {/* <a href="#title" className="prd_mall_name">시온스토어</a>
+                            <span className="prd_channel_name">스마트스토어</span> */}
                             <span className="cart_Prd_name">{arr.title}</span>
                             <span className="prd_price_area">
                                 <div className="prd_price_sale">
@@ -136,23 +151,27 @@ function Cart()
                                     <span className="price_text">원</span>
                                 </div>
                             </span>
-                            <span className="prd_delivery_area">
+                            {/* <span className="prd_delivery_area">
                                 <em className="prd_delivery_date">9. 1.(화) </em>
                                 도착확률95%
-                            </span>
+                            </span> */}
                         </div>
                     </div>
                     <div className="prd_btn_area">
-                        <button>X</button>
+                        <button onClick={()=>prdDelBtn(arr.cart_id)}>X</button>
                     </div>
                 </td>
                 <td className="cart_item_cell valign_top">
                     <div className="prd_option_area">
                         <div className="prd_option_wrap">
-                            <div className="prd_option_text">{arr.option ? arr.option : "상품 주문 수량 : 1개"}</div>
-                            <div className="prd_option_box">
-                                <button>주문조건 추가/변경</button>
+                            <div className="prd_option_text">
+                                {arr.option.map((opArr)=>{
+                                    return <div>{opArr}</div>
+                                })}
                             </div>
+                            {/* <div className="prd_option_box">
+                                <button>주문조건 추가/변경</button>
+                            </div> */}
                         </div>
                     </div>
                 </td>

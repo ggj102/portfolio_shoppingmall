@@ -19,7 +19,7 @@ function Products(props){
     const [saleInfo,setSaleInfo] = useState(null);
     const [prdOption,setPrdOption] = useState([])
     const [addPrd,setAddPrd] = useState([])
-    const [deliverySelValue,setDeliverySelValue] = useState("1")
+    const [deliverySelValue,setDeliverySelValue] = useState(1)
     const [optionListArr,setOptionListArr] = useState([]);
     const [addPrdListArr,setAddPrdListArr] = useState([]);
     const [totalCount,setTotalCount] = useState(0);
@@ -444,15 +444,15 @@ function Products(props){
                                                     {deliverySel};
                                                   </select>}
                                         </div>
-                                        {deliverySelValue === "1" ?                            
+                                        {deliverySelValue === 1 &&                            
                                         <div className="delivery_cost">
                                             <span className="delivery_cost_text">배송비</span>
                                             <div className="cost">
                                                 <div className="delivery_price">{ (deliveryMethod.length && deliveryMethod[0].price) === 0 ? '무료' : deliveryMethod.length && deliveryMethod[0].price+'원'}</div>
                                                 <div className="interval">{deliveryMethod.length && deliveryMethod[0].additional_description}</div>
-                                                <div><a href="#saving" className="saving">배송비 절약상품보기</a></div>
+                                                {/* <div><a href="#saving" className="saving">배송비 절약상품보기</a></div> */}
                                             </div>
-                                        </div> : ''}
+                                        </div>}
                                     </div>
                                     
                                         <div className={(prdOption.length === 0 && addPrd.length === 0) ? '' : "prd_option"}>
@@ -516,11 +516,11 @@ function Products(props){
                                         </span>
                                     </div>
                                     <div className="btn_area">
-                                        <div className="buy_btn">
-                                            <a href="#btn">구매하기</a>
+                                        <div className="buy_btn btn_bg">
+                                            <div>구매하기</div>
                                         </div>
-                                        <div className="basket_btn" onClick={onAddCart}>
-                                            <a href="#btn">장바구니</a>
+                                        <div className="basket_btn btn_bg" onClick={onAddCart}>
+                                            <div>장바구니</div>
                                         </div>
                                     </div>
                                 </div>
