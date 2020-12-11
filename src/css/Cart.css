@@ -1,6 +1,6 @@
 .cart_body{
     display: block;
-    width: 1280px;
+    max-width: 1280px;
     margin: 0 auto;
 }
 
@@ -79,6 +79,7 @@
 
 .cart_Prd_name{
     margin-top: 5px;
+    padding-top: 24px;
     font-weight: 700;
     cursor: pointer;
     display: block;

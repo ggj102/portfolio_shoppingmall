@@ -7,7 +7,7 @@ function SignUpDetail({history})
 {
     const [idCheck,setIdCheck] = useState({onClick:false, blank:false,form:false,value:''});
     const [pwCheck,setPwCheck] = useState({onClick:false,blank:false,form:false,value:''});
-    const [reconfirmCheck,setReconfirmCheck] = useState({onClick:false,blank:false,form:false,value:''});
+    const [reconfirmCheck,setReconfirmCheck] = useState({onClick:false,blank:false,wrong:false,form:false,value:''});
     const [nameCheck,setNameCheck] = useState({onClick:false,blank:false,form:false,value:''});
     const [birCheck,setBirCheck] = useState({onClick:false,vy:false, mm: false, dd:false, vyValue:'',mmValue:'',ddValue:''});
     const [genderCheck,setGenderCheck] = useState({onClick:false,form:false,value:''});
@@ -57,15 +57,14 @@ function SignUpDetail({history})
 
     // password 확인 경고문
     const reconfirmWarning=()=>{
-        if(!reconfirmCheck.form)
-        {
-            return necessaryInfo();
-        }
-        else if(!reconfirmCheck.blank)
+        if(reconfirmCheck.wrong)
         {
             return(
                 <span className="Warning">비밀번호가 일치하지 않습니다.</span>
             )
+        }
+        else if(!reconfirmCheck.form){
+            return necessaryInfo();
         }
     }
 
@@ -302,20 +301,21 @@ function SignUpDetail({history})
     const onReconfirmCheck=()=>{
         const stateCopy = {...reconfirmCheck,onClick:true};
 
-        if(stateCopy.value === '')
+
+        if(pwCheck.value === '' && stateCopy.value === '')
         {
-            stateCopy.blank = false;
-        }
-        else if(pwCheck.value !== stateCopy.value)
-        {
-            stateCopy.blank = true;
             stateCopy.form = false;
+            stateCopy.wrong = false;
+        }
+        else if(stateCopy.value === '' || pwCheck.value !== stateCopy.value)
+        {
+            stateCopy.wrong = true;
         }
         else{
-            stateCopy.blank = true;
+            stateCopy.wrong = false;
             stateCopy.form = true;
         }
-
+  
         setReconfirmCheck(stateCopy);
     }
 
@@ -335,7 +335,6 @@ function SignUpDetail({history})
         else if(scText.test(nameCheck.value) || noText.test(nameCheck.value))
         {
             stateCopy.blank = true;
-            stateCopy.form = false;
         }
         else{
             stateCopy.blank = true;

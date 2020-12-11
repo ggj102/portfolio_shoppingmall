@@ -17,15 +17,11 @@ function Pagination({num,nowpage,onpagefocus})
         pageNumArr.push(<a key={(i+1).toString()} href="#pagenum" className={nowpage === i+1 ? "page_focus" : 'page_unfocus'} 
         onClick={()=>onpagefocus(i+1)}>{i+1}</a>) 
     }
-    // console.log(pageNumArr);
-    
-    // }
 
-    // return pageNum();
     return pageNumArr;
 }
 
-function PrdList({sortTypeArr,ListAxios,data})
+function PrdList({sortTypeArr,ListAxios,data,listType})
 {
     const [listData,setListData] = useState({});
     const [listItemData,setListItemData] = useState([]);
@@ -34,14 +30,12 @@ function PrdList({sortTypeArr,ListAxios,data})
     const [nowPage,setNowPage] = useState(1);
     const [perPage,setPerPage] = useState(40);
     const [pagination,setPagination] = useState();  
-    // const test = [1,2,3,4];
 
     useEffect(()=>{  
         ListAxios(data,sortType,nowPage,perPage).then((response)=>{
             setListData(response.data);
             setListItemData(response.data.item_list);
             setPagination(response.data.total_count < perPage ? 1 : Math.ceil(response.data.total_count/perPage))
-            console.log(response.data.total_count < perPage ? 1 : Math.ceil(response.data.total_count/perPage))
             })
             
     },[sortType,nowPage,perPage,data,ListAxios])
@@ -63,7 +57,7 @@ function PrdList({sortTypeArr,ListAxios,data})
         return(
             <li key={idx.toString()}>
             <a href="#sort" className={sortType === arr.type ? "sort_focus" : "sort_tab"} 
-            onClick={()=>{onSort(arr.type)}}>
+            onClick={(e)=>{e.preventDefault();onSort(arr.type)}}>
                 {sortType === arr.type && <span>V</span>}
                 {arr.title}</a>
             </li>
@@ -126,6 +120,7 @@ function PrdList({sortTypeArr,ListAxios,data})
                             <span>{listData.title}</span>
                         </h3>
                         <div className="category_route">
+                            {listType === "category" &&
                             <ul>
                                 <li>
                                     <a href="#route" className="route_text">홈</a>
@@ -138,7 +133,7 @@ function PrdList({sortTypeArr,ListAxios,data})
                                 <li>
                                     <a href="#route" className="route_text">전체</a>
                                 </li>
-                            </ul>
+                            </ul>}
                         </div>
                     </div>
 

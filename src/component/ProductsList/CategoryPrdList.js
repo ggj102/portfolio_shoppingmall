@@ -17,6 +17,7 @@ function CategoryPrdList({match})
             sortTypeArr = {sortTypeArr}
             ListAxios = {CategoryPrdListAxios}
             data = {match.params.id}
+            listType = {"category"}
         />
     )
 }

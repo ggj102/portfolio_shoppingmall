@@ -642,12 +642,13 @@ dd {
     clear: both;
 }
 
-.btn_area a{
+.btn_area div{
+    cursor: pointer;
     text-decoration: none;
     color: #fff;
 }
 
-.btn_area div{
+.btn_area .btn_bg{
     border: 0;
     border-radius: 2px;
     float: left;

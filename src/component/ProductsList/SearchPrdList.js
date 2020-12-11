@@ -16,6 +16,7 @@ function SearchPrdList({match})
         sortTypeArr = {sortTypeArr}
         ListAxios = {SearchPrdListAxios}
         data = {match.params.data}
+        listType= {"search"}
     />
     )
 }
