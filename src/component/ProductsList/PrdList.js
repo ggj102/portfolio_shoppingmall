@@ -28,7 +28,7 @@ function PrdList({sortTypeArr,ListAxios,data,listType})
     const [listViewOption,setListViewOption] = useState(2);
     const [sortType,setSortType] = useState('popular');
     const [nowPage,setNowPage] = useState(1);
-    const [perPage,setPerPage] = useState(40);
+    const [perPage] = useState(40);
     const [pagination,setPagination] = useState();  
 
     useEffect(()=>{  
