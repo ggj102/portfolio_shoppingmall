@@ -70,22 +70,22 @@ function PrdList({sortTypeArr,ListAxios,data,listType})
 
     // listViewOption값에 따라 보여주는 page 타입이 바뀜
     // 상품 리스트 맵
-    const itemList = listItemData.map((arr)=>{
+    const itemList = listItemData.map((arr,idx)=>{
         if(listViewOption === 1)
         {
-          return  <ListViewTypeA key={arr.id} arr={arr} saleCal={saleCal}/>
+          return  <ListViewTypeA key={idx} arr={arr} saleCal={saleCal}/>
         }
         else if(listViewOption === 2)
         {
-          return  <ListViewTypeB key={arr.id} arr={arr} saleCal={saleCal}/>
+          return  <ListViewTypeB key={idx} arr={arr} saleCal={saleCal}/>
         }
         else if(listViewOption === 3)
         {
-          return  <ListViewTypeC key={arr.id} arr={arr} saleCal={saleCal}/>
+          return  <ListViewTypeC key={idx} arr={arr} saleCal={saleCal}/>
         }
         else if(listViewOption === 4)
         {
-          return  <ListViewTypeD key={arr.id} arr={arr} saleCal={saleCal}/>
+          return  <ListViewTypeD key={idx} arr={arr} saleCal={saleCal}/>
         }
 
         return 0;

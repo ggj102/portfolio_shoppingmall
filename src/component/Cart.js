@@ -130,7 +130,7 @@ function Cart({loginState,history})
     // 장바구니 상품 리스트 맵
     const itemListMap = cartList.map((arr,index)=>{
         return(
-                <tr key={arr.cart_id}>
+                <tr key={index}>
                 <td className="cart_item_cell">
                     <input type="checkbox" 
                            onChange={()=>checklist(arr.cart_id)} 

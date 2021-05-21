@@ -122,9 +122,9 @@ function MainPageHeader(props)
         return(
             <div className="categoryMouseOver_list">
                 <ul>
-                    {data.map((sub)=>{
+                    {data.map((sub,idx)=>{
                         return(
-                            <li key={sub.id} className="category_name2" 
+                            <li key={idx} className="category_name2" 
                                 onMouseEnter={()=>categoryMouseOver(sub.id,num)}
                                 onClick={()=>{onReset()}}
                             ><NavLink to={"/CategoryPrdList/"+sub.id}>{sub.name}</NavLink></li>
@@ -136,9 +136,9 @@ function MainPageHeader(props)
     }
 
     // 상품 카테고리 맵
-    const categoryMap = categoryData.map((arr)=>{
+    const categoryMap = categoryData.map((arr,idx)=>{
         return(
-            <li key={arr.id}
+            <li key={idx}
                 className="category_inner_li" 
                 onMouseLeave={categoryMouseOut}
                 onClick={()=>{onReset()}}>

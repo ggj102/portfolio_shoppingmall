@@ -193,9 +193,9 @@ function Products(props){
     }
 
     // optionListArr의 값을 map으로 뿌려주며 추가된 상품의 ui가 생성됨 
-    const optionList = optionListArr.map((arr,num)=>{
+    const optionList = optionListArr.map((arr,num,idx)=>{
         return(
-            <li key={arr.id}>
+            <li key={idx}>
                 <span className="list_prd">{arr.name}</span>
                 <div className="list_count">
                     {<button className="delBtn" onClick={()=>onRemove(num,optionListArr,'option')}>X</button>}
@@ -211,9 +211,9 @@ function Products(props){
     })
 
     // addPrdListArr의 값을 map으로 뿌려주며 추가된 상품의 ui가 생성됨
-    const addPrdList = addPrdListArr.map((arr,num)=>{
+    const addPrdList = addPrdListArr.map((arr,num,idx)=>{
         return(
-            <li key={arr.id}>
+            <li key={idx}>
                 <span className="list_prd">{arr.name}</span>
                 <div className="list_count">
                     <button className="delBtn" onClick={()=>onRemove(num,addPrdListArr,'addPrd')}>X</button>
@@ -321,8 +321,8 @@ function Products(props){
     }
 
     // deliveryMethod의 들어있는 data값으로 selectbox에 들어갈 option을 생성함
-    const deliverySel = deliveryMethod.map((arr)=>{
-        return <option key={arr.id} value={arr.id}>{arr.name}</option>
+    const deliverySel = deliveryMethod.map((arr,idx)=>{
+        return <option key={idx} value={arr.id}>{arr.name}</option>
     })
 
     // 무이자 상품 자세히보기 활성화 
@@ -394,9 +394,9 @@ function Products(props){
                     <NavLink to="/">홈</NavLink>
                         <span className="bar">{'>'}</span>
                     {
-                        categoryList.map((list,num)=>{
+                        categoryList.map((list,num,idx)=>{
                                 return (
-                                    <Fragment key={list.id}>
+                                    <Fragment key={idx}>
                                     <NavLink to={"/CategoryPrdList/"+list.id}>{list.name}{categoryList.length === num+1 && "(총"+list.num+"개)"}  </NavLink>
                                     {categoryList.length !== num+1 && <span className="bar">{'>'}</span>}
                                     </Fragment>)
@@ -474,13 +474,13 @@ function Products(props){
                                             <div className="option">
                                                 <span>옵션</span>
                                                 {
-                                                    prdOption.map((option_item) => {
+                                                    prdOption.map((option_item,idx) => {
                                                         return (
-                                                            <select key={option_item.id} onChange={(e) => onSelectValue(prdOption,optionListArr,'option',option_item.id,e)}>
+                                                            <select key={idx} onChange={(e) => onSelectValue(prdOption,optionListArr,'option',option_item.id,e)}>
                                                                 <option value='0'>{option_item.name}</option>
                                                                 {
-                                                                    option_item.option_list.map((list)=>{
-                                                                        return <option key={list.id}  value={list.id}>{list.name}{list.add_price ? "  ("+list.add_price+"원)추가" : ''} {list.soldout ? "(품절)": ''}</option>
+                                                                    option_item.option_list.map((list,idx)=>{
+                                                                        return <option key={idx}  value={list.id}>{list.name}{list.add_price ? "  ("+list.add_price+"원)추가" : ''} {list.soldout ? "(품절)": ''}</option>
                                                                     })
                                                                 }
                                                             </select>
@@ -493,13 +493,13 @@ function Products(props){
                                             <span>추가상품</span>
                                             <div className="select_area">
                                                 {
-                                                    addPrd.map((addItem) => {
+                                                    addPrd.map((addItem,idx) => {
                                                         return (
-                                                            <select key={addItem.id} onChange={(e) => onSelectValue(addPrd,addPrdListArr,'addPrd',addItem.id,e)}>
+                                                            <select key={idx} onChange={(e) => onSelectValue(addPrd,addPrdListArr,'addPrd',addItem.id,e)}>
                                                                 <option value='0'>{addItem.name}</option>
                                                                 {
-                                                                    addItem.product_list.map((list)=>{
-                                                                     return <option key={list.id} value={list.id}>{list.name} {list.price}원 {list.soldout ? "(품절)": ''}</option>
+                                                                    addItem.product_list.map((list,idx)=>{
+                                                                     return <option key={idx} value={list.id}>{list.name} {list.price}원 {list.soldout ? "(품절)": ''}</option>
                                                                     })
                                                                 }
                                                             </select>
