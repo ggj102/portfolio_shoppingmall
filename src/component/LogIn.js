@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import '../css/Login.css'
 import { connect } from 'react-redux';
-import { gMemberId, gMemberName } from '../store/modules/GlobalData.js'
+import { gMemberId, gMemberName, gLoginState } from '../store/modules/GlobalData.js'
 import { LoginPostAxios } from './common/api.js';
 
-function LogIn({history,gMemberId,gMemberName})
+function LogIn(props)
 {
+    const {history,gMemberId,gMemberName, loginState} = props;
     const [inputId,setInputId] = useState('');
     const [inputPw,setInputPw] = useState('');
 
@@ -23,6 +24,7 @@ function LogIn({history,gMemberId,gMemberName})
         LoginPostAxios(inputId,inputPw).then((response)=>{
             if(response.data.result === 0)
             {
+                loginState(true);
                 gMemberId(response.data.user_data.id);
                 gMemberName(response.data.user_data.name)
                 history.push('/');
@@ -81,7 +83,8 @@ const mapStateToProps = state =>({
 
 const mapDispatchToProps = dispatch =>({
     gMemberId: id => dispatch(gMemberId(id)),
-    gMemberName: name => dispatch(gMemberName(name))
+    gMemberName: name => dispatch(gMemberName(name)),
+    loginState:  state => dispatch(gLoginState(state))
 })
 
 export default connect(

@@ -93,9 +93,9 @@ function PrdList({sortTypeArr,ListAxios,data,listType})
 
     //현재 페이지에서 보여 줄수 있는 상품의 개수의 값
     //perPage의 기능은 아직 추가되지 않음
-    const onPerPage = (e) =>{
-        setPerPage(e.target.options[e.target.selectedIndex].value);
-    }
+    // const onPerPage = (e) =>{
+    //     setPerPage(e.target.options[e.target.selectedIndex].value);
+    // }
 
     // 페이지네이션 포커스 
     const onPageFocus = (num) =>{
@@ -143,14 +143,14 @@ function PrdList({sortTypeArr,ListAxios,data,listType})
                         </ul>
                         
                         <div className="sort_option">
-                            <div className="sort_selectBox">
+                            {/* <div className="sort_selectBox">
                                 <select value={perPage} onChange={onPerPage}>
                                     <option value="20">20개씩 보기</option>
                                     <option value="40">40개씩 보기</option>
                                     <option value="60">60개씩 보기</option>
                                     <option value="80">80개씩 보기</option>
                                 </select>
-                            </div>
+                            </div> */}
                             
                             <div className="sort_view_type">
                                 <ul>

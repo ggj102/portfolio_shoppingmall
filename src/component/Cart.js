@@ -3,8 +3,9 @@ import '../css/Cart.css'
 import { NavLink } from 'react-router-dom';
 import { CartDataAxios, CartListDeleteAxios } from './common/api.js';
 import MainPageHeader from './mainpage/MainPageHeader';
+import { connect } from 'react-redux';
 
-function Cart()
+function Cart({loginState,history})
 {
     const [cartData,setCartData] = useState({});
     const [cartList,setCartList] = useState([]);
@@ -215,78 +216,91 @@ function Cart()
         )
     })
 
-    return(
-        <div>
-            <MainPageHeader/>
-            <div className="cart_body">
-            { cartList.length > 0 ? <div>
-                    <table className="cart_table">
-                        <thead>
-                            <tr className="table_title">
-                                <th scope="col" className="table_title_part"><input type="checkbox" onChange={onAllCheck} checked={checkCount === cartList.length}/></th>
-                                <th scope="col" className="table_title_part">상품정보</th>
-                                <th scope="col" className="table_title_part">옵션</th>
-                                <th scope="col" className="table_title_part">상품금액</th>
-                                <th scope="col" className="table_title_part">배송비</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {itemListMap}
-                        </tbody>
-                    </table>
 
-                    <div className="prd_check_btn_area">
-                            <div className="checkbox_input"><input type="checkbox" onChange={onAllCheck} checked={checkCount === cartList.length}/></div>
-                            <button onClick={checkPrdDel}>선택상품 삭제</button>
-                    </div>
-                    <div className="order_calculator">
-                        <div className="prd_price_detail">
-                            <dl className="prd_price_detail_text_area">
-                                <dt>총 상품금액</dt>
-                                <dd>
-                                <span className="prd_price_detail_text1">{prdTotal}</span>    
-                                    원
-                                </dd>
-                            </dl>
-                            <span className="order_calculator_mark">+</span>
-                            <dl className="prd_price_detail_text_area">
-                                <dt>배송비</dt>
-                                <dd>
-                                <span className="prd_price_detail_text1">{deliveryprice}</span>    
-                                    원
-                                </dd>
-                            </dl>
-                            <span className="order_calculator_mark">-</span>
-                            <dl className="prd_price_detail_text_area">
-                                <dt>할인예상금액</dt>
-                                <dd className="discount_text">
-                                <span className="prd_price_detail_text1">0</span>    
-                                    원
-                                </dd>
-                            </dl>
+    if(!loginState)
+    {
+        history.push('/');
+        return null;
+    }else{
+        return(
+            <div>
+                <MainPageHeader/>
+                <div className="cart_body">
+                { cartList.length > 0 ? <div>
+                        <table className="cart_table">
+                            <thead>
+                                <tr className="table_title">
+                                    <th scope="col" className="table_title_part"><input type="checkbox" onChange={onAllCheck} checked={checkCount === cartList.length}/></th>
+                                    <th scope="col" className="table_title_part">상품정보</th>
+                                    <th scope="col" className="table_title_part">옵션</th>
+                                    <th scope="col" className="table_title_part">상품금액</th>
+                                    <th scope="col" className="table_title_part">배송비</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {itemListMap}
+                            </tbody>
+                        </table>
+    
+                        <div className="prd_check_btn_area">
+                                <div className="checkbox_input"><input type="checkbox" onChange={onAllCheck} checked={checkCount === cartList.length}/></div>
+                                <button onClick={checkPrdDel}>선택상품 삭제</button>
                         </div>
-                        <div className="prd_price_total">
-                            <span className="prd_price_total_text">총 주문금액</span>
-                            <span className="prd_price_total_num">
-                                <span className="prd_price_total_num_text">{prdTotal+deliveryprice}</span>
-                                원
-                            </span>
+                        <div className="order_calculator">
+                            <div className="prd_price_detail">
+                                <dl className="prd_price_detail_text_area">
+                                    <dt>총 상품금액</dt>
+                                    <dd>
+                                    <span className="prd_price_detail_text1">{prdTotal}</span>    
+                                        원
+                                    </dd>
+                                </dl>
+                                <span className="order_calculator_mark">+</span>
+                                <dl className="prd_price_detail_text_area">
+                                    <dt>배송비</dt>
+                                    <dd>
+                                    <span className="prd_price_detail_text1">{deliveryprice}</span>    
+                                        원
+                                    </dd>
+                                </dl>
+                                <span className="order_calculator_mark">-</span>
+                                <dl className="prd_price_detail_text_area">
+                                    <dt>할인예상금액</dt>
+                                    <dd className="discount_text">
+                                    <span className="prd_price_detail_text1">0</span>    
+                                        원
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div className="prd_price_total">
+                                <span className="prd_price_total_text">총 주문금액</span>
+                                <span className="prd_price_total_num">
+                                    <span className="prd_price_total_num_text">{prdTotal+deliveryprice}</span>
+                                    원
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                    <div className="cart_button_box">
-                        <NavLink to='/' className="link_home">쇼핑 계속하기</NavLink>
-                        <button>주문하기</button>
-                    </div>
-                </div> :
-                    <div className="cart_empty">
-                        <p className="cart_empty_text1">장바구니에 담긴 상품이 없습니다.</p>
-                        <p className="cart_empty_text2">원하는 상품을 장바구니에 담아보세요.</p>
-                        <NavLink to='/' className="link_home">쇼핑 계속하기</NavLink>
-                    </div>
-                }
+                        <div className="cart_button_box">
+                            <NavLink to='/' className="link_home">쇼핑 계속하기</NavLink>
+                            <button>주문하기</button>
+                        </div>
+                    </div> :
+                        <div className="cart_empty">
+                            <p className="cart_empty_text1">장바구니에 담긴 상품이 없습니다.</p>
+                            <p className="cart_empty_text2">원하는 상품을 장바구니에 담아보세요.</p>
+                            <NavLink to='/' className="link_home">쇼핑 계속하기</NavLink>
+                        </div>
+                    }
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
 }
 
-export default Cart;
+const mapStateToProps = state =>({
+    loginState : state.GlobalData.glogin
+})
+
+export default connect(
+    mapStateToProps
+)(Cart);
