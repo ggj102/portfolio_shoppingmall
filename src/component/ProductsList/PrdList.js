@@ -28,7 +28,7 @@ function PrdList({sortTypeArr,ListAxios,data,listType})
     const [listViewOption,setListViewOption] = useState(2);
     const [sortType,setSortType] = useState('popular');
     const [nowPage,setNowPage] = useState(1);
-    const [perPage,setPerPage] = useState(40);
+    const [perPage] = useState(40);
     const [pagination,setPagination] = useState();  
 
     useEffect(()=>{  
@@ -70,22 +70,22 @@ function PrdList({sortTypeArr,ListAxios,data,listType})
 
     // listViewOption값에 따라 보여주는 page 타입이 바뀜
     // 상품 리스트 맵
-    const itemList = listItemData.map((arr)=>{
+    const itemList = listItemData.map((arr,idx)=>{
         if(listViewOption === 1)
         {
-          return  <ListViewTypeA key={arr.id} arr={arr} saleCal={saleCal}/>
+          return  <ListViewTypeA key={idx} arr={arr} saleCal={saleCal}/>
         }
         else if(listViewOption === 2)
         {
-          return  <ListViewTypeB key={arr.id} arr={arr} saleCal={saleCal}/>
+          return  <ListViewTypeB key={idx} arr={arr} saleCal={saleCal}/>
         }
         else if(listViewOption === 3)
         {
-          return  <ListViewTypeC key={arr.id} arr={arr} saleCal={saleCal}/>
+          return  <ListViewTypeC key={idx} arr={arr} saleCal={saleCal}/>
         }
         else if(listViewOption === 4)
         {
-          return  <ListViewTypeD key={arr.id} arr={arr} saleCal={saleCal}/>
+          return  <ListViewTypeD key={idx} arr={arr} saleCal={saleCal}/>
         }
 
         return 0;
@@ -93,9 +93,9 @@ function PrdList({sortTypeArr,ListAxios,data,listType})
 
     //현재 페이지에서 보여 줄수 있는 상품의 개수의 값
     //perPage의 기능은 아직 추가되지 않음
-    const onPerPage = (e) =>{
-        setPerPage(e.target.options[e.target.selectedIndex].value);
-    }
+    // const onPerPage = (e) =>{
+    //     setPerPage(e.target.options[e.target.selectedIndex].value);
+    // }
 
     // 페이지네이션 포커스 
     const onPageFocus = (num) =>{
@@ -143,14 +143,14 @@ function PrdList({sortTypeArr,ListAxios,data,listType})
                         </ul>
                         
                         <div className="sort_option">
-                            <div className="sort_selectBox">
+                            {/* <div className="sort_selectBox">
                                 <select value={perPage} onChange={onPerPage}>
                                     <option value="20">20개씩 보기</option>
                                     <option value="40">40개씩 보기</option>
                                     <option value="60">60개씩 보기</option>
                                     <option value="80">80개씩 보기</option>
                                 </select>
-                            </div>
+                            </div> */}
                             
                             <div className="sort_view_type">
                                 <ul>

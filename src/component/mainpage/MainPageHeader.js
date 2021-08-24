@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import '../../css/MainPage.css'
 import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { gMemberId, gMemberName, gCartCount, gDataReset } from '../../store/modules/GlobalData.js'
+import { gMemberId, gMemberName, gCartCount, gDataReset, gNowPage } from '../../store/modules/GlobalData.js'
 import { MainPageHeaderAxios, MainPageHeaderCountAxios, MainPageHeaderLogoutAxios } from '../common/api';
 
 function MainPageHeader(props)
 {
-    const {history,gName,gCount,gCartCount,gDataReset} = props;
+    const {history,loginState,gName,gCount,gCartCount,gDataReset,nowPage,page} = props;
     const [headerData,setHeaderData] = useState({});
     const [categoryData,setCategoryData] = useState([]);
     const [subCategoryData,setSubCategoryData] = useState([]);
@@ -54,6 +54,10 @@ function MainPageHeader(props)
     const onLogOut = () =>{
         MainPageHeaderLogoutAxios().then(()=>{
             gDataReset();
+            if(page === "cart")
+            {
+                history.push('/login');
+            }
         })
     }
 
@@ -118,9 +122,9 @@ function MainPageHeader(props)
         return(
             <div className="categoryMouseOver_list">
                 <ul>
-                    {data.map((sub)=>{
+                    {data.map((sub,idx)=>{
                         return(
-                            <li key={sub.id} className="category_name2" 
+                            <li key={idx} className="category_name2" 
                                 onMouseEnter={()=>categoryMouseOver(sub.id,num)}
                                 onClick={()=>{onReset()}}
                             ><NavLink to={"/CategoryPrdList/"+sub.id}>{sub.name}</NavLink></li>
@@ -132,9 +136,9 @@ function MainPageHeader(props)
     }
 
     // 상품 카테고리 맵
-    const categoryMap = categoryData.map((arr)=>{
+    const categoryMap = categoryData.map((arr,idx)=>{
         return(
-            <li key={arr.id}
+            <li key={idx}
                 className="category_inner_li" 
                 onMouseLeave={categoryMouseOut}
                 onClick={()=>{onReset()}}>
@@ -158,6 +162,10 @@ function MainPageHeader(props)
         )
     })
 
+    const onPageChange = () =>{
+        nowPage('cart');
+    }
+
     return(
         <div className="layout_header">
             <div className="header_shopping">
@@ -165,14 +173,8 @@ function MainPageHeader(props)
                     <div className="globla_area">
                         <div className="header_menu">
                             <div className="menu_area">
+                                {!loginState ? 
                                 <ul>
-                                    <li>
-                                        <NavLink to="/Cart">
-                                            <span>장바구니{gCount > 0 && "("+gCount+")"}</span>
-                                        </NavLink>
-                                    </li>
-                                    {!gName ? 
-                                    <>
                                     <li>
                                         <NavLink to="/Login">
                                             <span>로그인</span>
@@ -183,8 +185,13 @@ function MainPageHeader(props)
                                         <span>회원가입</span>
                                     </NavLink>
                                     </li> 
-                                    </> :
-                                    <>
+                                </ul> :
+                                <ul>
+                                    <li>
+                                        <NavLink to="/Cart" onClick={onPageChange}>
+                                            <span>장바구니{gCount > 0 && "("+gCount+")"}</span>
+                                        </NavLink>
+                                    </li>
                                     <li>
                                         <span>{gName+"님"}</span>
                                     </li>
@@ -192,8 +199,8 @@ function MainPageHeader(props)
                                         <div className="Logout" onClick={onLogOut}>
                                             <span>로그아웃</span>
                                         </div>
-                                    </li></>}
-                                </ul>
+                                    </li>
+                                </ul>}
                             </div>
                         </div>
                     </div>
@@ -233,7 +240,9 @@ function MainPageHeader(props)
 
 const mapStateToProps = state =>({
     gCount: state.GlobalData.gCount,
-    gName: state.GlobalData.gName
+    gName: state.GlobalData.gName,
+    loginState : state.GlobalData.glogin,
+    page: state.GlobalData.gPage
 })
 
 const mapDispatchToProps = dispatch =>({
@@ -241,6 +250,7 @@ const mapDispatchToProps = dispatch =>({
     gMemberName: name => dispatch(gMemberName(name)),
     gCartCount: count => dispatch(gCartCount(count)),
     gDataReset: ()=> dispatch(gDataReset()),
+    nowPage: page => dispatch(gNowPage(page))
 })
 
 export default connect(

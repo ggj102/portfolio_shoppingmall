@@ -5,12 +5,12 @@ import ProductsInfo from './ProductsInfo'
 import Installment from './Installment';
 import MainPageHeader from './mainpage/MainPageHeader';
 import { connect } from 'react-redux';
-import { gCartCountIncrease } from '../store/modules/GlobalData.js'
+import { gCartCountIncrease, gNowPage } from '../store/modules/GlobalData.js'
 import { ProductsCartAddAxios, ProductsDataAxios } from './common/api.js';
 
 function Products(props){
 
-    const {match,history,gCartCountIncrease} = props;
+    const {match,history,gCartCountIncrease,loginState, nowPage} = props;
     const [prdData,setPrdData] = useState({});
     const [categoryList,setCategoryList] = useState([])
     const [deliveryMethod,setDeliveryMethod] = useState([]);
@@ -34,6 +34,7 @@ function Products(props){
        ProductsDataAxios(match.params.id).then((response)=>{
             setPrdData(response.data);
             setCategoryList(response.data.category_list);
+            console.log(response.data.category_list);
             setPrdImg(response.data.product_image);
             setImgState(response.data.product_image[0].url);
             setDeliveryMethod(response.data.delivery_method);
@@ -192,9 +193,9 @@ function Products(props){
     }
 
     // optionListArr의 값을 map으로 뿌려주며 추가된 상품의 ui가 생성됨 
-    const optionList = optionListArr.map((arr,num)=>{
+    const optionList = optionListArr.map((arr,num,idx)=>{
         return(
-            <li key={arr.id}>
+            <li key={idx}>
                 <span className="list_prd">{arr.name}</span>
                 <div className="list_count">
                     {<button className="delBtn" onClick={()=>onRemove(num,optionListArr,'option')}>X</button>}
@@ -210,9 +211,9 @@ function Products(props){
     })
 
     // addPrdListArr의 값을 map으로 뿌려주며 추가된 상품의 ui가 생성됨
-    const addPrdList = addPrdListArr.map((arr,num)=>{
+    const addPrdList = addPrdListArr.map((arr,num,idx)=>{
         return(
-            <li key={arr.id}>
+            <li key={idx}>
                 <span className="list_prd">{arr.name}</span>
                 <div className="list_count">
                     <button className="delBtn" onClick={()=>onRemove(num,addPrdListArr,'addPrd')}>X</button>
@@ -320,8 +321,8 @@ function Products(props){
     }
 
     // deliveryMethod의 들어있는 data값으로 selectbox에 들어갈 option을 생성함
-    const deliverySel = deliveryMethod.map((arr)=>{
-        return <option key={arr.id} value={arr.id}>{arr.name}</option>
+    const deliverySel = deliveryMethod.map((arr,idx)=>{
+        return <option key={idx} value={arr.id}>{arr.name}</option>
     })
 
     // 무이자 상품 자세히보기 활성화 
@@ -342,7 +343,15 @@ function Products(props){
 
         if(optionListArr.length === 0 && prdOption.length !== 0)
         {
-            alert('옵션을 선택하지 않으셨습니다. 옵션을 선택해 주세요.')
+            alert('옵션을 선택하지 않으셨습니다. 옵션을 선택해 주세요.');
+        }
+        else if(!loginState)
+        {
+            const loginConfirm = window.confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?");
+            if(loginConfirm)
+            {
+                history.push('/LogIn');
+            }
         }
         else{
             let postOption = [];
@@ -365,10 +374,15 @@ function Products(props){
                 const cartPageConfirm = window.confirm('장바구니에 상품을 담았습니다.\n장바구니로 이동하시겠습니까?');
                 if(cartPageConfirm)
                 {
+                    nowPage('cart');
                     history.push('/Cart');
                 }
             })
         }
+    }
+
+    const nullEvent = () =>{
+        alert("아직 구현되지 않은 기능입니다.");
     }
     
     return(
@@ -380,10 +394,10 @@ function Products(props){
                     <NavLink to="/">홈</NavLink>
                         <span className="bar">{'>'}</span>
                     {
-                        categoryList.map((list,num)=>{
+                        categoryList.map((list,num,idx)=>{
                                 return (
-                                    <Fragment key={list.id}>
-                                    <NavLink to={"/category/"+list.id}>{list.name}{categoryList.length === num+1 && "(총"+list.num+"개)"}  </NavLink>
+                                    <Fragment key={idx}>
+                                    <NavLink to={"/CategoryPrdList/"+list.id}>{list.name}{categoryList.length === num+1 && "(총"+list.num+"개)"}  </NavLink>
                                     {categoryList.length !== num+1 && <span className="bar">{'>'}</span>}
                                     </Fragment>)
                             })
@@ -460,13 +474,13 @@ function Products(props){
                                             <div className="option">
                                                 <span>옵션</span>
                                                 {
-                                                    prdOption.map((option_item) => {
+                                                    prdOption.map((option_item,idx) => {
                                                         return (
-                                                            <select key={option_item.id} onChange={(e) => onSelectValue(prdOption,optionListArr,'option',option_item.id,e)}>
+                                                            <select key={idx} onChange={(e) => onSelectValue(prdOption,optionListArr,'option',option_item.id,e)}>
                                                                 <option value='0'>{option_item.name}</option>
                                                                 {
-                                                                    option_item.option_list.map((list)=>{
-                                                                        return <option key={list.id}  value={list.id}>{list.name}{list.add_price ? "  ("+list.add_price+"원)추가" : ''} {list.soldout ? "(품절)": ''}</option>
+                                                                    option_item.option_list.map((list,idx)=>{
+                                                                        return <option key={idx}  value={list.id}>{list.name}{list.add_price ? "  ("+list.add_price+"원)추가" : ''} {list.soldout ? "(품절)": ''}</option>
                                                                     })
                                                                 }
                                                             </select>
@@ -479,13 +493,13 @@ function Products(props){
                                             <span>추가상품</span>
                                             <div className="select_area">
                                                 {
-                                                    addPrd.map((addItem) => {
+                                                    addPrd.map((addItem,idx) => {
                                                         return (
-                                                            <select key={addItem.id} onChange={(e) => onSelectValue(addPrd,addPrdListArr,'addPrd',addItem.id,e)}>
+                                                            <select key={idx} onChange={(e) => onSelectValue(addPrd,addPrdListArr,'addPrd',addItem.id,e)}>
                                                                 <option value='0'>{addItem.name}</option>
                                                                 {
-                                                                    addItem.product_list.map((list)=>{
-                                                                     return <option key={list.id} value={list.id}>{list.name} {list.price}원 {list.soldout ? "(품절)": ''}</option>
+                                                                    addItem.product_list.map((list,idx)=>{
+                                                                     return <option key={idx} value={list.id}>{list.name} {list.price}원 {list.soldout ? "(품절)": ''}</option>
                                                                     })
                                                                 }
                                                             </select>
@@ -516,7 +530,7 @@ function Products(props){
                                         </span>
                                     </div>
                                     <div className="btn_area">
-                                        <div className="buy_btn btn_bg">
+                                        <div className="buy_btn btn_bg" onClick={nullEvent}>
                                             <div>구매하기</div>
                                         </div>
                                         <div className="basket_btn btn_bg" onClick={onAddCart}>
@@ -539,11 +553,12 @@ function Products(props){
 }
 
 const mapStateToProps = state =>({
-
+    loginState : state.GlobalData.glogin
 })
 
 const mapDispatchToProps = dispatch =>({
-    gCartCountIncrease: count => dispatch(gCartCountIncrease(count))
+    gCartCountIncrease: count => dispatch(gCartCountIncrease(count)),
+    nowPage: page => dispatch(gNowPage(page))
 })
 
 export default connect(

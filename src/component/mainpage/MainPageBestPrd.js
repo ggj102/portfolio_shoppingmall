@@ -18,9 +18,9 @@ function MainPageBestPrd()
     },[])
 
     // 상단 상품리스트 맵
-    const topDataMap = topData.map((arr)=>{
+    const topDataMap = topData.map((arr,idx)=>{
         return(
-            <li key={arr.product_id}>
+            <li key={idx}>
                 <NavLink to={"/Products/"+arr.product_id} className="bestreview_atag">
                     <div className="bestreview_thumbnail">
                         <img src={arr.thumb_image} alt="img"/>
@@ -47,9 +47,9 @@ function MainPageBestPrd()
     })
 
     // 하단 상품리스트 맵
-    const bottomDataMap = bottomData.map((arr)=>{
+    const bottomDataMap = bottomData.map((arr,idx)=>{
         return(
-            <li key={arr.product_id}>
+            <li key={idx}>
                 <NavLink to={"/Products/"+arr.product_id} className="listview_atag">
                     <div className="bestreview_thumbnail">
                         <img src={arr.thumb_image} alt="img"/>

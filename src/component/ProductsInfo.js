@@ -43,12 +43,9 @@ function ProductsInfo({data})
     }
 
     // qna ui 출력
-    const qnaListMap = data.qna.map((arr)=>{
-
-
-        
+    const qnaListMap = data.qna.map((arr,idx)=>{
         return(
-            <li key={arr.id}>
+            <li key={idx}>
                 {(qnaState === "0" ||  parseInt(qnaState) === arr.status) &&
                 <div className="qna_table">
                     <div className="qna_state">
