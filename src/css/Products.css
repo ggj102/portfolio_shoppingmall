@@ -86,30 +86,27 @@ a {
 
 .prd_detail_basic .view {
     float: left;
-    overflow: hidden;
     position: relative;
     width: 448px;
 }
 
-
-
 .prd_detail_basic .view .bimg {
-    overflow: hidden;
     position: relative;
-    width: 450px;
+    width: 100%;
     height: 450px;
     margin: -1px -1px 0;
 }
 
-.prd_detail_basic .view .bimg .img_va {
+.prd_detail_basic .view .bimg .img_va img{
     display: table-cell;
     overflow: hidden;
-    width: 450px;
+    width: 100%;
     height: 450px;
     vertical-align: middle;
     text-align: center;
     font-size: 448px;
 }
+
 
 .prd_detail_basic .ico_goods {
     top: 1px;
@@ -511,7 +508,6 @@ dd {
 }
 
 .prd_option{
-
     font-size: 12px;
     padding: 20px 0 12px 0;
     border-bottom: 1px solid #ebebeb;
@@ -550,6 +546,7 @@ dd {
 }
 
 .select_area select{
+    max-width: 340px;
     padding-bottom: 3px;
     display: block;
     margin-bottom: 5px;
@@ -573,8 +570,20 @@ dd {
     clear: both;
 }
 
-.list_prd{
+.prd_single{
+    padding: 12px 0;
+    border-bottom: 1px solid #ebebeb;
+    font-size: 12px;
+}
 
+.prd_single::after{
+    display: block;
+    content: '';
+    clear: both;
+}
+
+.prd_single .list_input{
+    float: right;
 }
 
 .list_count{
@@ -603,7 +612,7 @@ dd {
     margin-top: 40px;
     font-size: 16px;
     padding-bottom: 15px;
-    margin-left: 184px;
+    text-align: right;
 }
 
 .total::after{
@@ -624,7 +633,7 @@ dd {
 }
 
 .btn_area{
-    margin-left: 128px;
+   float: right;
 }
 
 .btn_area::after{
@@ -633,12 +642,13 @@ dd {
     clear: both;
 }
 
-.btn_area a{
+.btn_area div{
+    cursor: pointer;
     text-decoration: none;
     color: #fff;
 }
 
-.btn_area div{
+.btn_area .btn_bg{
     border: 0;
     border-radius: 2px;
     float: left;
@@ -651,7 +661,6 @@ dd {
 }
 
 .basket_btn{
-    margin-right: 10px;
     background-color: #787E88;
 }
 

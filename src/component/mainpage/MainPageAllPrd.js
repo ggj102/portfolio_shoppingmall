@@ -27,9 +27,9 @@ function MainPageAllPrd()
     }
 
     // 상품 리스트 맵
-    const itemListMap = itemList.map((arr)=>{
+    const itemListMap = itemList.map((arr,idx)=>{
         return(
-            <li key={arr.id} className="allprd_list_li">
+            <li key={idx} className="allprd_list_li">
                 <NavLink  to={"/Products/"+arr.id} className="allprd_list_atag">
                     <div className="allprd_list_thumbnail">
                         <img src={arr.thumb_image} alt="img"/>

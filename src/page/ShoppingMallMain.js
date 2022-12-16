@@ -43,9 +43,7 @@ function ShoppingMallMain({gMemberId,gMemberName})
     )
 }
 
-const mapStateToProps = state =>({
-
-})
+const mapStateToProps = null;
 
 const mapDispatchToProps = dispatch =>({
     gMemberId: id => dispatch(gMemberId(id)),

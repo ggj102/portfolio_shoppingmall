@@ -6,22 +6,38 @@ import ListViewTypeC from './productslistviewoption/ListViewTypeC';
 import ListViewTypeD from './productslistviewoption/ListViewTypeD';
 import MainPageHeader from '../mainpage/MainPageHeader';
 
-function PrdList({sortTypeArr,ListAxios,data})
+function Pagination({num,nowpage,onpagefocus})
+{
+    // const pageNum = () =>{
+
+    const pageNumArr = []
+
+    for(let i = 0; i < num; i++)
+    {
+        pageNumArr.push(<a key={(i+1).toString()} href="#pagenum" className={nowpage === i+1 ? "page_focus" : 'page_unfocus'} 
+        onClick={()=>onpagefocus(i+1)}>{i+1}</a>) 
+    }
+
+    return pageNumArr;
+}
+
+function PrdList({sortTypeArr,ListAxios,data,listType})
 {
     const [listData,setListData] = useState({});
     const [listItemData,setListItemData] = useState([]);
     const [listViewOption,setListViewOption] = useState(2);
     const [sortType,setSortType] = useState('popular');
     const [nowPage,setNowPage] = useState(1);
-    const [perPage,setPerPage] = useState(40);
-    // const [test,setTest] = useState([1,2,3,4]);  페이지네이션 임시
-    const test = [1,2,3,4];
+    const [perPage] = useState(40);
+    const [pagination,setPagination] = useState();  
 
     useEffect(()=>{  
         ListAxios(data,sortType,nowPage,perPage).then((response)=>{
             setListData(response.data);
             setListItemData(response.data.item_list);
+            setPagination(response.data.total_count < perPage ? 1 : Math.ceil(response.data.total_count/perPage))
             })
+            
     },[sortType,nowPage,perPage,data,ListAxios])
 
 
@@ -41,7 +57,7 @@ function PrdList({sortTypeArr,ListAxios,data})
         return(
             <li key={idx.toString()}>
             <a href="#sort" className={sortType === arr.type ? "sort_focus" : "sort_tab"} 
-            onClick={()=>{onSort(arr.type)}}>
+            onClick={(e)=>{e.preventDefault();onSort(arr.type)}}>
                 {sortType === arr.type && <span>V</span>}
                 {arr.title}</a>
             </li>
@@ -54,22 +70,22 @@ function PrdList({sortTypeArr,ListAxios,data})
 
     // listViewOption값에 따라 보여주는 page 타입이 바뀜
     // 상품 리스트 맵
-    const itemList = listItemData.map((arr)=>{
+    const itemList = listItemData.map((arr,idx)=>{
         if(listViewOption === 1)
         {
-          return  <ListViewTypeA key={arr.id} arr={arr} saleCal={saleCal}/>
+          return  <ListViewTypeA key={idx} arr={arr} saleCal={saleCal}/>
         }
         else if(listViewOption === 2)
         {
-          return  <ListViewTypeB key={arr.id} arr={arr} saleCal={saleCal}/>
+          return  <ListViewTypeB key={idx} arr={arr} saleCal={saleCal}/>
         }
         else if(listViewOption === 3)
         {
-          return  <ListViewTypeC key={arr.id} arr={arr} saleCal={saleCal}/>
+          return  <ListViewTypeC key={idx} arr={arr} saleCal={saleCal}/>
         }
         else if(listViewOption === 4)
         {
-          return  <ListViewTypeD key={arr.id} arr={arr} saleCal={saleCal}/>
+          return  <ListViewTypeD key={idx} arr={arr} saleCal={saleCal}/>
         }
 
         return 0;
@@ -77,9 +93,9 @@ function PrdList({sortTypeArr,ListAxios,data})
 
     //현재 페이지에서 보여 줄수 있는 상품의 개수의 값
     //perPage의 기능은 아직 추가되지 않음
-    const onPerPage = (e) =>{
-        setPerPage(e.target.options[e.target.selectedIndex].value);
-    }
+    // const onPerPage = (e) =>{
+    //     setPerPage(e.target.options[e.target.selectedIndex].value);
+    // }
 
     // 페이지네이션 포커스 
     const onPageFocus = (num) =>{
@@ -87,12 +103,12 @@ function PrdList({sortTypeArr,ListAxios,data})
     }
 
     // 임시로 만든 페이지네이션 기능 추가가 더 필요함
-    const paginationMap = test.map((arr)=>{
-        return(
-            <a key={arr.toString()} href="#pagenum" className={nowPage === arr ? "page_focus" : 'page_unfocus'} 
-                onClick={()=>onPageFocus(arr)}>{arr}</a>
-        )
-    })
+    // const paginationMap = test.map((arr)=>{
+    //     return(
+    //         <a key={arr.toString()} href="#pagenum" className={nowPage === arr ? "page_focus" : 'page_unfocus'} 
+    //             onClick={()=>onPageFocus(arr)}>{arr}</a>
+    //     )
+    // })
 
     return(
         <div className="listPage">
@@ -104,6 +120,7 @@ function PrdList({sortTypeArr,ListAxios,data})
                             <span>{listData.title}</span>
                         </h3>
                         <div className="category_route">
+                            {listType === "category" &&
                             <ul>
                                 <li>
                                     <a href="#route" className="route_text">홈</a>
@@ -116,7 +133,7 @@ function PrdList({sortTypeArr,ListAxios,data})
                                 <li>
                                     <a href="#route" className="route_text">전체</a>
                                 </li>
-                            </ul>
+                            </ul>}
                         </div>
                     </div>
 
@@ -126,14 +143,14 @@ function PrdList({sortTypeArr,ListAxios,data})
                         </ul>
                         
                         <div className="sort_option">
-                            <div className="sort_selectBox">
+                            {/* <div className="sort_selectBox">
                                 <select value={perPage} onChange={onPerPage}>
                                     <option value="20">20개씩 보기</option>
                                     <option value="40">40개씩 보기</option>
                                     <option value="60">60개씩 보기</option>
                                     <option value="80">80개씩 보기</option>
                                 </select>
-                            </div>
+                            </div> */}
                             
                             <div className="sort_view_type">
                                 <ul>
@@ -153,7 +170,20 @@ function PrdList({sortTypeArr,ListAxios,data})
                     </div>
 
                     <div className="pagination">
-                        {paginationMap}
+                        <Pagination 
+                        num = {pagination} 
+                        nowpage = {nowPage} 
+                        onpagefocus = {onPageFocus}
+                        />
+                        {/* {()=>{
+                            const pageNum = [];
+
+                            for(let i = 1; i < pagination; i++)
+                            {
+                                pageNum.push(<a key={arr.toString()} href="#pagenum" className={nowPage === arr ? "page_focus" : 'page_unfocus'} 
+                                onClick={()=>onPageFocus(arr)}>{arr}</a>) 
+                            }
+                        }} */}
                     </div>
                     
                 </div>
