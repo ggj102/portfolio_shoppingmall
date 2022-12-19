@@ -29,7 +29,7 @@ function ShoppingMallMain({ gMemberId, gMemberName }) {
   return (
     <>
       <Route path="/ShoppingMallMain" component={ShoppingMallMain} />
-      <Route path="/SignUpDetail" component={SignUp} />
+      <Route path="/SignUp" component={SignUp} />
       <Route path="/LogIn" component={SignIn} />
       <Route path="/Cart" component={Cart} />
       <Route path="/Products/:id" component={Products} />
