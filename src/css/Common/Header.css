@@ -1,0 +1,142 @@
+.headerWrapper .menuWrapper {
+  border-bottom: 1px solid #000;
+  background-color: #fcdf33;
+}
+
+.headerWrapper .menu {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 12px;
+  padding: 8px 0;
+  width: 1280px;
+  margin: 0 auto;
+}
+
+.headerWrapper .menu > div {
+  margin-left: 8px;
+}
+
+.headerWrapper .menu > div span {
+  color: #000;
+}
+
+.headerWrapper .menu .Logout {
+  cursor: pointer;
+}
+
+.headerWrapper .titleWrapper {
+  border-bottom: 1px solid #000;
+  background-color: #fcdf33;
+}
+
+.headerWrapper .titleWrapper .titleContent {
+  width: 1280px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.headerWrapper .title {
+  text-align: center;
+  font-size: 36px;
+  font-weight: bold;
+  padding: 15px 0;
+}
+
+.headerWrapper .title p {
+  margin: 0;
+}
+
+.headerWrapper .titleContent .searchContent {
+  position: absolute;
+  background-color: #fff;
+  right: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+  border-radius: 17px;
+  width: 220px;
+  height: 34px;
+}
+
+.searchContent .searchWrapper {
+  position: relative;
+  padding: 0 20px;
+}
+
+.searchContent .searchWrapper input {
+  border: none;
+  font-size: 14px;
+  height: 32px;
+  outline: none;
+}
+
+.searchContent .searchWrapper .searchBtn {
+  position: absolute;
+  cursor: pointer;
+  right: 10px;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.searchContent .searchWrapper .searchResetBtn {
+  position: absolute;
+  cursor: pointer;
+  background: none;
+  top: 50%;
+  transform: translate(-250%, -50%);
+  border: none;
+  outline: none;
+}
+
+.categoryTabWrapper {
+}
+
+.categoryTabWrapper .categoryTab {
+  width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  padding: 20px 0;
+}
+
+.categoryTabWrapper .categoryTab .category {
+  position: relative;
+  margin-right: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.categoryTabWrapper .categoryTab .category .depth {
+  position: absolute;
+  z-index: 10;
+  width: 110px;
+  padding: 10px;
+  box-sizing: border-box;
+  font-size: 13px;
+  border: 1px solid #000;
+}
+
+.categoryTabWrapper .categoryTab .category .depthOpen {
+  display: block;
+}
+
+.categoryTabWrapper .categoryTab .category .depthClose {
+  display: none;
+}
+
+.categoryTabWrapper .categoryTab .category .parnetDepth {
+  top: 27px;
+  left: 0;
+}
+
+.categoryTabWrapper .categoryTab .category .subDepth {
+  top: -1px;
+  left: 108px;
+}
+
+.categoryTabWrapper .categoryTab .category .depth > div {
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.categoryTabWrapper .categoryTab .category .depth > div:last-of-type {
+  margin-bottom: 0;
+}
