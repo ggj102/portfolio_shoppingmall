@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import "../../../css/SignIn.css";
+import "../../../css/Sign/SignIn.css";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -43,7 +43,7 @@ function SignIn({ history, gMemberId, gMemberName, loginState }) {
       <div className="title">
         <NavLink to="/">로그인페이지(홈으로)</NavLink>
       </div>
-      <form className="container" onSubmit={handleSubmit(onSubmitLogin)}>
+      <form className="formWrapper" onSubmit={handleSubmit(onSubmitLogin)}>
         <div className="inputGroup">
           <div className="inputWrapper">
             <div className="inputBox">
@@ -52,11 +52,7 @@ function SignIn({ history, gMemberId, gMemberName, loginState }) {
                 control={control}
                 defaultValue=""
                 render={({ field }) => (
-                  <input
-                    className="idInput"
-                    placeholder="아이디 = test"
-                    {...field}
-                  />
+                  <input placeholder="아이디 = test" {...field} />
                 )}
               />
             </div>
@@ -71,7 +67,6 @@ function SignIn({ history, gMemberId, gMemberName, loginState }) {
                 render={({ field }) => (
                   <input
                     type="password"
-                    className="passwordInput"
                     placeholder="비밀번호 = test"
                     {...field}
                   />
