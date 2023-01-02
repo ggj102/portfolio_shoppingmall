@@ -88,6 +88,7 @@
 }
 
 .categoryTabWrapper {
+  border-bottom: 1px solid #000;
 }
 
 .categoryTabWrapper .categoryTab {
@@ -112,6 +113,7 @@
   box-sizing: border-box;
   font-size: 13px;
   border: 1px solid #000;
+  background: #fff;
 }
 
 .categoryTabWrapper .categoryTab .category .depthOpen {
@@ -129,6 +131,7 @@
 
 .categoryTabWrapper .categoryTab .category .subDepth {
   top: -1px;
+  bottom: -1px;
   left: 108px;
 }
 
