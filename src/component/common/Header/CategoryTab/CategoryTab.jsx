@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../../../css/Common/Header.css";
+import "../../../../css/common_t/Header.css";
 import { NavLink } from "react-router-dom";
 import { MainPageHeaderAxios } from "../../api";
 
@@ -45,7 +45,7 @@ export default function CategoryTab() {
           {fliter.map((val, idx) => {
             return (
               <div key={`sub${val.id}${idx}`}>
-                <NavLink to={"/CategoryPrdList/" + val.id}>
+                <NavLink to={"/CategoryProductsList/" + val.id}>
                   <span
                     onMouseEnter={() =>
                       onMouseEnterOpenDepth(val.id, index + 1)
@@ -74,7 +74,9 @@ export default function CategoryTab() {
               onMouseEnter={() => onMouseEnterOpenDepth(val.id, 0)}
               onMouseLeave={() => onMouseLeaveCloseDepth(0)}
             >
-              <NavLink to={"/CategoryPrdList/" + val.id}>{val.name}</NavLink>
+              <NavLink to={"/CategoryProductsList/" + val.id}>
+                {val.name}
+              </NavLink>
               {subCategoryTab(val.id, 0)}
             </div>
           );

@@ -27,7 +27,7 @@ export default function AllProduct() {
   }, [sortType]);
 
   return (
-    <div>
+    <div className="allProductWrapper">
       <h4 className="allprd_title">
         <span className="title_inner">상품전체</span>
       </h4>
@@ -50,7 +50,6 @@ export default function AllProduct() {
                       : "allprd_sort_atag"
                   }
                 >
-                  {sortType === arr.type && <span>V</span>}
                   {arr.title}
                 </a>
               </li>
@@ -65,7 +64,7 @@ export default function AllProduct() {
               return (
                 <li key={idx} className="allprd_list_li">
                   <NavLink
-                    to={"/Products/" + arr.id}
+                    to={"/DetailProduct/" + arr.id}
                     className="allprd_list_atag"
                   >
                     <div className="allprd_list_thumbnail">

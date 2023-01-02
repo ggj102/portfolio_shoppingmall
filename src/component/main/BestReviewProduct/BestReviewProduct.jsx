@@ -27,7 +27,7 @@ function BestReviewProduct() {
             return (
               <li key={idx}>
                 <NavLink
-                  to={"/Products/" + arr.product_id}
+                  to={"/DetailProduct/" + arr.product_id}
                   className="bestreview_atag"
                 >
                   <div className="bestreview_thumbnail">
@@ -56,7 +56,7 @@ function BestReviewProduct() {
               return (
                 <li key={idx}>
                   <NavLink
-                    to={"/Products/" + arr.product_id}
+                    to={"/DetailProduct/" + arr.product_id}
                     className="listview_atag"
                   >
                     <div className="bestreview_thumbnail">
