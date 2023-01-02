@@ -1,0 +1,220 @@
+.DetailProductPageWrapper {
+  width: 912px;
+  margin: 0 auto;
+  padding: 30px 0;
+}
+
+.purchaseSettingsWrapper {
+  width: 100%;
+}
+
+.purchaseSettingsWrapper .categoryList {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.purchaseSettingsContent {
+  display: flex;
+  border: 1px solid #ebebeb;
+}
+
+.purchaseSettingsContent .productImage {
+  width: 50%;
+  border-right: 1px solid #ebebeb;
+}
+
+.purchaseSettingsContent .purchaseSettings {
+  width: 50%;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.productImage .showImage img {
+  width: 100%;
+  display: block;
+  margin: auto;
+}
+
+.productImage .productImageList {
+  margin: 0 auto;
+  width: 120px;
+  padding: 15px 0;
+}
+
+.productImage .productImageList img {
+  width: 100%;
+}
+
+.purchaseSettings .settingsContent {
+  padding: 24px 0;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.purchaseSettings .settingsContent:first-of-type {
+  padding-top: 0;
+}
+
+.purchaseSettings .settingsContent:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.purchaseSettings .displayFlex {
+  margin-top: 7px;
+  font-size: 12px;
+}
+
+.purchaseSettings .displayFlex:first-of-type {
+  margin-top: 0;
+}
+
+.purchaseSettings .displayFlex > p {
+  flex: 1;
+}
+
+.purchaseSettings .displayFlex > div {
+  flex: 5;
+}
+
+.purchaseSettings .productNum {
+  margin-bottom: 5px;
+}
+
+.purchaseSettings .productName {
+  color: #313131;
+  letter-spacing: -1px;
+  line-height: 21px;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.purchaseSettings .salePrice {
+  font-weight: bold;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.purchaseSettings .salePrice > span {
+  color: #2eb1d3;
+  font-size: 24px;
+  margin-left: 10px;
+}
+
+.purchaseSettings .salePrice .discount {
+  justify-content: space-between;
+  flex: 4.5;
+}
+
+.purchaseSettings .salePrice .discount > span:nth-child(1) {
+  font-size: 16px;
+  color: #f79a49;
+}
+
+.purchaseSettings .salePrice .discount > span:nth-child(2) {
+  font-size: 16px;
+  color: #a6a6a6;
+  text-decoration: line-through;
+}
+
+.purchaseSettings .salePrice > p:last-of-type {
+  flex: 1;
+  text-align: right;
+}
+
+.purchaseSettings .Installment > p {
+  line-height: 20px;
+}
+
+.purchaseSettings .Installment button {
+  font-size: 12px;
+  padding: 0;
+}
+
+.purchaseSettings .productOption li {
+  margin-bottom: 10px;
+}
+
+.purchaseSettings .productOption li:last-of-type {
+  margin-bottom: 0;
+}
+
+.purchaseSettings select {
+  width: 200px;
+}
+
+.purchaseSettings .purchaseList li {
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-top: 1px solid #ebebeb;
+}
+
+.purchaseSettings .purchaseList li:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.purchaseSettings .purchaseList li:last-of-type {
+  padding-bottom: 0;
+}
+
+.purchaseSettings .purchaseList li > span {
+  flex: 1;
+}
+
+.purchaseSettings .purchaseList li > div {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.purchaseSettings .purchaseList .defaultProduct > div {
+  display: block;
+}
+
+.purchaseSettings .countInput input {
+  width: 50px;
+  text-align: center;
+}
+
+.purchaseSettings .countInput button {
+  width: 25px;
+}
+
+.purchaseSettings .totalPrice {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.purchaseSettings .totalPrice > span:nth-child(1) {
+  margin-right: 20px;
+}
+
+.purchaseSettings .totalPrice > span:nth-child(2) {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.purchaseSettings .totalPrice > span:nth-child(3) {
+  font-weight: bold;
+  color: #2eb1d3;
+}
+
+.purchaseSettings .purchaseCartBtn button {
+  border: 0;
+  border-radius: 2px;
+  padding: 10px 20px;
+  color: #fff;
+  font-size: 16px;
+}
+
+.purchaseSettings .purchaseCartBtn > button:nth-child(1) {
+  margin-right: 10px;
+  background-color: #40c911;
+}
+
+.purchaseSettings .purchaseCartBtn > button:nth-child(2) {
+  background-color: #787e88;
+}
