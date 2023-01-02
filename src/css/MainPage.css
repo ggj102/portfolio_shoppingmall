@@ -287,6 +287,10 @@
   line-height: 0;
 }
 
+.allProductWrapper {
+  padding-bottom: 100px;
+}
+
 .allprd_title {
   text-align: center;
   margin: 70px auto 0;
