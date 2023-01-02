@@ -1,0 +1,205 @@
+.viewListWrapper {
+  display: grid;
+}
+
+.viewListWrapper li {
+  padding: 20px 15px;
+}
+
+.viewListWrapper a {
+  display: block;
+}
+
+.viewListWrapper .listItemImage {
+  position: relative;
+}
+
+.viewListWrapper .listItemImage img {
+  display: block;
+  width: 100%;
+}
+
+.listItemImage .flagWrapper {
+  position: absolute;
+  top: 0;
+  line-height: 21px;
+  z-index: 1;
+}
+
+.flagWrapper .flag {
+  font-size: 11px;
+  text-align: center;
+  color: #fff;
+  width: 48px;
+  height: 21px;
+}
+
+.flagWrapper .flagBest {
+  background-color: #4eb6dd;
+}
+
+.flagWrapper .flagNew {
+  background-color: #b176ce;
+}
+
+.listItemInfo .itemTitle {
+  font-weight: bold;
+  overflow: hidden;
+  width: 100%;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  display: block;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  padding-right: 26px;
+  box-sizing: border-box;
+  font-size: 13px;
+  color: #222;
+}
+
+.listItemInfo .itemPrice {
+  font-size: 13px;
+}
+
+.listItemInfo .itemPrice span:first-of-type {
+  color: #222;
+  font-weight: bold;
+  margin-right: 6px;
+}
+
+.listItemInfo .itemPrice > span:nth-child(2) {
+  text-decoration: line-through;
+  color: #888;
+  font-weight: normal;
+  margin-right: 11px;
+  line-height: 17px;
+}
+
+.listItemInfo .itemPrice > span:nth-child(3) {
+  font-weight: bold;
+  color: #6b90dc;
+  padding-left: 0;
+  margin-right: 0;
+  line-height: 17px;
+}
+
+.listItemInfo .itemExplan {
+  max-height: 2.84em;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  color: #888;
+  font-size: 12px;
+}
+
+.listItemReview {
+  display: flex;
+}
+
+.listItemReview span {
+  font-size: 12px;
+  color: #8f8f8f;
+}
+
+.listItemReview .review > span:nth-child(1) {
+  margin-right: 4px;
+}
+
+.listItemReview .review > span:nth-child(2) {
+  color: #6b90dc;
+  margin-right: 10px;
+}
+
+.listItemReview .score > span:nth-child(1) {
+  margin-right: 4px;
+}
+
+.listItemReview .score > span:nth-child(2) {
+  color: #6b90dc;
+}
+
+.listItemReview .score > span:nth-child(4) {
+  color: #6b90dc;
+}
+
+.viewTypeA > li {
+  display: flex;
+  padding: 20px 0;
+  border-bottom: 1px solid #e2e5e9;
+}
+
+.viewTypeA > li > a {
+  display: flex;
+  flex: 9;
+  border-right: 1px solid #e2e5e9;
+}
+
+.viewTypeA .listItemInfo {
+  padding: 30px;
+}
+
+.viewTypeA .listItemInfo .itemTitle {
+  font-size: 16px;
+}
+
+.viewTypeA .listItemInfo .itemPrice {
+  font-size: 16px;
+}
+
+.viewTypeA .listItemInfo .itemExplan {
+  margin-top: 0;
+}
+
+.viewTypeA .listItemInfo > div:nth-child(2) {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.viewTypeA .listItemReview {
+  flex: 1;
+  box-sizing: border-box;
+  padding-left: 30px;
+  flex-direction: column;
+}
+
+.viewTypeA .listItemReview .review > span:nth-child(1) {
+  margin-right: 15px;
+}
+
+.viewTypeA .listItemReview .score > span:nth-child(1) {
+  margin-right: 15px;
+}
+
+.viewTypeB {
+  grid-template-columns: 20% 20% 20% 20% 20%;
+}
+
+.viewTypeB .listItemImage {
+  margin-bottom: 20px;
+}
+
+.viewTypeC {
+  box-sizing: border-box;
+  grid-template-columns: 24.25% 24.25% 24.25% 24.25%;
+  column-gap: 1%;
+}
+
+.viewTypeD {
+  grid-template-columns: 49% 49%;
+  column-gap: 2%;
+}
+
+.viewTypeA img {
+  height: 140px;
+}
+
+.viewTypeB img {
+  height: 232px;
+}
+
+.viewTypeC img {
+  height: 380px;
+}
+
+.viewTypeD img {
+  height: 600px;
+}
