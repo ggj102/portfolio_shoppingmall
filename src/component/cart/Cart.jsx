@@ -149,6 +149,9 @@ function Cart({ loginState, history }) {
                   옵션
                 </th>
                 <th scope="col" className="table_title_part">
+                  추가상품
+                </th>
+                <th scope="col" className="table_title_part">
                   상품금액
                 </th>
                 <th scope="col" className="table_title_part">
@@ -193,11 +196,22 @@ function Cart({ loginState, history }) {
                     <td className="cart_item_cell valign_top">
                       <div className="prd_option_area">
                         <div className="prd_option_wrap">
-                          <div className="prd_option_text">
-                            {arr.option.map((opArr) => {
-                              return <div>{opArr}</div>;
-                            })}
-                          </div>
+                          {arr.option.map((val) => {
+                            return (
+                              <div className="prd_option_text">{val};</div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </td>
+                    <td className="cart_item_cell valign_top">
+                      <div className="prd_option_area">
+                        <div className="prd_option_wrap">
+                          {arr.add_product.map((val) => {
+                            return (
+                              <div className="prd_option_text">{val};</div>
+                            );
+                          })}
                         </div>
                       </div>
                     </td>
