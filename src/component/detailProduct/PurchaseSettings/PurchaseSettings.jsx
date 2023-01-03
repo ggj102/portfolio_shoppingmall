@@ -103,7 +103,6 @@ function PurchaseSettings({
 
   useEffect(() => {
     if (data) {
-      console.log(data, "데이터");
       if (data.option) setOptionProductData(data.option);
       setAddProductData(data.add_product);
     }
@@ -208,10 +207,7 @@ function PurchaseSettings({
                 ) : (
                   <SelectBox
                     option={data.delivery_method}
-                    onChange={(e) => {
-                      console.log(e.target.value, "메소드");
-                      setCurrnetDeliveryMethod(e.target.value);
-                    }}
+                    onChange={(e) => setCurrnetDeliveryMethod(e.target.value)}
                   />
                 )}
               </div>

@@ -43,7 +43,6 @@ export default function ProductsList({ match }) {
     const keyword = isCategroyType ? id : data;
 
     ListAxios(keyword, currentSortTab, nowPage, perPage).then((response) => {
-      console.log(response.data, "데이터");
       setListData(response.data);
       setListItemData(response.data.item_list);
       setSortType(isCategroyType ? categorySort : searchSort);

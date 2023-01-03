@@ -28,8 +28,6 @@ export default function ProductOption({
 
   const selectedData = (e, listId, listArr, selectedArr) => {
     const { value } = e.target;
-    console.log(value, "리스트");
-
     const valueId = parseInt(value);
     const duplicationCheck = selectedArr.find(
       (val) => val.id === valueId && val.data_id === listId
