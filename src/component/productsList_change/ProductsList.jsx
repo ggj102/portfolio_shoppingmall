@@ -34,24 +34,25 @@ export default function ProductsList({ match }) {
   ];
 
   useEffect(() => {
-    console.log(match, "매치");
     const isCategroyType = match.path === "/CategoryProductsList/:id";
     const ListAxios = isCategroyType
       ? CategoryPrdListAxios
       : SearchPrdListAxios;
 
-    ListAxios(match.params.id, currentSortTab, nowPage, perPage).then(
-      (response) => {
-        setListData(response.data);
-        setListItemData(response.data.item_list);
-        setSortType(isCategroyType ? categorySort : searchSort);
-        setPagination(
-          response.data.total_count < perPage
-            ? 1
-            : Math.ceil(response.data.total_count / perPage)
-        );
-      }
-    );
+    const { id, data } = match.params;
+    const keyword = isCategroyType ? id : data;
+
+    ListAxios(keyword, currentSortTab, nowPage, perPage).then((response) => {
+      console.log(response.data, "데이터");
+      setListData(response.data);
+      setListItemData(response.data.item_list);
+      setSortType(isCategroyType ? categorySort : searchSort);
+      setPagination(
+        response.data.total_count < perPage
+          ? 1
+          : Math.ceil(response.data.total_count / perPage)
+      );
+    });
   }, [currentSortTab, nowPage, perPage]);
 
   return (
