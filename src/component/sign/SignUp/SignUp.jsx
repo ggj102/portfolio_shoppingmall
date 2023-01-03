@@ -1,5 +1,5 @@
 import React from "react";
-import "../../../css/sign_t/SignUp.css";
+import "../../../css/sign/SignUp.css";
 
 import { Controller, useForm } from "react-hook-form";
 import { NavLink } from "react-router-dom";

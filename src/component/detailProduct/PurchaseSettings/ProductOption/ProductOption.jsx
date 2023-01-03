@@ -30,10 +30,14 @@ export default function ProductOption({
     const { value } = e.target;
     const valueId = parseInt(value);
     const duplicationCheck = selectedArr.find(
-      (val) => val.id === valueId && val.listId === listId
+      (val) => val.id === valueId && val.data_id === listId
     );
 
-    if (duplicationCheck || value === "0") return selectedArr;
+    if (duplicationCheck || value === "0") {
+      alert("이미 선택한 상품입니다.");
+      e.target.value = "0";
+      return selectedArr;
+    }
 
     const findValue = listArr.find((arr) => arr.id === valueId);
     const copyArr = [...selectedArr];
@@ -49,6 +53,7 @@ export default function ProductOption({
   const onChangeSelectedOptionProduct = (e, listId) => {
     const listArr = optionProductData.find((val) => val.id === listId);
     const list = listArr.option_list;
+
     const data = selectedData(e, listId, list, selectedOptionProduct);
     setSelectedOptionProduct(data);
   };

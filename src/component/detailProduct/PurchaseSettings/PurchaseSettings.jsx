@@ -25,7 +25,7 @@ function PurchaseSettings({
   const [productCount, setProductCount] = useState(1);
   const [optionProductData, setOptionProductData] = useState([]);
   const [addProductData, setAddProductData] = useState([]);
-  const [currnetDeliveryMethod, setCurrnetDeliveryMethod] = useState(1);
+  const [currnetDeliveryMethod, setCurrnetDeliveryMethod] = useState("1");
   const [selectedOptionProduct, setSelectedOptionProduct] = useState([]);
   const [selectedAddProduct, setSelectedAddProduct] = useState([]);
   const [isInstallmentModal, setIsInstallmentModal] = useState(false);
@@ -103,7 +103,6 @@ function PurchaseSettings({
 
   useEffect(() => {
     if (data) {
-      console.log(data, "데이터");
       if (data.option) setOptionProductData(data.option);
       setAddProductData(data.add_product);
     }
@@ -213,7 +212,7 @@ function PurchaseSettings({
                 )}
               </div>
             </div>
-            {currnetDeliveryMethod === 1 && (
+            {currnetDeliveryMethod === "1" && (
               <div className="displayFlex">
                 <p>배송비</p>
                 <div>

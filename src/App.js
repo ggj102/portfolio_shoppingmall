@@ -20,7 +20,6 @@ import MainPage from "./pages/MainPage.jsx";
 function App({ gMemberId, gMemberName, loginState }) {
   useEffect(() => {
     ShoppingMallMainDataAxios().then((response) => {
-      console.log(response, "정보");
       if (response.data.login) {
         loginState(true);
         gMemberId(response.data.user_data.id);

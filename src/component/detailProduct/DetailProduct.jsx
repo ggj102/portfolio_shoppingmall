@@ -11,7 +11,6 @@ export default function DetailProduct({ match, history }) {
   useEffect(() => {
     ProductsDataAxios(match.params.id).then((res) => {
       setDetailProductData(res.data);
-      console.log(detailProductData, "데이터");
     });
   }, []);
 
