@@ -25,7 +25,7 @@ function PurchaseSettings({
   const [productCount, setProductCount] = useState(1);
   const [optionProductData, setOptionProductData] = useState([]);
   const [addProductData, setAddProductData] = useState([]);
-  const [currnetDeliveryMethod, setCurrnetDeliveryMethod] = useState(1);
+  const [currnetDeliveryMethod, setCurrnetDeliveryMethod] = useState("1");
   const [selectedOptionProduct, setSelectedOptionProduct] = useState([]);
   const [selectedAddProduct, setSelectedAddProduct] = useState([]);
   const [isInstallmentModal, setIsInstallmentModal] = useState(false);
@@ -208,12 +208,15 @@ function PurchaseSettings({
                 ) : (
                   <SelectBox
                     option={data.delivery_method}
-                    onChange={(e) => setCurrnetDeliveryMethod(e.target.value)}
+                    onChange={(e) => {
+                      console.log(e.target.value, "메소드");
+                      setCurrnetDeliveryMethod(e.target.value);
+                    }}
                   />
                 )}
               </div>
             </div>
-            {currnetDeliveryMethod === 1 && (
+            {currnetDeliveryMethod === "1" && (
               <div className="displayFlex">
                 <p>배송비</p>
                 <div>
